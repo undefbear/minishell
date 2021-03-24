@@ -6,11 +6,11 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/24 15:52:29 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/24 16:25:20 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/shell.h"
+#include "../include/shell.h"
 
 //изменить значение в списке с переменными окружения по ключу
 void		change_value(t_list *root, char *key, char *value)
@@ -96,4 +96,19 @@ void		init_env(t_list **root, char **env)
 		add_elem(root, ft_strdup(*env_tmp), ft_strdup(++parse));
 		env_tmp++;
 	}
+}
+// количество элементов в списке
+int			list_count(t_list *root)
+{
+	int i;
+	t_list *next;
+
+	i = 0;
+	next = root;
+	while (next)
+	{
+		i++;
+		next = next->next;
+	}
+	return (i);
 }

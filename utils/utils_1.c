@@ -6,11 +6,11 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:18:33 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/24 15:52:31 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/24 16:17:45 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/shell.h"
+#include "../include/shell.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
