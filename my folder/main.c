@@ -6,97 +6,190 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:55:24 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/24 17:41:22 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/25 18:27:27 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-char	*finde_new_path(char **path)
+void	cmd_env(char **cmd)
 {
-	char	*f;
-	char	*res;
-	char	*tmp;
+	t_list *next;
 
-	if (!(f = ft_strrchr(*path, ':')))
-		return (NULL);	
-	*f = '\0';
-	res = ft_strdup(++f);
-	tmp = res;
-	res = ft_strjoin(res, "/");
-	free(tmp);	
-	return (res);
-}
-
-char	*cheack_path(char *cmd)
-{
-	char	*path;
-	char	*name;
-	char	*file;
-	int		fd;
-
-	path = ft_strdup(find_list(g.root, "PATH"));
-	while ((name = finde_new_path(&path)))
+	next = g.root;
+	if (arr_size(cmd) != 1)
 	{
-		file = ft_strjoin(name, cmd);
-		fd = open(file, O_RDONLY);
-		if (fd > 0)
-		{
-			close(fd);
-			free(path);
-			return (file);
-		}
-		free(name);
-		free(file);
+		put_srtln("alot of arguments for env");
+		return ;
 	}
-	free(path);
-	return (NULL);
+	while (next)
+	{
+		put_srt(next->key);
+		put_srt("=");
+		put_srtln(next->value);
+		next = next->next;
+	}
 }
 
-void	cmd_pwd()
-{
-	write(0, find_list(g.root, "PWD"), ft_strlen(find_list(g.root, "PWD")));
-	write(0, "\n", 1);
-}
+// void	cmd_cd(char **cmd)
+// {
+// 	write(0, find_list(g.root, "PWD"), ft_strlen(find_list(g.root, "PWD")));
+// 	write(0, "\n", 1);
+// }
 
-void	cd_pwd()
-{
-	write(0, find_list(g.root, "PWD"), ft_strlen(find_list(g.root, "PWD")));
-	write(0, "\n", 1);
-}
+// void	unset(char **cmd)
+// {
+// 	int i;
 
-void	other_cmd_without_slesh(char *cmd)
-{
-	char	**env;
-	char	**argv;
-	char	*n_cmd;
-	
-	env = env_to_args();
-	argv = malloc(sizeof(char*) * 3);
-	n_cmd = cheack_path(cmd);
-	argv[0] = ft_strdup(find_list(g.root, "PATH"));
-	argv[1] = 0;
-	// execve(n_cmd, argv, env);
-	env = ft_split_free(env);
-}
+// 	i = 0;
+// 	while (cmd[++i])
+// 	{
+// 		if (ft_isalpha(cmd[i][0]))
+// 		{
+// 			remove_elem(&g.root, cmd[i]);
+// 		}
+// 	}
+// }
 
-void	commands(char *cmd)
+void	commands(char **cmd)
 {
-	if (!ft_strncmp(cmd, PWD, ft_strlen(PWD)))
-		cmd_pwd();
-	else if (!ft_strncmp(cmd, CD, ft_strlen(CD)))
-		cd_pwd();
+
+	if (equals(PWD, cmd[0]))
+		cmd_pwd(cmd);
+	// else if (!ft_strncmp(cmd[0], CD, ft_strlen(CD)))
+	// 	cmd_cd(cmd);
+	else if (equals(EXPORT, cmd[0]))
+		cmd_export(cmd);
+	else if (equals(ENV, cmd[0]))
+		cmd_env(cmd);
+	// else if (equals(UNSET, cmd[0]))
+	// 	unset(cmd);
 	else
 		other_cmd_without_slesh(cmd);
 }
 
 int main(int argc, char *argv[], char **envp)
 {
+	if (!argc)
+		return 0;
+	char *ls1[4] = {
+		"ls",
+		0
+	};
+	char *ls2[4] = {
+		"ls",
+		"-la",
+		0
+	};
+	char *ls3[4] = {
+		"ls",
+		"-la",
+		"-asd",
+		0
+	};
+
+
+	char *pwd1[4] = {
+		"pwd",
+		0
+	};
+	char *pwd2[4] = {
+		"pwd",
+		"213213",
+		0
+	};
+
+	char *env[2] = {
+		"env",
+		0
+	};
+	
+	char *exp1[4] = {
+		"export",
+		"ASD=SAD",
+		0
+	};
+
+	char *exp2[4] = {
+		"export",
+		"ASD=A",
+		0
+	};
+	char *exp3[4] = {
+		"export",
+		"TER=",
+		"asdsad",
+		0
+	};
+
+
+	char *env1[3] = {
+		"env",
+		"12312",
+		0
+	};
+
+	// char *unset1[3] = {
+	// 	"unset",
+	// 	"12312",
+	// 	0
+	// };
+
+
+	
 	init_env(&g.root, envp);
 	g.argv = argv;
-	t_list *next = g.root;
+	printf("--------------   ls1   --------------\n");
+	commands(ls1);
 	printf("----------------------------------\n");
-	commands("ls");
+	printf("--------------   ls2   --------------\n");
+	commands(ls2);
+	printf("----------------------------------\n");
+	printf("--------------   ls3   --------------\n");
+	commands(ls3);
+	printf("----------------------------------\n");
+
+	
+	printf("--------------   pwd1   --------------\n");
+	commands(pwd1);
+	printf("----------------------------------\n");
+	printf("--------------   pwd2   --------------\n");
+	commands(pwd2);
+	printf("----------------------------------\n");
+
+
+	commands(env);
+	printf("--------------   export1   --------------\n");
+	commands(exp1);
+	commands(env);
+	printf("----------------------------------\n");
+	printf("--------------   export2   --------------\n");
+	commands(exp2);
+	commands(env);
+	printf("----------------------------------\n");
+	printf("--------------   export3   --------------\n");
+	commands(exp3);
+	commands(env);
+	printf("----------------------------------\n");
+
+
+
+	printf("--------------   env   --------------\n");
+	commands(env1);
+	printf("----------------------------------\n");
+
+
+	printf("--------------   unset1   --------------\n");
+	commands(exp1);
+	commands(env);
+	printf("----------------------------------\n");
+	printf("--------------   unset2   --------------\n");
+	commands(exp2);
+	commands(env);
+	printf("----------------------------------\n");
+	printf("--------------   unset3   --------------\n");
+	commands(exp3);
+	commands(env);
 	printf("----------------------------------\n");
 	delete_list(&g.root);
 	return (0);

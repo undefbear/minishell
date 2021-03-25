@@ -6,11 +6,32 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:18:33 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/24 16:17:45 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/25 15:13:08 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
+
+char	*ft_first_strrchr(const char *s, int c)
+{
+	char	*res;
+	char	*tmp_s;
+
+	tmp_s = (char*)s;
+	res = 0;
+	while (*tmp_s)
+	{
+		if (*tmp_s == (char)c)
+		{
+			res = tmp_s;
+			return (res);
+		}
+		tmp_s++;
+	}
+	if (*tmp_s == (char)c)
+		res = tmp_s;
+	return (res);
+}
 
 char	*ft_strrchr(const char *s, int c)
 {
@@ -45,6 +66,8 @@ char	*ft_strdup(const char *s1)
 	size_t	i;
 	char	*res;
 
+	if (!s1)
+		return (NULL);
 	i = 0;
 	while (s1[i])
 		i++;

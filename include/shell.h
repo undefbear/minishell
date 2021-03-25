@@ -8,7 +8,9 @@
 
 # define PWD "pwd"
 # define CD "cd"
-# define CD "cd"
+# define EXPORT "export"
+# define ENV "env"
+# define UNSET "unset"
 
 
 typedef struct 		s_list
@@ -23,7 +25,6 @@ typedef struct 		s_global
 {
 	t_list			*root;
 	char**			argv;
-
 }					t_global;
 
 t_global	g;
@@ -40,5 +41,16 @@ int			list_count(t_list *root);
 char		**env_to_args();
 void		*ft_split_free(char **start);
 char		*ft_strjoin(char const *s1, char const *s2);
+void		put_srt(char *str);
+void		put_srtln(char *str);
+int			arr_size(char **strs);
+void		cmd_pwd(char **cmd);
+void		other_cmd_without_slesh(char **cmd);
+int			ft_isalpha(int c);
+void		change_value(t_list *root, char *key, char *value);
+char		*ft_first_strrchr(const char *s, int c);
+int			equals(char *str1, char *str2);
+void		cmd_export(char **cmd);
+void		remove_elem(t_list **root, char *key);
 
 #endif
