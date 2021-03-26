@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 14:24:45 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/25 18:28:03 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/26 16:02:29 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	other_cmd_without_slesh(char **cmd)
 	if ((n_cmd = cheack_path(cmd[0])))
 	{
 		if (!n_cmd)
-		{
-			put_srt("zsh: command not found: ");
-			put_srtln(cmd_name);
-		}
+			printf("zsh: command not found: %s\n", cmd_name);
 		else
 		{
 			pid_t pid;
@@ -87,8 +84,5 @@ void	other_cmd_without_slesh(char **cmd)
 		env = ft_split_free(env);
 	}
 	else
-	{
-		put_srt("zsh: command not found: ");
-		put_srtln(cmd_name);	
-	}
+		printf("zsh: command not found: %s\n", cmd_name);
 }

@@ -6,11 +6,50 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/25 16:54:39 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/26 16:27:12 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
+
+void	cmd_export_2(char *cmd)
+{
+	if (ft_isalpha(cmd[0]))
+	{
+		if (!find_list(g.root, cmd))
+		{
+			if (!find_list(g.export, cmd))
+				add_elem(&g.export, ft_strdup(cmd), ft_strdup(""));
+			else
+			{
+				add_elem(&g.root, ft_strdup(cmd), ft_strdup(""));
+				remove_elem(&g.export, cmd);
+			}
+		}
+	}
+	else
+		printf("zsh: no matches found: %s\n", cmd);
+}
+
+void	print_export()
+{
+	t_list *next;
+
+	next = g.root;
+	while (next)
+	{
+		put_srt(next->key);
+		put_srt("=");
+		put_srtln(next->value);
+		next = next->next;
+	}
+	next = g.export;
+	while (next)
+	{
+		printf("%s=''\n", next->key);
+		next = next->next;
+	}
+}
 
 void	cmd_export(char **cmd)
 {
@@ -21,30 +60,47 @@ void	cmd_export(char **cmd)
 	char	*cpy;
 
 	i = 0;
-	while (cmd[++i])
+	if (arr_size(cmd) == 1)
+		print_export();
+	else
 	{
-		cpy = ft_strdup(cmd[i]);
-		if ((f = ft_first_strrchr(cpy, '=')))
+		while (cmd[++i])
 		{
-			*f = 0;
-			key = ft_strdup(cpy);
-			value = ft_strdup(++f);
-			if (ft_isalpha(key[0]))
+			cpy = ft_strdup(cmd[i]);
+			if ((f = ft_first_strrchr(cpy, '=')))
 			{
-				if (find_list(g.root, key))
+				*f = 0;
+				key = ft_strdup(cpy);
+				value = ft_strdup(++f);
+				if (ft_isalpha(key[0]))
 				{
-					change_value(g.root, key, value);
-					free(key);
+					if (find_list(g.root, key))
+					{
+						change_value(g.root, key, value);
+						free(key);
+					}
+					else
+						add_elem(&g.root, key, value);
 				}
 				else
-					add_elem(&g.root, key, value);
+				{
+					if (cpy[0] == '=' && !ft_strlen(cpy))
+						printf("zsh: bad assignment\n");
+					else if (cpy[0] == '=')
+						printf("zsh: %s not found\n", ++cpy);
+					else if (cpy[0] == '*' && !ft_strlen(cpy))
+						printf("export: not valid in this context: export.c\n");
+					else if (cpy[0] == '*')
+						printf("zsh: no matches found: %s\n", ++cpy);
+					else
+						printf("export: not an identifier: %s\n", cpy);	
+					free(key);
+					free(value);
+				}
 			}
 			else
-			{
-				free(key);
-				free(value);	
-			}
+				cmd_export_2(cpy);
+			free(cpy);
 		}
-		free(cpy);
 	}
 }

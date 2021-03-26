@@ -6,14 +6,14 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/03/25 16:56:58 by ealexa           ###   ########.fr        #
+#    Updated: 2021/03/26 18:55:39 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 UTILS				=	../utils
 
 SRCS				=	$(UTILS)/list.c $(UTILS)/utils_1.c main.c $(UTILS)/utils_2.c pwd.c other_cmd_wslesh.c \
-						export.c
+						export.c env.c unset.c echo.c cd.c
 
 OBJ					= $(SRCS:.c=.o)
 DIR_INC	= ../include/

@@ -5,12 +5,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <limits.h>
 
 # define PWD "pwd"
 # define CD "cd"
 # define EXPORT "export"
 # define ENV "env"
 # define UNSET "unset"
+# define ECHO "echo"
 
 
 typedef struct 		s_list
@@ -24,6 +26,7 @@ typedef struct 		s_list
 typedef struct 		s_global
 {
 	t_list			*root;
+	t_list			*export;
 	char**			argv;
 }					t_global;
 
@@ -52,5 +55,11 @@ char		*ft_first_strrchr(const char *s, int c);
 int			equals(char *str1, char *str2);
 void		cmd_export(char **cmd);
 void		remove_elem(t_list **root, char *key);
+void		cmd_env(char **cmd);
+int			ft_isdigit(int c);
+void		cmd_unset(char **cmd);
+void		cmd_echo(char **cmd);
+void		commands(char **cmd);
+void		cmd_cd(char **cmd);
 
 #endif

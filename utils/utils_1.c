@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:18:33 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/25 15:13:08 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/26 16:56:20 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,11 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	if (i == n)
 		return (0);
 	return (tmp_s1[i] - tmp_s2[i]);
+}
+
+int	ft_isdigit(int c)
+{
+	if ((c >= 48 && c <= 57))
+		return (1);
+	return (0);
 }

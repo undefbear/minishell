@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/25 14:23:54 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/26 16:01:41 by ealexa           ###   ########.fr       */
+/*   Created: 2021/03/26 16:21:10 by ealexa            #+#    #+#             */
+/*   Updated: 2021/03/26 16:21:26 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-void	cmd_pwd(char **cmd)
+void	cmd_env(char **cmd)
 {
-	char buff[PATH_MAX];
+	t_list *next;
 
+	next = g.root;
 	if (arr_size(cmd) != 1)
 	{
-		put_srtln("pwd: too many arguments");
+		put_srtln("alot of arguments for env");
 		return ;
 	}
-	getcwd(buff, PATH_MAX);
-	if (!buff[0])
-		printf("Some error!!!\n");
-	printf("%s\n", buff);
+	while (next)
+	{
+		put_srt(next->key);
+		put_srt("=");
+		put_srtln(next->value);
+		next = next->next;
+	}
 }
