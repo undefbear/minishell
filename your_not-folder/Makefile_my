@@ -1,0 +1,41 @@
+NAME		= minishell
+
+CC			= gcc
+
+CFLAGS		= -Wall -Wextra -Werror
+
+SRCS		= main.c\
+                parse_shell.c\
+                gnl/get_next_line.c\
+    			gnl/get_next_line_utils.c\
+				utils/list.c\
+				utils/utils_1.c\
+				utils/utils_2.c\
+
+INCLUDES	= include/
+
+OBJS		= ${SRCS:.c=.o}
+
+.c.o:
+			@${CC} ${CFLAGS} -I ${INCLUDES} -c $< -o $@
+
+$(NAME):	${OBJS}
+			@echo "\n\033[1;36m   Making minishell:"
+			@$(CC) ${CFLAGS} -o $(NAME) ${OBJS}
+			@echo "\n   Done!\033[2m"
+
+all:		$(NAME)
+
+clean:
+			@echo "\n\033[1;32m\033[2m-> Cleaning..\033[2m"
+			@rm -f ${OBJS}
+			@echo "\033[0m"
+
+fclean:		clean
+			@echo "\033[1;32m\033[2m-> Removing executable.."
+			@rm -f ${NAME}
+			@echo "\n   Done!\033[0m"
+
+re:			fclean all
+
+.PHONY:		re all clean fclean

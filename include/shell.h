@@ -66,5 +66,6 @@ void		cmd_cd(char **cmd);
 void		other_cmd(char **cmd);
 void		ft_bzero(void *s, size_t n);
 long long int	ft_atoi(const char *str);
+void	commands(char **cmd);
 
 #endif
