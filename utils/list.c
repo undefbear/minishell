@@ -6,12 +6,13 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/25 17:13:59 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 15:02:49 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
+// cравнение строчек на полное соответствие (и кол-во символов и самих символов)
 int			equals(char *str1, char *str2)
 {
 	if (ft_strlen(str1) == ft_strlen(str2) &&
@@ -128,25 +129,28 @@ void	remove_elem(t_list **root, char *key)
 	t_list *prev;
 	
 	next = *root;
-	if (!next->next && equals(key, next->key))
+	if (next)
 	{
-		free(next->key);
-		free(next->value);
-		free(next);
-		*root = NULL;
-		return ;
-	}
-	while (next)
-	{
-		if (equals(key, next->key))
+		if (!next->next && equals(key, next->key))
 		{
-			prev->next = next->next;
 			free(next->key);
 			free(next->value);
 			free(next);
+			*root = NULL;
 			return ;
 		}
-		prev = next;
-		next = next->next;
+		while (next)
+		{
+			if (equals(key, next->key))
+			{
+				prev->next = next->next;
+				free(next->key);
+				free(next->value);
+				free(next);
+				return ;
+			}
+			prev = next;
+			next = next->next;
+		}		
 	}
 }

@@ -13,6 +13,8 @@
 # define ENV "env"
 # define UNSET "unset"
 # define ECHO "echo"
+# define SLESH "echo"
+# define EXIT "exit"
 
 
 typedef struct 		s_list
@@ -27,6 +29,7 @@ typedef struct 		s_global
 {
 	t_list			*root;
 	t_list			*export;
+	unsigned int	error_code;
 	char**			argv;
 }					t_global;
 
@@ -48,7 +51,6 @@ void		put_srt(char *str);
 void		put_srtln(char *str);
 int			arr_size(char **strs);
 void		cmd_pwd(char **cmd);
-void		other_cmd_without_slesh(char **cmd);
 int			ft_isalpha(int c);
 void		change_value(t_list *root, char *key, char *value);
 char		*ft_first_strrchr(const char *s, int c);
@@ -61,5 +63,7 @@ void		cmd_unset(char **cmd);
 void		cmd_echo(char **cmd);
 void		commands(char **cmd);
 void		cmd_cd(char **cmd);
+void		other_cmd(char **cmd);
+void		ft_bzero(void *s, size_t n);
 
 #endif

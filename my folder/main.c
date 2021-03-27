@@ -6,12 +6,22 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:55:24 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/26 18:55:07 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 15:04:33 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
+void	cmd_exit(char **cmd)
+{
+	if (arr_size(cmd) == 1)
+		exit(0);
+	else if (arr_size(cmd) > 2)
+	{
+		g.error_code = 1;
+		printf("minishell: exit: too many arguments\n");
+	}
+}
 
 void	commands(char **cmd)
 {
@@ -27,14 +37,17 @@ void	commands(char **cmd)
 		cmd_unset(cmd);
 	else if (equals(ECHO, cmd[0]))
 		cmd_echo(cmd);
+	else if (equals(EXIT, cmd[0]))
+		cmd_exit(cmd);
 	else
-		other_cmd_without_slesh(cmd);
+		other_cmd(cmd);
 }
 
 int main(int argc, char *argv[], char **envp)
 {
 	if (!argc)
 		return 0;
+	ft_bzero(&g, sizeof(t_global));
 	// char *ls1[4] = {
 	// 	"ls",
 	// 	0
@@ -52,10 +65,10 @@ int main(int argc, char *argv[], char **envp)
 	// };
 
 
-	char *pwd1[4] = {
-		"pwd",
-		0
-	};
+	// char *pwd1[4] = {
+		// "pwd",
+		// 0
+	// };
 	// char *pwd2[4] = {
 	// 	"pwd",
 	// 	"213213",
@@ -64,10 +77,10 @@ int main(int argc, char *argv[], char **envp)
 
 
 
-	char *env[2] = {
-		"env",
-		0
-	};
+	// char *env[2] = {
+	// 	"env",
+	// 	0
+	// };
 	
 
 	
@@ -165,20 +178,20 @@ int main(int argc, char *argv[], char **envp)
 	// 	0
 	// };	
 
-	char *cd1[2] = {
-		"cd",
-		0
-	};
-	char *cd2[3] = {
-		"cd",
-		"..",
-		0
-	};
-	char *cd3[3] = {
-		"cd",
-		"../asdasd",
-		0
-	};
+	// char *cd1[2] = {
+	// 	"cd",
+	// 	0
+	// };
+	// char *cd2[3] = {
+	// 	"cd",
+	// 	"..",
+	// 	0
+	// };
+	// char *cd3[3] = {
+	// 	"cd",
+	// 	"../asdasd",
+	// 	0
+	// };
 
 
 
@@ -274,25 +287,113 @@ int main(int argc, char *argv[], char **envp)
 
 
 
-	printf("--------------   cd1   --------------\n");
-	commands(cd1);
-	commands(pwd1);
-	commands(env);
+	// printf("--------------   echo1   --------------\n");
+	// commands(echo1);
+	// printf("----------------------------------\n");
+	// printf("--------------   echo2   --------------\n");
+	// commands(echo2);
+	// printf("----------------------------------\n");
+	// printf("--------------   echo3   --------------\n");
+	// commands(echo3);
+	// printf("----------------------------------\n");
+	// printf("--------------   echo4   --------------\n");
+	// commands(echo4);
+	// printf("----------------------------------\n");
+
+
+	char *other1[3] = {
+		"ls",
+		"asdasd",
+		0
+	};
+	char *other2[3] = {
+		"ls",
+		0
+	};
+	char *other3[3] = {
+		".:::",
+		"../asdasd",
+		0
+	};
+	char *other4[3] = {
+		"lasdfafs",
+		0
+	};
+	char *other5[3] = {
+		"/bin/ls",
+		0
+	};
+	char *other6[3] = {
+		"/bin/ls",
+		"lasdfafs",
+		0
+	};
+
+
+
+	printf("--------------   .:::   --------------\n");
+	commands(other3);
 	printf("----------------------------------\n");
-	printf("--------------   cd2   --------------\n");
-	commands(cd2);
-	commands(pwd1);
-	commands(env);
+
+	printf("--------------   ./lasdfafs   --------------\n");
+	commands(other4);
 	printf("----------------------------------\n");
-	printf("--------------   cd3   --------------\n");
-	commands(cd3);
-	commands(pwd1);
-	commands(env);
+	printf("--------------   ls   --------------\n");
+	commands(other2);
 	printf("----------------------------------\n");
 
+	printf("%d\n", g.error_code);
+	
+	printf("--------------   ls asdasd  --------------\n");
+	commands(other1);
+	printf("----------------------------------\n");
+	printf("%d\n", g.error_code);
+	
+
+
+	printf("--------------   /bin/ls   --------------\n");
+	commands(other5);
+	printf("----------------------------------\n");
+	printf("%d\n", g.error_code);
+	printf("--------------   /bin/ls asdasd  --------------\n");
+	commands(other6);
+	printf("----------------------------------\n");
+	printf("%d\n", g.error_code);
 
 
 
+	char *unset1[3] = {
+		"unset",
+		0
+	};
+	char *unset2[3] = {
+		"unset",
+		"=PATH",
+		0
+	};
+	char *unset3[3] = {
+		"unset",
+		"asd=sad",
+		0
+	};
+
+	printf("--------------   unset   --------------\n");
+	commands(unset1);
+	printf("%d\n", g.error_code);
+	printf("----------------------------------\n");
+	printf("--------------   unset =PATH   --------------\n");
+	commands(unset2);
+	printf("%d\n", g.error_code);
+	printf("----------------------------------\n");
+	printf("--------------   unset3   --------------\n");
+	commands(unset3);
+	printf("%d\n", g.error_code);
+	printf("----------------------------------\n");
+	printf("--------------   unset   --------------\n");
+	commands(unset1);
+	printf("%d\n", g.error_code);
+	printf("----------------------------------\n");
+	
 	delete_list(&g.root);
 	delete_list(&g.export);
 	return (0);

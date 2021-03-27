@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:04:23 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/26 17:08:32 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 15:03:43 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,14 @@ void	cmd_unset(char **cmd)
 
 	i = -1;
 	f = 0;
+	g.error_code = 0;
 	if (arr_size(cmd) == 1)
-	{
-		printf("unset: not enough arguments\n");
 		return ;
-	}
 	while (cmd[++i])
 		if (cmd[i][0] == '=')
 		{
-			printf("zsh: %s not found\n", cmd[i]);
+			g.error_code = 1;
+			printf("minishell: unset:  `%s': not a valid identifier\n", cmd[i]);
 			return ;
 		}
 	i = 0;
@@ -64,6 +63,10 @@ void	cmd_unset(char **cmd)
 			remove_elem(&g.export, cmd[i]);	
 		}
 		else if (!(f++))
-			printf("unset: %s: invalid parameter name\n", cmd[i]);
+		{
+			g.error_code = 1;
+			printf("minishell: unset:  `%s': not a valid identifier\n", cmd[i]);
+			return ;
+		}
 	}
 }

@@ -6,13 +6,32 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 14:24:45 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/26 16:02:29 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 14:39:11 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-char	*finde_new_path(char **path)
+static void	other_cmd_with_slesh(char **cmd)
+{
+	pid_t	pid;
+	int		rv;
+	char	**env;
+
+	env = env_to_args();
+	pid = fork();
+	if (pid == 0)
+		exit(execve(cmd[0], cmd, env));
+	else
+		waitpid(pid, &rv, 0);
+	if (rv)
+		g.error_code = 1;
+	else
+		g.error_code = 0;
+}
+
+
+static char	*finde_new_path(char **path)
 {
 	char	*f;
 	char	*res;
@@ -28,7 +47,7 @@ char	*finde_new_path(char **path)
 	return (res);
 }
 
-char	*cheack_path(char *cmd)
+static char	*cheack_path(char *cmd)
 {
 	char	*path;
 	char	*name;
@@ -58,7 +77,7 @@ char	*cheack_path(char *cmd)
 	return (NULL);
 }
 
-void	other_cmd_without_slesh(char **cmd)
+static void	other_cmd_without_slesh(char **cmd)
 {
 	char	**env;
 	char	*n_cmd;
@@ -68,21 +87,31 @@ void	other_cmd_without_slesh(char **cmd)
 	env = env_to_args();
 	if ((n_cmd = cheack_path(cmd[0])))
 	{
-		if (!n_cmd)
-			printf("zsh: command not found: %s\n", cmd_name);
+		pid_t pid;
+		int rv;
+		pid = fork();
+		if (pid == 0)
+			exit(execve(n_cmd, cmd, env));
 		else
-		{
-			pid_t pid;
-			int rv;
-			pid = fork();
-			if (pid == 0)
-				exit(execve(n_cmd, cmd, env));
-			else
-				waitpid(pid, &rv, 0);
-		}
+			waitpid(pid, &rv, 0);
+		if (rv)
+			g.error_code = 1;
+		else
+			g.error_code = 0;
 		free(n_cmd);
 		env = ft_split_free(env);
 	}
 	else
-		printf("zsh: command not found: %s\n", cmd_name);
+	{
+		g.error_code = 127;
+		printf("minishell: command not found: %s\n", cmd_name);
+	}
+}
+
+void	other_cmd(char **cmd)
+{
+	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+		other_cmd_with_slesh(cmd);
+	else
+		other_cmd_without_slesh(cmd);
 }

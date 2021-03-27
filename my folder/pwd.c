@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 14:23:54 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/26 16:01:41 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 14:30:11 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ void	cmd_pwd(char **cmd)
 
 	if (arr_size(cmd) != 1)
 	{
-		put_srtln("pwd: too many arguments");
+		g.error_code = 1;
+		put_srtln("minishell: pwd: too many arguments");
 		return ;
 	}
 	getcwd(buff, PATH_MAX);
 	if (!buff[0])
+	{
+		g.error_code = 1;
 		printf("Some error!!!\n");
+		return ;
+	}
+	g.error_code = 0;
 	printf("%s\n", buff);
 }

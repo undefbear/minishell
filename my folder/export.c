@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/26 16:27:12 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 14:46:35 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	cmd_export_2(char *cmd)
 		}
 	}
 	else
-		printf("zsh: no matches found: %s\n", cmd);
+	{
+		g.error_code = 1;
+		printf("minishell: no matches found: %s\n", cmd);		
+	}
 }
 
 void	print_export()
@@ -51,15 +54,33 @@ void	print_export()
 	}
 }
 
+void	cmd_export_err(char *cpy, char *key, char *value)
+{
+	if (cpy[0] == '=' && !ft_strlen(cpy))
+		printf("minishell: bad assignment\n");
+	else if (cpy[0] == '=')
+		printf("minishell: %s not found\n", ++cpy);
+	else if (cpy[0] == '*' && !ft_strlen(cpy))
+		printf("minishell: export: not valid in this context: export.c\n");
+	else if (cpy[0] == '*')
+		printf("minishell: no matches found: %s\n", ++cpy);
+	else
+		printf("minishell: export: not an identifier: %s\n", cpy);	
+	g.error_code = 1;
+	free(key);
+	free(value);
+}
+
 void	cmd_export(char **cmd)
 {
-	int i;
-	char *key;
-	char *value;
-	char *f;
+	int		i;
+	char	*key;
+	char	*value;
+	char	*f;
 	char	*cpy;
 
 	i = 0;
+	g.error_code = 0;
 	if (arr_size(cmd) == 1)
 		print_export();
 	else
@@ -83,20 +104,7 @@ void	cmd_export(char **cmd)
 						add_elem(&g.root, key, value);
 				}
 				else
-				{
-					if (cpy[0] == '=' && !ft_strlen(cpy))
-						printf("zsh: bad assignment\n");
-					else if (cpy[0] == '=')
-						printf("zsh: %s not found\n", ++cpy);
-					else if (cpy[0] == '*' && !ft_strlen(cpy))
-						printf("export: not valid in this context: export.c\n");
-					else if (cpy[0] == '*')
-						printf("zsh: no matches found: %s\n", ++cpy);
-					else
-						printf("export: not an identifier: %s\n", cpy);	
-					free(key);
-					free(value);
-				}
+					cmd_export_err(cpy, key, value);
 			}
 			else
 				cmd_export_2(cpy);
