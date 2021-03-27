@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 15:02:49 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 19:54:53 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void		add_elem(t_list **root, char *key, char *value)
 	t_list *next;
 
 	tmp = malloc(sizeof(t_list));
+	ft_bzero(tmp, sizeof(t_list));
 	tmp->key = key;
 	tmp->next = NULL;
 	tmp->value = value;	
@@ -143,7 +144,10 @@ void	remove_elem(t_list **root, char *key)
 		{
 			if (equals(key, next->key))
 			{
-				prev->next = next->next;
+				if (next == *root)
+					*root = next->next;
+				else
+					prev->next = next->next;
 				free(next->key);
 				free(next->value);
 				free(next);

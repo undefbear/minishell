@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 14:46:35 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 20:02:30 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ void	print_export()
 	next = g.root;
 	while (next)
 	{
+		put_srt("declare -x ");
 		put_srt(next->key);
-		put_srt("=");
-		put_srtln(next->value);
+		put_srt("=\"");
+		put_srt(next->value);
+		put_srtln("\"");
 		next = next->next;
 	}
 	next = g.export;
 	while (next)
 	{
-		printf("%s=''\n", next->key);
+		printf("declare -x %s\n", next->key);
 		next = next->next;
 	}
 }

@@ -187,12 +187,12 @@ int parse_shell(t_shell *sh, char *line, int i)
 			sh->numargs++;
 	}
 	commands(sh->args_of_shell);
-	int z = 0;
-	while (z <= sh->numargs + 1)
-	{
-		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-		z++;
-	}
+	// int z = 0;
+	// while (z <= sh->numargs + 1)
+	// {
+	// 	printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+	// 	z++;
+	// }
 	free(sh->args_of_shell);
 	return (0);
 }

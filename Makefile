@@ -6,7 +6,7 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/03/27 12:42:40 by ealexa           ###   ########.fr        #
+#    Updated: 2021/03/27 19:55:09 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ DIR_INC				= ./include/
 CC					= gcc
 DEPS				= $(OBJ:%.o=%.d)
 RM					= rm -f
-CFLAGS				= -I $(DIR_INC) -MMD #-fsanitize=address -Wall -Wextra -Werror
+CFLAGS				= -I $(DIR_INC) -MMD -fsanitize=address -Wall -Wextra -Werror
 NAME				= minishell
 
 all:			$(NAME)
