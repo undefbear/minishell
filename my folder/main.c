@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:55:24 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 15:04:33 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/27 15:30:29 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,22 @@
 void	cmd_exit(char **cmd)
 {
 	if (arr_size(cmd) == 1)
+	{
+		delete_list(&g.root);
+		delete_list(&g.export);
 		exit(0);
+	}
 	else if (arr_size(cmd) > 2)
 	{
 		g.error_code = 1;
 		printf("minishell: exit: too many arguments\n");
+	}
+	else
+	{
+		g.error_code = ft_atoi(cmd[1]);
+		delete_list(&g.root);
+		delete_list(&g.export);
+		exit(g.error_code);	
 	}
 }
 
