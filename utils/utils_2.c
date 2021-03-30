@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:39:35 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 14:27:32 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/29 16:47:23 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	size2;
 	char	*res;
 
-	if (s1 == NULL || s2 == NULL)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
+	if (!s1)
+		return ft_strdup(s2);
+	if (!s2)
+		return ft_strdup(s1);
 	size1 = 0;
 	size2 = 0;
 	while (s1[size1])

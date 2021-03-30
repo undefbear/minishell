@@ -10,7 +10,8 @@ int shell_expansion(t_shell *sh)
 
 	while (1)
 	{
-		get_next_line(0, &line);
+		// get_next_line(0, &line);
+		// gnl_v2(&line);
 		parse_shell(sh, line, 0);
 		init_aos(sh);
 		free(line);
@@ -34,6 +35,7 @@ void init_aos(t_shell *sh)
 int main(int argc, char *argv[], char **envp)
 {
 	ft_bzero(&g.root, sizeof(t_global));
+	// signals();
 	init_env(&g.root, envp);
 	g.argv = argv;
 	if (!argc)

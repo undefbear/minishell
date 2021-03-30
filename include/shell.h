@@ -6,14 +6,18 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <signal.h>
+# include <curses.h>
+# include <termcap.h>
+# include <termios.h>
+# include <term.h>
 
 # define PWD "pwd"
 # define CD "cd"
 # define EXPORT "export"
 # define ENV "env"
 # define UNSET "unset"
-# define ECHO "echo"
-# define SLESH "echo"
+# define _ECHO "echo"
 # define EXIT "exit"
 
 
@@ -24,13 +28,22 @@ typedef struct 		s_list
 	char			*value;
 }					t_list;
 
+typedef struct 		s_hist
+{
+	struct s_hist	*next;
+	struct s_hist	*prev;
+	char			*value;
+}					t_hist;
+
 // глобальная переменная, добавляй все, что необходимо)
 typedef struct 		s_global
 {
 	t_list			*root;
 	t_list			*export;
-	unsigned int	error_code;
+	char			error_code[4];
 	char**			argv;
+	t_hist			*head;
+	t_hist			*tail;
 }					t_global;
 
 t_global	g;
@@ -66,6 +79,9 @@ void		cmd_cd(char **cmd);
 void		other_cmd(char **cmd);
 void		ft_bzero(void *s, size_t n);
 long long int	ft_atoi(const char *str);
-void	commands(char **cmd);
+void		commands(char **cmd);
+int			*gnl_v2(char **res);
+void		hist_add(t_hist **head, t_hist **tail,char *value);
+void		signals();
 
 #endif

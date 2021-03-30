@@ -6,7 +6,7 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/03/27 19:55:09 by ealexa           ###   ########.fr        #
+#    Updated: 2021/03/30 16:09:16 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS				=	$(UTILS)/list.c\
 						$(UTILS)/utils_1.c\
 						$(UTILS)/utils_2.c\
 						$(MY_FOLDER)/commands.c\
+						$(MY_FOLDER)/gnl_v2.c\
 						$(MY_FOLDER)/pwd.c\
 						$(MY_FOLDER)/other_cmd_wslesh.c\
 						$(MY_FOLDER)/export.c\
@@ -24,6 +25,7 @@ SRCS				=	$(UTILS)/list.c\
 						$(MY_FOLDER)/unset.c\
 						$(MY_FOLDER)/echo.c\
 						$(MY_FOLDER)/cd.c\
+						$(MY_FOLDER)/hist.c\
 						$(NEMY_FOLDER)/main.c\
 						$(NEMY_FOLDER)/parse_shell.c\
 						gnl/get_next_line.c\
@@ -34,14 +36,14 @@ DIR_INC				= ./include/
 CC					= gcc
 DEPS				= $(OBJ:%.o=%.d)
 RM					= rm -f
-CFLAGS				= -I $(DIR_INC) -MMD -fsanitize=address -Wall -Wextra -Werror
+CFLAGS				= -I $(DIR_INC) -MMD #-fsanitize=address -Wall -Wextra -Werror 
 NAME				= minishell
 
 all:			$(NAME)
 -include 		$(DEPS)
 
 $(NAME):		$(OBJ)
-				${CC} ${CFLAGS} -o ${NAME} ${OBJ}
+				${CC} ${CFLAGS} -o ${NAME} ${OBJ} -ltermcap
 
 clean:
 				$(RM) $(OBJ) $(DEPS)

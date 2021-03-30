@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 20:02:30 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/30 16:48:31 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,10 @@
 
 void	cmd_export_2(char *cmd)
 {
-	if (ft_isalpha(cmd[0]))
+	if (!find_list(g.root, cmd))
 	{
-		if (!find_list(g.root, cmd))
-		{
-			if (!find_list(g.export, cmd))
-				add_elem(&g.export, ft_strdup(cmd), ft_strdup(""));
-			else
-			{
-				add_elem(&g.root, ft_strdup(cmd), ft_strdup(""));
-				remove_elem(&g.export, cmd);
-			}
-		}
-	}
-	else
-	{
-		g.error_code = 1;
-		printf("minishell: no matches found: %s\n", cmd);		
+		if (!find_list(g.export, cmd))
+			add_elem(&g.export, ft_strdup(cmd), ft_strdup(""));
 	}
 }
 
@@ -68,9 +55,41 @@ void	cmd_export_err(char *cpy, char *key, char *value)
 		printf("minishell: no matches found: %s\n", ++cpy);
 	else
 		printf("minishell: export: not an identifier: %s\n", cpy);	
-	g.error_code = 1;
+	g.error_code[0] = '1';
+	g.error_code[1] = 0;
 	free(key);
 	free(value);
+}
+
+static int	is_str_valid(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (i == 0)
+		{
+			if (!(!ft_isalpha(str[i]) || str[i] != '_'))
+			{
+				g.error_code[0] = '1';
+				g.error_code[1] = 0;
+				printf("minishell: export: `%s': not a valid identifier\n", str);
+				return (0);
+			}
+		}
+		else
+		{
+			if (!(ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_' || str[i] == '='))
+			{
+				g.error_code[0] = '1';
+				g.error_code[1] = 0;
+				printf("minishell: export: `%s': not a valid identifier\n", str);
+				return (0);				
+			}
+		}
+	}
+	return (1);
 }
 
 void	cmd_export(char **cmd)
@@ -82,7 +101,8 @@ void	cmd_export(char **cmd)
 	char	*cpy;
 
 	i = 0;
-	g.error_code = 0;
+	g.error_code[0] = '0';
+	g.error_code[1] = 0;
 	if (arr_size(cmd) == 1)
 		print_export();
 	else
@@ -90,13 +110,20 @@ void	cmd_export(char **cmd)
 		while (cmd[++i])
 		{
 			cpy = ft_strdup(cmd[i]);
-			if ((f = ft_first_strrchr(cpy, '=')))
+			if (ft_strlen(cpy) == 1 && cpy[0] == '_')
 			{
-				*f = 0;
-				key = ft_strdup(cpy);
-				value = ft_strdup(++f);
-				if (ft_isalpha(key[0]))
+				free(cpy);
+				continue ;
+			}
+			if (is_str_valid(cpy))
+			{
+				if ((f = ft_first_strrchr(cpy, '=')))
 				{
+					*f = 0;
+					key = ft_strdup(cpy);
+					value = ft_strdup(++f);
+					if (find_list(g.export, key))
+						remove_elem(&g.export, key);
 					if (find_list(g.root, key))
 					{
 						change_value(g.root, key, value);
@@ -104,12 +131,11 @@ void	cmd_export(char **cmd)
 					}
 					else
 						add_elem(&g.root, key, value);
+
 				}
 				else
-					cmd_export_err(cpy, key, value);
+					cmd_export_2(cpy);				
 			}
-			else
-				cmd_export_2(cpy);
 			free(cpy);
 		}
 	}

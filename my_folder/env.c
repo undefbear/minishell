@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 16:21:10 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 14:41:34 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/30 16:47:03 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	cmd_env(char **cmd)
 	next = g.root;
 	if (arr_size(cmd) != 1)
 	{
-		g.error_code = 127;
+		g.error_code[0] = '1';
+		g.error_code[1] = '2';
+		g.error_code[2] = '7';
+		g.error_code[3] = 0;
 		put_srtln("minishell: alot of arguments for env");
 		return ;
 	}
@@ -29,6 +32,7 @@ void	cmd_env(char **cmd)
 		put_srt("=");
 		put_srtln(next->value);
 		next = next->next;
-		g.error_code = 0;
+		g.error_code[0] = '0';
+		g.error_code[1] = 0;
 	}
 }

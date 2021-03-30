@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 14:24:45 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 14:39:11 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/30 16:49:39 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,21 @@ static void	other_cmd_with_slesh(char **cmd)
 	else
 		waitpid(pid, &rv, 0);
 	if (rv)
-		g.error_code = 1;
+	{
+		g.error_code[0] = '1';
+		g.error_code[1] = 0;
+		write(0, "minishell: ", 11);
+		put_srt(cmd[0]);
+		write(0, ": No such file or directory\n", 28);
+		// printf("minishell: %s: No such file or directory\n", cmd[0]);
+	}
 	else
-		g.error_code = 0;
+	{
+		g.error_code[0] = '0';
+		g.error_code[1] = 0;
+	}
+	env = ft_split_free(env);
 }
-
 
 static char	*finde_new_path(char **path)
 {
@@ -95,22 +105,45 @@ static void	other_cmd_without_slesh(char **cmd)
 		else
 			waitpid(pid, &rv, 0);
 		if (rv)
-			g.error_code = 1;
+		{
+			g.error_code[0] = '1';
+			g.error_code[1] = 0;
+		}
 		else
-			g.error_code = 0;
+		{
+			g.error_code[0] = '0';
+			g.error_code[1] = 0;
+		}
 		free(n_cmd);
 		env = ft_split_free(env);
 	}
 	else
 	{
-		g.error_code = 127;
-		printf("minishell: command not found: %s\n", cmd_name);
+		g.error_code[0] = '1';
+		g.error_code[1] = '2';
+		g.error_code[2] = '7';
+		g.error_code[3] = 0;
+		printf("minishell:  %s: command not found\n", cmd_name);
 	}
+}
+
+int		check_slesh(char *str)
+{
+	int len;
+
+	len = ft_strlen(str);
+	if (len > 1 && str[0] == '/')
+		return (1);
+	if (len > 2 && (str[0] == '.' && str[1] == '/'))
+		return (1);
+	if (len > 3 && (str[0] == '.' && str[1] == '.' && str[2] == '/'))
+		return (1);
+	return (0);
 }
 
 void	other_cmd(char **cmd)
 {
-	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+	if (check_slesh(cmd[0]))
 		other_cmd_with_slesh(cmd);
 	else
 		other_cmd_without_slesh(cmd);

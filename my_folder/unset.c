@@ -6,67 +6,66 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:04:23 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 15:03:43 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/30 16:48:18 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-static int		check_cmd_word(char *str)
+static int	is_str_valid(char *str)
 {
 	int i;
 
-	i = 0;
-	if (ft_isdigit(str[i]))
+	i = -1;
+	while (str[++i])
 	{
-		while (str[++i])
+		if (i == 0)
 		{
-			if (!ft_isdigit(str[i]))
-				return (1);
+			if (!(!ft_isalpha(str[i]) || str[i] != '_'))
+			{
+				g.error_code[0] = '1';
+				g.error_code[1] = 0;
+				printf("minishell: unset: `%s': not a valid identifier\n", str);
+				return (0);
+			}
+		}
+		else
+		{
+			if (!(ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_'))
+			{
+				g.error_code[0] = '1';
+				g.error_code[1] = 0;
+				printf("minishell: unset: `%s': not a valid identifier\n", str);
+				return (0);				
+			}
 		}
 	}
-	else
-	{
-		while (str[i])
-		{
-			if (!ft_isalpha(str[i]))
-				return (1);
-			i++;
-		}
-	}
-	return (0);
+	return (1);
 }
 
 void	cmd_unset(char **cmd)
 {
 	int i;
-	int f;
 
-	i = -1;
-	f = 0;
-	g.error_code = 0;
+	i = 0;
+	g.error_code[0] = '0';
+	g.error_code[1] = 0;
 	if (arr_size(cmd) == 1)
 		return ;
 	while (cmd[++i])
-		if (cmd[i][0] == '=')
-		{
-			g.error_code = 1;
-			printf("minishell: unset:  `%s': not a valid identifier\n", cmd[i]);
-			return ;
-		}
-	i = 0;
-	while (cmd[++i])
 	{
-		if (!check_cmd_word(cmd[i]))
+		if (ft_strlen(cmd[i]) == 1 && cmd[i][0] == '_')
+			continue ;
+		if (is_str_valid(cmd[i]))
 		{
 			remove_elem(&g.root, cmd[i]);
 			remove_elem(&g.export, cmd[i]);	
 		}
-		else if (!(f++))
+		else
 		{
-			g.error_code = 1;
+			g.error_code[0] = '1';
+			g.error_code[1] = 0;
 			printf("minishell: unset:  `%s': not a valid identifier\n", cmd[i]);
-			return ;
 		}
 	}
 }

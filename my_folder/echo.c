@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:41:31 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/27 15:06:24 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/30 16:49:57 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	cmd_echo_not_n(char **cmd)
 
 void	cmd_echo(char **cmd)
 {
-	g.error_code = 0;
+	g.error_code[0] = '0';
+	g.error_code[0] = 0;
 	if (arr_size(cmd) == 1)
 		printf("\n");
 	else if (equals(cmd[1], "-n"))
