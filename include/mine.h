@@ -21,16 +21,20 @@ typedef struct s_shell
 }				t_shell;
 
 int parse_shell(t_shell *sh, char *line, int i);
+int init_first_pointer(t_shell *sh);
+int init_new_pointer(t_shell *sh);
+void change_pos(t_shell *sh, char c, int *i);
 void if_find_elem(char *arg, int *i, t_shell *sh);
 int prepare_array(t_shell *sh, char *arg, int *i, char till);
-void init_shell_struct(t_shell *sh);
+void init_shell_struct (t_shell *sh);
 int init_env_var(char *dollar, t_shell *sh);
 int find_lenght(char *line, char till, int i);
 int find_value(t_shell *sh);
-char *init_array(t_shell *sh, int linelen);
-int create_words(t_shell *sh, char *line, int *i);
-int correct_env_var(char c);
-int create_tokens (t_shell *sh, char *line, int *i, int linelen);
-//int create_env(t_shell *sh, int *z, int *k, int linelen);
+char *init_array(t_shell *sh);
+int check_elem(t_shell *sh, char *line, int *i, int *z);
+int its_env_var(char c);
+int create_tokens (t_shell *sh, char *line, int *i);
+void create_env(t_shell *sh, int *z, int *i);
+void create_word(t_shell *sh, char *line, int *i, int *z);
 
 #endif //MINISHELL_D_H

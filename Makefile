@@ -14,24 +14,25 @@ UTILS				=	./utils
 MY_FOLDER			=	./my_folder
 NEMY_FOLDER			=	./your_not-folder
 SRCS				=	$(UTILS)/list.c\
-						$(UTILS)/utils_1.c\
-						$(UTILS)/utils_2.c\
-						$(MY_FOLDER)/commands.c\
-						$(MY_FOLDER)/pwd.c\
-						$(MY_FOLDER)/other_cmd_wslesh.c\
-						$(MY_FOLDER)/export.c\
-						$(MY_FOLDER)/env.c\
-						$(MY_FOLDER)/unset.c\
-						$(MY_FOLDER)/echo.c\
-						$(MY_FOLDER)/cd.c\
-						$(MY_FOLDER)/hist.c\
-						$(NEMY_FOLDER)/main.c\
-						$(NEMY_FOLDER)/parse_shell.c\
-						$(NEMY_FOLDER)/parse_tmp.c\
-						$(NEMY_FOLDER)/utils_1a.c\
-						gnl/get_next_line.c\
-                        gnl/get_next_line_utils.c\
-                       	$(MY_FOLDER)/gnl_v2.c\
+					$(UTILS)/utils_1.c\
+					$(UTILS)/utils_2.c\
+					$(MY_FOLDER)/commands.c\
+					$(MY_FOLDER)/pwd.c\
+					$(MY_FOLDER)/other_cmd_wslesh.c\
+					$(MY_FOLDER)/export.c\
+					$(MY_FOLDER)/env.c\
+					$(MY_FOLDER)/unset.c\
+					$(MY_FOLDER)/echo.c\
+					$(MY_FOLDER)/cd.c\
+					$(MY_FOLDER)/hist.c\
+					$(MY_FOLDER)/gnl_v2.c\
+					$(NEMY_FOLDER)/main.c\
+					$(NEMY_FOLDER)/parse_shell.c\
+					$(NEMY_FOLDER)/parse_shell_utils.c\
+					$(NEMY_FOLDER)/create_tokens.c\
+					$(NEMY_FOLDER)/create_tokens_utils.c\
+					gnl/get_next_line.c\
+                       		gnl/get_next_line_utils.c\
 
 OBJ					= $(SRCS:.c=.o)
 DIR_INC				= ./include/

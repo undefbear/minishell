@@ -22,4 +22,9 @@ add_executable(minishell
         my_folder/unset.c
         my_folder/echo.c
         my_folder/cd.c
-        )
+#        my_folder/gnl_v2.c
+        my_folder/hist.c
+        your_not-folder/create_tokens.c
+        your_not-folder/create_tokens_utils.c your_not-folder/parse_shell_utils.c)
+
+#target_link_libraries(minishell -ltermcap)
