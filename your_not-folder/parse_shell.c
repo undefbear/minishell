@@ -112,11 +112,11 @@ int parse_shell(t_shell *sh, char *line, int i)
 			change_pos(sh, line[i], &i);
 	}
 	commands(sh->args_of_shell);
-//	int z = 0;
-//	while (z <= sh->numargs + 1)
-//	{
-//		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-//		z++;
-//	}
+	int z = 0;
+	// while (z <= sh->numargs + 1)
+	// {
+	// 	printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+	// 	z++;
+	// }
 	return (0);
 }

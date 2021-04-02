@@ -104,4 +104,5 @@ int init_first_pointer(t_shell *sh)
 		return (-1);
 	sh->args_of_shell[0] = NULL;
 	sh->args_of_shell[1] = NULL;
+	return (0);
 }

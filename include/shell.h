@@ -11,6 +11,7 @@
 # include <termcap.h>
 # include <termios.h>
 # include <term.h>
+# include "./mine.h" //todo
 
 # define PWD "pwd"
 # define CD "cd"
@@ -19,7 +20,35 @@
 # define UNSET "unset"
 # define _ECHO "echo"
 # define EXIT "exit"
+typedef struct s_shell
+{
+	int flag1;
+	int flag2;
+	int lenght;
+	int dollen;
+	int numargs;
+	char *evkey;
+	char *evvalue;
+	int valuelen;
+	char **args_of_shell;
+}				t_shell;
 
+int parse_shell(t_shell *sh, char *line, int i);
+int init_first_pointer(t_shell *sh);
+int init_new_pointer(t_shell *sh);
+void change_pos(t_shell *sh, char c, int *i);
+void if_find_elem(char *arg, int *i, t_shell *sh);
+int prepare_array(t_shell *sh, char *arg, int *i, char till);
+void init_shell_struct (t_shell *sh);
+int init_env_var(char *dollar, t_shell *sh);
+int find_lenght(char *line, char till, int i);
+int find_value(t_shell *sh);
+char *init_array(t_shell *sh);
+int check_elem(t_shell *sh, char *line, int *i, int *z);
+int its_env_var(char c);
+int create_tokens (t_shell *sh, char *line, int *i);
+void create_env(t_shell *sh, int *z, int *i);
+void create_word(t_shell *sh, char *line, int *i, int *z);
 
 typedef struct 		s_list
 {
@@ -35,6 +64,8 @@ typedef struct 		s_hist
 	char			*value;
 }					t_hist;
 
+
+
 // глобальная переменная, добавляй все, что необходимо)
 typedef struct 		s_global
 {
@@ -44,6 +75,10 @@ typedef struct 		s_global
 	char**			argv;
 	t_hist			*head;
 	t_hist			*tail;
+	char            **res;
+	int             flag;
+	t_shell			sh;
+	char			*line;
 }					t_global;
 
 t_global	g;
@@ -63,7 +98,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 void		put_srt(char *str);
 void		put_srtln(char *str);
 int			arr_size(char **strs);
-void		cmd_pwd(char **cmd);
+void		cmd_pwd();
 int			ft_isalpha(int c);
 void		change_value(t_list *root, char *key, char *value);
 char		*ft_first_strrchr(const char *s, int c);
@@ -83,5 +118,9 @@ void		commands(char **cmd);
 int			*gnl_v2(char **res);
 void		hist_add(t_hist **head, t_hist **tail,char *value);
 void		signals();
+void		cmd_exit(char **cmd);
+void		delete_hist(t_hist **head, t_hist **tail);
+int         ft_isprint(unsigned char c);
+int         ft_putchar(int c);
 
 #endif

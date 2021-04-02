@@ -6,7 +6,7 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/03/27 19:55:09 by ealexa           ###   ########.fr        #
+#    Updated: 2021/04/02 14:14:48 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS				=	$(UTILS)/list.c\
 					$(MY_FOLDER)/export.c\
 					$(MY_FOLDER)/env.c\
 					$(MY_FOLDER)/unset.c\
+					$(MY_FOLDER)/exit.c\
 					$(MY_FOLDER)/echo.c\
 					$(MY_FOLDER)/cd.c\
 					$(MY_FOLDER)/hist.c\

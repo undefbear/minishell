@@ -49,6 +49,13 @@ void change_pos(t_shell *sh, char c, int *i)
 	{
 		(*i)++;
 		commands(sh->args_of_shell);
+		int z = 0;
+		while (z <= sh->numargs + 1)
+		{
+			printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+			z++;
+		}
+		printf("---------------------------------------------\n");
 		free(sh->args_of_shell);
 		init_shell_struct(sh);
 		init_first_pointer(sh);

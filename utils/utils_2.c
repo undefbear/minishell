@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:39:35 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/29 16:47:23 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/02 15:16:16 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void				*ft_split_free(char **start)
 	int	i;
 
 	i = 0;
-	while (start[i] != NULL)
+	while (start && start[i] != NULL)
 		free(start[i++]);
 	free(start);
 	return (NULL);
@@ -165,4 +165,13 @@ long long int	ft_atoi(const char *str)
 		i++;
 	}
 	return (minus * res);
+}
+
+int	ft_isprint(unsigned char c)
+{
+    if (c >= 32 && c <= 126)
+        return (1);
+//    else if (c >= 192 && c <= 255)
+//        return (1);
+    return (0);
 }

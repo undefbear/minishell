@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/30 16:48:31 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/03/31 14:08:56 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ static int	is_str_valid(char *str)
 	{
 		if (i == 0)
 		{
-			if (!(!ft_isalpha(str[i]) || str[i] != '_'))
+			if (!ft_isalpha(str[i]) && str[i] != '_')
 			{
 				g.error_code[0] = '1';
 				g.error_code[1] = 0;
 				printf("minishell: export: `%s': not a valid identifier\n", str);
-				return (0);
+				return (0);	
 			}
 		}
 		else

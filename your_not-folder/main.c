@@ -8,6 +8,7 @@ void shell_expansion(t_shell *sh)
 	{
 //		get_next_line(0, &line);
 		gnl_v2(&line);
+		g.line = line;
 		parse_shell(sh, line, 0);
 		free(sh->args_of_shell);
 		init_shell_struct(sh);
@@ -32,23 +33,21 @@ int main(int argc, char *argv[], char **envp)
 {
 	ft_bzero(&g.root, sizeof(t_global));
 	init_env(&g.root, envp);
+	signals();
 	g.argv = argv;
 	if (!argc)
 		return (-1);
-//	t_list *next = g.root;
-//	printf("ok, write smth below:\n");
+	// printf("ok, write smth below:\n");
 	t_shell sh;
 	init_shell_struct(&sh);
 	shell_expansion(&sh);
-
-	delete_list(&g.root);
 	return (0);
 }
 
 //	0123456789|123456789|12345678
-//	echo "--$PWD--"'==$PWD=='
-//	echo "--$PWD--'==$PWD=='--"
-//	echo '--$PWD--"==$PWD=="--'
+	// echo "--$PWD--"'==$PWD=='
+	// echo "--$PWD--'==$PWD=='--"
+	// echo '--$PWD--"==$PWD=="--'
 //	0123456789|123456789|12345678
 
 //	echo "--$HOME--"'==$HOME=='
