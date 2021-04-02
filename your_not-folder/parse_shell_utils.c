@@ -1,4 +1,4 @@
-#include "../include/mine.h"
+#include "../include/shell.h"
 
 //длина строки для записи в массив
 int find_lenght(char *line, char till, int i)
@@ -41,68 +41,72 @@ int find_value(t_shell *sh)
 	return(len);
 }
 
+//выделение памяти под аргумент
 char *init_array(t_shell *sh)
 {
-	int tmplen;
 	char *tmp;
 
 	tmp = NULL;
-	tmplen = 0;
 	if (!sh->args_of_shell[sh->numargs])
 	{
-		if (!(sh->args_of_shell[sh->numargs] = malloc(sizeof(char *) *
-			(sh->lenght - sh->dollen + sh->valuelen) + 1)))
-			return (tmp);
+		if (!(sh->args_of_shell[sh->numargs] = malloc(sizeof(char *)
+			* (sh->lenght - sh->dollen + sh->valuelen) + 1)))
+			cmd_exit(NULL);
 	}
 	else
 	{
-//		tmplen = ft_strlen(sh->args_of_shell[sh->numargs]);
-//		if (!(tmp = malloc(tmplen)))
-//			return (tmp);
 		tmp = ft_strdup(sh->args_of_shell[sh->numargs]);
 		free(sh->args_of_shell[sh->numargs]);
 		sh->args_of_shell[sh->numargs] = NULL;
 		if (!(sh->args_of_shell[sh->numargs] = malloc(sizeof(char *)
-				* (sh->lenght - sh->dollen + sh->valuelen) + 1)))
-			return (NULL); //todo
+			* (sh->lenght - sh->dollen + sh->valuelen) + 1)))
+			cmd_exit(NULL);
 	}
 	return(tmp);
 }
 
-//запись имени ключа в переменную
-int init_env_var(char *env_variable, t_shell *sh)
+//длина ключа перменной окружения
+int find_ev_len(char *e_v)
 {
+	int z;
 	int len;
-	int i;
-	int k;
 
-	i = 1;
-	k = 0;
+	z = 1;
 	len = 0;
-	if (env_variable[i] == '?')
+	if (e_v[z] == '?')
 		len = 1;
 	else
-		while (!(its_env_var(env_variable[i])))
+		while (((e_v[z] != '\0' && e_v[z] != ' ') &&
+				((e_v[z] >= 48 && e_v[z] <= 57)
+				|| (e_v[z] >= 65 && e_v[z] <= 90)
+				|| (e_v[z] >= 97 && e_v[z] <= 122))))
 		{
-			i++;
+			z++;
 			len++;
 		}
-	if (!(sh->evkey = malloc(sizeof(char*) * len + 1)))
-		return (-1);
-	sh->dollen = len + 1;
-	i = 1;
-	while (len-- != 0)
-		sh->evkey[k++] = env_variable[i++];
-	sh->evkey[k] = '\0';
-	sh->valuelen = find_value(sh);
-	return (0);
+	return(len);
 }
 
-int init_first_pointer(t_shell *sh)
+//запись имени ключа в переменную
+int init_env_var(char *env_variable, t_shell *sh, int *i)
 {
-	if (!(sh->args_of_shell = malloc(sizeof(char *) * 2)))
-		return (-1);
-	sh->args_of_shell[0] = NULL;
-	sh->args_of_shell[1] = NULL;
+	int len;
+	int z;
+	int k;
+
+	k = 0;
+	if (!(len = find_ev_len(env_variable)))
+	{
+		(*i)++;
+		return (0);
+	}
+	if (!(sh->evkey = malloc(sizeof(char*) * len + 1)))
+		cmd_exit(NULL);
+	sh->dollen = len + 1;
+	z = 1;
+	while (len-- != 0)
+		sh->evkey[k++] = env_variable[z++];
+	sh->evkey[k] = '\0';
+	sh->valuelen = find_value(sh);
 	return (0);
 }

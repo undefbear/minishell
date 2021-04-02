@@ -1,5 +1,6 @@
-#include "../include/mine.h"
+#include "../include/shell.h"
 
+//запись перемнной окружения в массив
 void create_env(t_shell *sh, int *z, int *i)
 {
 	int k;
@@ -15,29 +16,49 @@ void create_env(t_shell *sh, int *z, int *i)
 	sh->valuelen = 0;
 }
 
+//экранирование
+int escape_character(t_shell *sh, char *line, int *i, int *z)
+{
+	if (sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0)
+		(*i)++;
+	else
+	{
+		if (line[(*i) + 1] == 34 || line[(*i) + 1] == 39)
+		{
+			if (line[(*i) + 1] == 34 && sh->flag2 % 2 != 0) //"
+			{
+				sh->args_of_shell[sh->numargs][(*z)++] = line[++(*i)];
+				(*i)++;
+			}
+			else if (line[(*i) + 1] == 39 && sh->flag1 % 2 != 0) //'
+				sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+			else
+			{
+				sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+				sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+			}
+			return (1);
+		}
+	}
+	return (0);
+}
+
+//запись слова в массив
 void create_word(t_shell *sh, char *line, int *i, int *z)
 {
-	//todo проверка на '\' 92
-//	if (line[*i] == 92)
-//		(*i)++;
-
+	if (line[*i] == 92)
+		if (escape_character(sh, line, i, z))
+			return ;
 	if ((line[*i] == '\t' || line[*i] == '\n' || line[*i] == '\r'
 		 || line[*i] == '\v' || line[*i] == '\f') &&
 		(sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0))
 		line[*i] = ' ';
 	else
-		sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+		if (line[*i] != '\0')
+			sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
 }
 
-int its_env_var(char c)
-{
-	if ((c != '\0' && c != ' ') &&
-	((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122)))
-		return (0);
-	else
-		return (1);
-}
-
+//смена аргумента
 void change_pos(t_shell *sh, char c, int *i)
 {
 	if (c == 32)
@@ -49,15 +70,24 @@ void change_pos(t_shell *sh, char c, int *i)
 	{
 		(*i)++;
 		commands(sh->args_of_shell);
-		int z = 0;
-		while (z <= sh->numargs + 1)
-		{
-			printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-			z++;
-		}
-		printf("---------------------------------------------\n");
+//		int z = 0; //todo print
+//		while (z <= sh->numargs + 1)
+//		{
+//			printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+//			z++;
+//		}
+//		printf("---------------------------------------------\n");
 		free(sh->args_of_shell);
 		init_shell_struct(sh);
 		init_first_pointer(sh);
 	}
+}
+
+int init_first_pointer(t_shell *sh)
+{
+	if (!(sh->args_of_shell = malloc(sizeof(char *) * 2)))
+		cmd_exit(NULL);
+	sh->args_of_shell[0] = NULL;
+	sh->args_of_shell[1] = NULL;
+	return (0);
 }

@@ -1,4 +1,5 @@
-#include "../include/mine.h"
+#include "../include/shell.h"
+
 
 //подготовка массива к записи токенов
 int prepare_array(t_shell *sh, char *line, int *i, char till)
@@ -7,8 +8,8 @@ int prepare_array(t_shell *sh, char *line, int *i, char till)
 
 	tmp = NULL;
 	sh->lenght = find_lenght(line, till, (*i));
-	if (sh->numargs != 0 && sh->args_of_shell[sh->numargs - 1][0] == 0)
-		sh->numargs--;
+//	if (sh->numargs != 0 && sh->args_of_shell[sh->numargs - 1][0] == 0)
+//		sh->numargs--;
 	tmp = init_array(sh);
 	create_tokens(sh, line, i);
 	if (tmp)
@@ -17,12 +18,12 @@ int prepare_array(t_shell *sh, char *line, int *i, char till)
 		= ft_strjoin(tmp, sh->args_of_shell[sh->numargs]);
 		free(tmp);
 	}
-	if (sh->args_of_shell[sh->numargs][0] == 0)
-	{
-		free(sh->args_of_shell[sh->numargs]);
-		sh->args_of_shell[sh->numargs] = NULL;
-		sh->numargs--;
-	}
+//	if (sh->args_of_shell[sh->numargs][0] == 0)
+//	{
+//		free(sh->args_of_shell[sh->numargs]);
+//		sh->args_of_shell[sh->numargs] = NULL;
+//		sh->numargs--;
+//	}
 	return (0);
 }
 
@@ -32,12 +33,14 @@ void if_find_elem(char *line, int *i, t_shell *sh)
 	if (line[*i] == 34) //"
 	{
 		(*i)++;
-		sh->flag2++;
+		if (sh->flag1 % 2 == 0)
+			sh->flag2++;
 		prepare_array(sh, line, i, 34);
 	}
 	else if (line[*i] == 39) //'
 	{
-		sh->flag1++;
+		if (sh->flag2 % 2 == 0)
+			sh->flag1++;
 		(*i)++;
 		prepare_array(sh, line, i, 39);
 	}
@@ -46,7 +49,7 @@ void if_find_elem(char *line, int *i, t_shell *sh)
 		if ((sh->flag1 % 2 != 0) && (sh->flag2 % 2 == 0))
 			sh->dollen = -1;
 		else
-			init_env_var(&line[*i], sh);
+			init_env_var(&line[*i], sh, i);
 		prepare_array(sh, line, i, '\0');
 	}
 }
@@ -60,7 +63,7 @@ char **create_tmp(t_shell *sh)
 	i = 0;
 	w = sh->numargs;
 	if (!(tmp = malloc(sizeof(char *) * w + 1)))
-		return (NULL); //todo
+		cmd_exit(NULL);
 	while (w-- != 0)
 	{
 		tmp[i] = sh->args_of_shell[i];
@@ -70,6 +73,7 @@ char **create_tmp(t_shell *sh)
 	return(tmp);
 }
 
+//выделение памяти под указатель на аргумент
 int init_new_pointer(t_shell *sh)
 {
 	int new_num_lines;
@@ -82,7 +86,7 @@ int init_new_pointer(t_shell *sh)
 	free(sh->args_of_shell);
 	sh->args_of_shell = NULL;
 	if (!(sh->args_of_shell = malloc(sizeof(char *) * new_num_lines + 1)))
-		return (-1);
+		cmd_exit(NULL);
 	new_num_lines--;
 	while(new_num_lines-- != 0)
 	{
@@ -97,7 +101,6 @@ int init_new_pointer(t_shell *sh)
 
 int parse_shell(t_shell *sh, char *line, int i)
 {
-//	printf("%s\n", line);
 	init_first_pointer(sh);
 	while (line[i] != '\0')
 	{
@@ -112,11 +115,11 @@ int parse_shell(t_shell *sh, char *line, int i)
 			change_pos(sh, line[i], &i);
 	}
 	commands(sh->args_of_shell);
-	int z = 0;
-	// while (z <= sh->numargs + 1)
-	// {
-	// 	printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-	// 	z++;
-	// }
+//	int z = 0; //todo print
+//	while (z <= sh->numargs + 1)
+//	{
+//		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+//		z++;
+//	}
 	return (0);
 }

@@ -1,4 +1,4 @@
-#include "../include/mine.h"
+#include "../include/shell.h"
 
 int check_double(t_shell *sh, char *line, int *i, int *z)
 {
@@ -47,7 +47,8 @@ int check_elem(t_shell *sh, char *line, int *i, int *z)
 	else if (line[*i] == 39) //'
 		return(check_single(sh, line, i, z));
 	else if ((line[*i] == 32 && sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0)
-			|| (line[*i] == 36 && !sh->dollen) || (line[*i] == 59))
+			|| (line[*i] == 36 && !sh->dollen)
+			|| (line[*i] == 59 && sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0))
 	{
 		sh->dollen = 0;
 		return (-1); //выход для смены аргумента

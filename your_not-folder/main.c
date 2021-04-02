@@ -1,4 +1,4 @@
-#include "../include/mine.h"
+#include "../include/shell.h"
 
 void shell_expansion(t_shell *sh)
 {
@@ -6,8 +6,8 @@ void shell_expansion(t_shell *sh)
 
 	while (1)
 	{
-//		get_next_line(0, &line);
-		gnl_v2(&line);
+		get_next_line(0, &line);
+//		gnl_v2(&line);
 		g.line = line;
 		parse_shell(sh, line, 0);
 		free(sh->args_of_shell);
@@ -31,13 +31,16 @@ void init_shell_struct(t_shell *sh)
 
 int main(int argc, char *argv[], char **envp)
 {
+	if (argc != 1)
+	{
+		printf("%s", "Hmm .. I think there're a lot of args.\n");
+		return (127);
+	}
 	ft_bzero(&g.root, sizeof(t_global));
 	init_env(&g.root, envp);
 	signals();
 	g.argv = argv;
-	if (!argc)
-		return (-1);
-	// printf("ok, write smth below:\n");
+	printf("ok, write smth below:\n");
 	t_shell sh;
 	init_shell_struct(&sh);
 	shell_expansion(&sh);
@@ -79,3 +82,20 @@ int main(int argc, char *argv[], char **envp)
 
 //	echo "--$HOME--         ==$HOME==--"
 //	--/home/kstout--         ==/home/kstout==--
+
+//echo '\'    $HOME===='"$HOME"; echo hi
+//\ /Users/kstout===="$HOME"; echo hi
+
+//echo "\"    $HOME===="'$HOME'; echo hi
+//"    /Users/kstout====$HOME
+//hi
+
+//echo '"$HOME"; echo hi
+//"$HOME"; echo hi
+
+//echo '"$HOME"'; echo hi
+//"$HOME"
+//hi
+
+//echo "'$HOME'
+//'/Users/kstout'
