@@ -89,22 +89,22 @@ static	void	delete_sym(char **res)
 	*res = str;
 }
 
-//void	pos_curs(int *row, int *col)
-//{
-//	char	pos[20];
-//	int		i;
-//
-//	ft_bzero(pos, 20);
-////	printf("\n%d\n", ft_strlen("\e[6n"));
-////	write(0, "\e[6n", ft_strlen("\e[6n"));
-////	i = read(0, pos, 100);
-//	pos[i] = 0;
-//	i = 2;
-//	*row = ft_atoi(pos + i);
-//	while (ft_isdigit(pos[i]))
-//		i++;
-//	*col = ft_atoi(pos + i + 1);
-//}
+void	pos_curs(int *row, int *col)
+{
+	char	pos[20];
+	int		i;
+
+	ft_bzero(pos, 20);
+	printf("\n%d\n", ft_strlen("\e[6n"));
+	write(0, "\e[6n", ft_strlen("\e[6n"));
+	i = read(0, pos, 100);
+	pos[i] = 0;
+	i = 2;
+	*row = ft_atoi(pos + i);
+	while (ft_isdigit(pos[i]))
+		i++;
+	*col = ft_atoi(pos + i + 1);
+}
 
 
 void		read_sym(char str[2000], char **res, t_hist	**hist, int *col)
@@ -114,9 +114,11 @@ void		read_sym(char str[2000], char **res, t_hist	**hist, int *col)
 	g.res = res;
 	l = read(0, str, 2000);
 	str[l] = 0;
-//	pos_curs(&row, &col);
+    g.col = tgetnum("co");
+//	pos_curs(&g.row, &g.col);
 //	if (row == g.pos_start_row)
 //        row = g.pos_start_row - 3;
+//    printf("\n%d\t%d\n", g.row, g.col);
 	if (equals(str, "\e[A"))
 	{
 		tputs(restore_cursor, 1, ft_putchar);
@@ -159,11 +161,39 @@ void		read_sym(char str[2000], char **res, t_hist	**hist, int *col)
 //	    printf("st_row = %d\trow = %d\twidth = %d\n", g.pos_start_row, row, g.width);
 		if (ft_strlen(*res))
 		{
-			delete_sym(res);
+//		    printf("\n%d\n", ft_strlen(*res) + 13 % g.col);
+            if ((ft_strlen(*res) + 12 + g.echon) % g.col == 0)
+            {
+//                printf("\n123\n");
+                tputs(cursor_left, 1, ft_putchar);
+//                write(0, &(*res[ft_strlen(*res) - 2]), 1);
+//                tputs(cursor_left, 1, ft_putchar);
+                tputs(cursor_left, 1, ft_putchar);
+                tputs(delete_character, 1, ft_putchar);
+//                tputs(cursor_right, 1, ft_putchar);
+//                tputs(delete_character, 1, ft_putchar);
+//                write(0, &a, 2);
+//                write(0, &(*res[ft_strlen(*res) - 2]), 1);
+//                write(0, &(*res[ft_strlen(*res) - 3]), 1);
+//                write(0, &(*res[ft_strlen(*res) - 1]), 1);
+//                tputs(cursor_up, 1, ft_putchar);
+                tputs(delete_character, 1, ft_putchar);
+//                printf("%c", );
+                write(0, *res + (ft_strlen(*res) - 2), 1);
+//                tputs(cursor_right, 1, ft_putchar);
+                delete_sym(res);
+            }
+            else
+            {
+
+                tputs(cursor_left, 1, ft_putchar);
+                tputs(delete_character, 1, ft_putchar);
+                delete_sym(res);
+            }
 //            (*res)[ft_strlen(*res) - 1] = 0;
 //            printf("\nres2 = %d", ft_strlen(*res));
-            tputs(cursor_left, 1, ft_putchar);
-			tputs(delete_character, 1, ft_putchar);
+//            tputs(cursor_left, 1, ft_putchar);
+//			tputs(delete_character, 1, ft_putchar);
 //			 write(0, "\nminishell:  ", 13);
 //			 put_srt(*res);
 		}
@@ -181,7 +211,11 @@ void		read_sym(char str[2000], char **res, t_hist	**hist, int *col)
     }
 	else if (equals(str, "\x0c"))
     {
-	    printf("213123123\n");
+        tputs(restore_cursor, 1, ft_putchar);
+        tputs(tigetstr("ed"), 1, ft_putchar);
+        free(*res);
+        res = NULL;
+
     }
 	else
 	    {

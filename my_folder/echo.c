@@ -16,13 +16,18 @@ void	cmd_echo_n(char **cmd)
 {
 	int i;
 
-	i = 1;
+    g.echon = arr_size(cmd) - 3;
+    i = 1;
 	while (cmd[++i])
 	{
-		if (cmd[i + 1])
-			printf("%s ", cmd[i]);
+        g.echon += ft_strlen(cmd[i]);
+        if (cmd[i + 1])
+        {
+            write(0, cmd[i], ft_strlen(cmd[i]));
+            write(0, " ",1);
+        }
 		else
-			printf("%s", cmd[i]);		
+            write(0, cmd[i], ft_strlen(cmd[i]));
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:44:58 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/31 13:58:07 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/02 20:34:00 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void handle_sigquit(int sig)
 {
-	printf("123123123\n");
-	sig = 0;
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(tigetstr("ed"), 1, ft_putchar);
-	free(*g.res);
-	*g.res = NULL;
+//    write(0, "\nminishell:  ", 13);
+//    if (!g.pid)
+//        cmd_exit(NULL);
+//    kill(SIGQUIT, g.pid);
+//    printf("12312312\n");
+    g.error_code[0] = '1';
+    g.error_code[1] = '3';
+    g.error_code[2] = '1';
+    g.error_code[3] = 0;
 }
 
 void handle_sigint(int sig)

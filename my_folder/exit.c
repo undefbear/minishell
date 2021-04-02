@@ -41,6 +41,12 @@ void	cmd_exit(char **cmd)
 {
 	unsigned char exit_code;
 
+	if (!cmd)
+    {
+	    free_all();
+        printf("minishell:  jadniy malloc :,(\n");
+        exit(127);
+    }
 	if (arr_size(cmd) == 1)
 	{
 		free_all();

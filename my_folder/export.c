@@ -80,7 +80,7 @@ static int	is_str_valid(char *str)
 		}
 		else
 		{
-			if (!(ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_' || str[i] == '='))
+			if (!(ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_' || str[i] == '=' || str[i] == '/'))
 			{
 				g.error_code[0] = '1';
 				g.error_code[1] = 0;

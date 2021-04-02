@@ -12,7 +12,6 @@
 # include <termios.h>
 # include <term.h>
 # include "./get_next_line.h" //todo
-# include "./mine.h" //todo
 
 # define PWD "pwd"
 # define CD "cd"
@@ -80,6 +79,11 @@ typedef struct 		s_global
 	int             flag;
 	t_shell			sh;
 	char			*line;
+    int             col;
+    int             echon;
+    int             fd_out;
+    int             fd_end;
+    pid_t           pid;
 }					t_global;
 
 t_global	g;

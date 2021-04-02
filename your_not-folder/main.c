@@ -6,8 +6,8 @@ void shell_expansion(t_shell *sh)
 
 	while (1)
 	{
-		get_next_line(0, &line);
-//		gnl_v2(&line);
+		// get_next_line(0, &line);
+		gnl_v2(&line);
 		g.line = line;
 		parse_shell(sh, line, 0);
 		free(sh->args_of_shell);

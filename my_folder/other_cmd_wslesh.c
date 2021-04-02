@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 14:24:45 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/30 16:49:39 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/02 20:58:30 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 static void	other_cmd_with_slesh(char **cmd)
 {
-	pid_t	pid;
 	int		rv;
 	char	**env;
 
 	env = env_to_args();
-	pid = fork();
-	if (pid == 0)
+    g.pid = fork();
+	if (g.pid == 0)
 		exit(execve(cmd[0], cmd, env));
 	else
-		waitpid(pid, &rv, 0);
+		waitpid(g.pid, &rv, 0);
 	if (rv)
 	{
 		g.error_code[0] = '1';
@@ -93,17 +92,25 @@ static void	other_cmd_without_slesh(char **cmd)
 	char	*n_cmd;
 	char	*cmd_name;
 
+	if (!cmd[0][0])
+    {
+        g.error_code[0] = '1';
+        g.error_code[1] = '2';
+        g.error_code[2] = '7';
+        g.error_code[3] = 0;
+        printf("minishell: : command not found\n");
+        return ;
+    }
 	cmd_name = cmd[0];
 	env = env_to_args();
 	if ((n_cmd = cheack_path(cmd[0])))
 	{
-		pid_t pid;
 		int rv;
-		pid = fork();
-		if (pid == 0)
+		g.pid = fork();
+		if (g.pid == 0)
 			exit(execve(n_cmd, cmd, env));
 		else
-			waitpid(pid, &rv, 0);
+			waitpid(g.pid, &rv, 0);
 		if (rv)
 		{
 			g.error_code[0] = '1';
