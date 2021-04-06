@@ -6,7 +6,7 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/04/02 14:14:48 by ealexa           ###   ########.fr        #
+#    Updated: 2021/04/04 12:45:50 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS				=	$(UTILS)/list.c\
 					$(NEMY_FOLDER)/create_tokens_utils.c\
 					gnl/get_next_line.c\
                        		gnl/get_next_line_utils.c\
+# 					$(MY_FOLDER)/test.c # удалить не забыть!!
 
 OBJ					= $(SRCS:.c=.o)
 DIR_INC				= ./include/

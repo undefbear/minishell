@@ -32,6 +32,8 @@ void	commands(char **cmd)
 			cmd_echo(cmd);
 		else if (equals(EXIT, cmd[0]))
 			cmd_exit(cmd);
+        else if (equals(AUTH, cmd[0]))
+            cmd_auth();
 		else
 			other_cmd(cmd);		
 	}

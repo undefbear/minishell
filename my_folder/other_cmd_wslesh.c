@@ -38,6 +38,7 @@ static void	other_cmd_with_slesh(char **cmd)
 		g.error_code[1] = 0;
 	}
 	env = ft_split_free(env);
+	g.pid = 0;
 }
 
 static char	*finde_new_path(char **path)
@@ -103,6 +104,7 @@ static void	other_cmd_without_slesh(char **cmd)
     }
 	cmd_name = cmd[0];
 	env = env_to_args();
+    n_cmd = NULL;
 	if ((n_cmd = cheack_path(cmd[0])))
 	{
 		int rv;
@@ -122,7 +124,6 @@ static void	other_cmd_without_slesh(char **cmd)
 			g.error_code[1] = 0;
 		}
 		free(n_cmd);
-		env = ft_split_free(env);
 	}
 	else
 	{
@@ -132,6 +133,8 @@ static void	other_cmd_without_slesh(char **cmd)
 		g.error_code[3] = 0;
 		printf("minishell:  %s: command not found\n", cmd_name);
 	}
+    ft_split_free(env);
+    g.pid = 0;
 }
 
 int		check_slesh(char *str)

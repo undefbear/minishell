@@ -77,7 +77,8 @@ void change_pos(t_shell *sh, char c, int *i)
 //			z++;
 //		}
 //		printf("---------------------------------------------\n");
-		free(sh->args_of_shell);
+//		free(sh->args_of_shell);
+		sh->args_of_shell = ft_split_free(sh->args_of_shell);
 		init_shell_struct(sh);
 		init_first_pointer(sh);
 	}

@@ -20,6 +20,8 @@
 # define UNSET "unset"
 # define _ECHO "echo"
 # define EXIT "exit"
+# define AUTH "authors"
+
 
 //----------------------------------------------------------------------------
 typedef struct		s_shell
@@ -83,6 +85,7 @@ typedef struct 		s_global
     int             echon;
     int             fd_out;
     int             fd_end;
+    int             line_count;
     pid_t           pid;
 }					t_global;
 
@@ -127,5 +130,5 @@ void		cmd_exit(char **cmd);
 void		delete_hist(t_hist **head, t_hist **tail);
 int         ft_isprint(unsigned char c);
 int         ft_putchar(int c);
-
+void        cmd_auth();
 #endif

@@ -10,7 +10,8 @@ void shell_expansion(t_shell *sh)
 		gnl_v2(&line);
 		g.line = line;
 		parse_shell(sh, line, 0);
-		free(sh->args_of_shell);
+        sh->args_of_shell = ft_split_free(sh->args_of_shell);
+//        free(sh->args_of_shell);
 		init_shell_struct(sh);
 		free(line);
 	}

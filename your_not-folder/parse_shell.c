@@ -4,7 +4,8 @@
 //подготовка массива к записи токенов
 int prepare_array(t_shell *sh, char *line, int *i, char till)
 {
-	char *tmp;
+    char *tmp;
+    char *tmp2;
 
 	tmp = NULL;
 	sh->lenght = find_lenght(line, till, (*i));
@@ -14,9 +15,11 @@ int prepare_array(t_shell *sh, char *line, int *i, char till)
 	create_tokens(sh, line, i);
 	if (tmp)
 	{
+        tmp2 = sh->args_of_shell[sh->numargs];
 		sh->args_of_shell[sh->numargs]
 		= ft_strjoin(tmp, sh->args_of_shell[sh->numargs]);
-		free(tmp);
+        free(tmp);
+        free(tmp2);
 	}
 //	if (sh->args_of_shell[sh->numargs][0] == 0)
 //	{

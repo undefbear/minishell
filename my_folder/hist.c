@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:44:58 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/02 20:34:00 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/04 12:44:36 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 void handle_sigquit(int sig)
 {
+    if (g.pid)
+    {
+        sig = 8;
+        write(0, "Quit: 3\n", sig);
+        g.error_code[0] = '1';
+        g.error_code[1] = '3';
+        g.error_code[2] = '1';
+        g.error_code[3] = 0;
+    }
 //    write(0, "\nminishell:  ", 13);
 //    if (!g.pid)
 //        cmd_exit(NULL);
 //    kill(SIGQUIT, g.pid);
 //    printf("12312312\n");
-    g.error_code[0] = '1';
-    g.error_code[1] = '3';
-    g.error_code[2] = '1';
-    g.error_code[3] = 0;
 }
 
 void handle_sigint(int sig)
@@ -32,6 +37,7 @@ void handle_sigint(int sig)
 	free(*g.res);
 	*g.res = NULL;
 }
+
 void	signals()
 {
 	g.error_code[0] = '0';
@@ -60,7 +66,7 @@ void	delete_hist(t_hist **head, t_hist **tail)
 	*tail = NULL;
 }
 
-void	hist_add(t_hist **head, t_hist **tail,char *value)
+void	hist_add(t_hist **head, t_hist **tail, char *value)
 {
 	t_hist *elem;
 

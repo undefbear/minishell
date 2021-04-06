@@ -49,6 +49,12 @@ void	cmd_exit(char **cmd)
     }
 	if (arr_size(cmd) == 1)
 	{
+	    if (g.flag)
+        {
+            write(0, "exit\n", 5);
+            free_all();
+            exit(127);
+        }
 		free_all();
 		printf("exit\n");
 		exit(0);
