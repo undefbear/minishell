@@ -28,12 +28,14 @@ typedef struct		s_shell
 {
 	int				flag1;
 	int				flag2;
+	int 			flagar;
 	int				lenght;
 	int				dollen;
 	int				numargs;
 	char			*evkey;
 	char			*evvalue;
 	int				valuelen;
+	int 			numpipes;
 	char			**args_of_shell;
 }					t_shell;
 
@@ -52,6 +54,9 @@ int		check_elem(t_shell *sh, char *line, int *i, int *z);
 int		create_tokens (t_shell *sh, char *line, int *i);
 void	create_env(t_shell *sh, int *z, int *i);
 void	create_word(t_shell *sh, char *line, int *i, int *z);
+int		its_pipe(t_shell *sh, int f);
+int		its_last_pipe(char **sh);
+void	make_redirection(char **aos);
 //----------------------------------------------------------------------------
 
 typedef struct 		s_list
@@ -82,11 +87,14 @@ typedef struct 		s_global
 	t_shell			sh;
 	char			*line;
     int             col;
-    int             echon;
-    int             fd_out;
-    int             fd_end;
+	int             echon;
+//	int             fd_redirt_to;
+    int             fd_out; //1
+    int             fd_in; //0
+    int 			fdp[2];
     int             line_count;
     pid_t           pid;
+    int 			numpipes;
 }					t_global;
 
 t_global	g;

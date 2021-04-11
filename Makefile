@@ -28,10 +28,12 @@ SRCS				=	$(UTILS)/list.c\
 					$(MY_FOLDER)/hist.c\
 					$(MY_FOLDER)/gnl_v2.c\
 					$(NEMY_FOLDER)/main.c\
+					$(NEMY_FOLDER)/make_redir.c\
 					$(NEMY_FOLDER)/parse_shell.c\
 					$(NEMY_FOLDER)/parse_shell_utils.c\
 					$(NEMY_FOLDER)/create_tokens.c\
 					$(NEMY_FOLDER)/create_tokens_utils.c\
+					$(NEMY_FOLDER)/hi_pipe.c\
 					gnl/get_next_line.c\
                        		gnl/get_next_line_utils.c\
 # 					$(MY_FOLDER)/test.c # удалить не забыть!!

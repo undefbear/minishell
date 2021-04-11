@@ -105,14 +105,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 // просто чтобы проще было писать строки)
 void	put_srt(char *str)
 {
-	write(0, str, ft_strlen(str));
+	write(1, str, ft_strlen(str));
 }
 
 // строка с новой строкой)
 void	put_srtln(char *str)
 {
-	write(0, str, ft_strlen(str));
-	write(0, "\n", 1);
+	write(1, str, ft_strlen(str));
+	write(1, "\n", 1);
 }
 
 // подсчет эл-в в 2-мерном массиве

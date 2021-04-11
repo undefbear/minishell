@@ -6,12 +6,12 @@ void shell_expansion(t_shell *sh)
 
 	while (1)
 	{
-		// get_next_line(0, &line);
+//		 get_next_line(0, &line);
 		gnl_v2(&line);
 		g.line = line;
+		g.numpipes = 0;
 		parse_shell(sh, line, 0);
         sh->args_of_shell = ft_split_free(sh->args_of_shell);
-//        free(sh->args_of_shell);
 		init_shell_struct(sh);
 		free(line);
 	}
@@ -21,6 +21,7 @@ void init_shell_struct(t_shell *sh)
 {
 	sh->flag1 = 0;
 	sh->flag2 = 0;
+	sh->flagar = 0;
 	sh->lenght = 0;
 	sh->dollen = 0;
 	sh->numargs = 0;
@@ -34,7 +35,7 @@ int main(int argc, char *argv[], char **envp)
 {
 	if (argc != 1)
 	{
-		printf("%s", "Hmm .. I think there're a lot of args.\n");
+		printf("%s", "hmm .. I think there're a lot of args.\n");
 		return (127);
 	}
 	ft_bzero(&g.root, sizeof(t_global));

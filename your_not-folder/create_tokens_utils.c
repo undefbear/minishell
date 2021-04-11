@@ -66,18 +66,26 @@ void change_pos(t_shell *sh, char c, int *i)
 		sh->numargs++;
 		init_new_pointer(sh);
 	}
-	else if (c == 59) //;
+	else if ((c == 59) || (c == 124)) // ; |
 	{
+		if (sh->flagar)
+			make_redirection(sh->args_of_shell);
+		if (c == 59 && !sh->flagar)
+			commands(sh->args_of_shell);
+		else if (c == 124)
+		{
+			printf("this pipe!!!!!!!!!\n");
+			its_pipe(sh, g.numpipes);
+			g.numpipes = 1;
+			int z = 0; //todo print
+			while (z <= sh->numargs + 1)
+			{
+				printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+				z++;
+			}
+			printf("---------------------------------------------\n");
+		}
 		(*i)++;
-		commands(sh->args_of_shell);
-//		int z = 0; //todo print
-//		while (z <= sh->numargs + 1)
-//		{
-//			printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-//			z++;
-//		}
-//		printf("---------------------------------------------\n");
-//		free(sh->args_of_shell);
 		sh->args_of_shell = ft_split_free(sh->args_of_shell);
 		init_shell_struct(sh);
 		init_first_pointer(sh);

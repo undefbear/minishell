@@ -21,12 +21,12 @@ int prepare_array(t_shell *sh, char *line, int *i, char till)
         free(tmp);
         free(tmp2);
 	}
-//	if (sh->args_of_shell[sh->numargs][0] == 0)
-//	{
-//		free(sh->args_of_shell[sh->numargs]);
-//		sh->args_of_shell[sh->numargs] = NULL;
-//		sh->numargs--;
-//	}
+	if (sh->args_of_shell[sh->numargs][0] == 0)
+	{
+		free(sh->args_of_shell[sh->numargs]);
+		sh->args_of_shell[sh->numargs] = NULL;
+		sh->numargs--;
+	}
 	return (0);
 }
 
@@ -114,15 +114,21 @@ int parse_shell(t_shell *sh, char *line, int i)
 			if_find_elem(line, &i, sh);
 		else
 			prepare_array(sh, line, &i, ' ');
-		if ((line[i] == 32) || (line[i] == 59))
+		if ((line[i] == 32) || (line[i] == 59) || (line[i] == 124))
 			change_pos(sh, line[i], &i);
 	}
-	commands(sh->args_of_shell);
-//	int z = 0; //todo print
-//	while (z <= sh->numargs + 1)
-//	{
-//		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-//		z++;
-//	}
+	if (g.numpipes && !sh->flagar)
+			its_last_pipe(sh->args_of_shell);
+	else
+		if (sh->flagar)
+			make_redirection(sh->args_of_shell);
+		else
+			commands(sh->args_of_shell);
+	int z = 0; //todo print
+	while (z <= sh->numargs + 1)
+	{
+		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+		z++;
+	}
 	return (0);
 }

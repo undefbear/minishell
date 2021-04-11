@@ -44,11 +44,14 @@ int check_elem(t_shell *sh, char *line, int *i, int *z)
 {
 	if (line[*i] == 34) //"
 		return(check_double(sh, line, i, z));
+	if (line[*i] == 62 || line[*i] == 60)
+		sh->flagar = 1;
 	else if (line[*i] == 39) //'
 		return(check_single(sh, line, i, z));
 	else if ((line[*i] == 32 && sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0)
 			|| (line[*i] == 36 && !sh->dollen)
-			|| (line[*i] == 59 && sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0))
+			|| (line[*i] == 59 && sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0)
+			|| (line[*i] == 124 && sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0))
 	{
 		sh->dollen = 0;
 		return (-1); //выход для смены аргумента
@@ -59,7 +62,7 @@ int check_elem(t_shell *sh, char *line, int *i, int *z)
 }
 
 //запись токенов в массив
-int create_tokens (t_shell *sh, char *line, int *i)
+int create_tokens(t_shell *sh, char *line, int *i)
 {
 	int z;
 	int res;

@@ -44,6 +44,8 @@ void	signals()
 	g.error_code[1] = 0;
 	g.head = NULL;
 	g.tail = NULL;
+	g.fd_in = 0;
+	g.fd_out = 1;
 	hist_add(&g.head, &g.tail, ft_strdup(""));
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);
