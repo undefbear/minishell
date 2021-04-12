@@ -74,16 +74,16 @@ void change_pos(t_shell *sh, char c, int *i)
 			commands(sh->args_of_shell);
 		else if (c == 124)
 		{
-			printf("this pipe!!!!!!!!!\n");
+//			printf("this pipe!!!!!!!!!\n");
 			its_pipe(sh, g.numpipes);
 			g.numpipes = 1;
-			int z = 0; //todo print
-			while (z <= sh->numargs + 1)
-			{
-				printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-				z++;
-			}
-			printf("---------------------------------------------\n");
+//			int z = 0; //todo print
+//			while (z <= sh->numargs + 1)
+//			{
+//				printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+//				z++;
+//			}
+//			printf("---------------------------------------------\n");
 		}
 		(*i)++;
 		sh->args_of_shell = ft_split_free(sh->args_of_shell);

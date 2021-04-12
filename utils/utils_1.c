@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:18:33 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/31 16:41:53 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:31:01 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_first_strrchr(const char *s, int c)
 	char	*res;
 	char	*tmp_s;
 
-	tmp_s = (char*)s;
+	tmp_s = (char *)s;
 	res = 0;
 	while (*tmp_s)
 	{
@@ -38,7 +38,7 @@ char	*ft_strrchr(const char *s, int c)
 	char	*res;
 	char	*tmp_s;
 
-	tmp_s = (char*)s;
+	tmp_s = (char *)s;
 	res = 0;
 	while (*tmp_s)
 	{
@@ -51,16 +51,16 @@ char	*ft_strrchr(const char *s, int c)
 	return (res);
 }
 
-int			ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str)
 		return (0);
 	i = 0;
 	while (str[i])
 		i++;
-	return (i);	
+	return (i);
 }
 
 char	*ft_strdup(const char *s1)
@@ -85,23 +85,6 @@ char	*ft_strdup(const char *s1)
 		res[i] = '\0';
 	}
 	return (res);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t			i;
-	unsigned char	*tmp_s1;
-	unsigned char	*tmp_s2;
-
-	i = 0;
-	tmp_s1 = (unsigned char*)s1;
-	tmp_s2 = (unsigned char*)s2;
-	while (tmp_s1[i] != '\0' && tmp_s2[i]
-	!= '\0' && i < n && tmp_s1[i] == tmp_s2[i])
-		i++;
-	if (i == n)
-		return (0);
-	return (tmp_s1[i] - tmp_s2[i]);
 }
 
 int	ft_isdigit(int c)

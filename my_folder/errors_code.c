@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   errors_code.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/06 20:21:27 by kstout            #+#    #+#             */
-/*   Updated: 2021/04/12 18:01:06 by ealexa           ###   ########.fr       */
+/*   Created: 2021/03/30 13:44:58 by ealexa            #+#    #+#             */
+/*   Updated: 2021/04/12 16:53:44 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFFER_SIZE 20
+#include "../include/shell.h"
 
-# include <stdlib.h>
-# include <unistd.h>
+void	print_error(char *cmd, int f)
+{
+	write(2, cmd, ft_strlen(cmd));
+	if (f)
+		write(2, "\n", 1);
+}
 
-int		get_next_line(int fd, char **line);
-char	*ft_strdup(const char *s1);
-// char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *s, int c);
+void	err_code127(void)
+{
+	g.error_code[0] = '1';
+	g.error_code[1] = '2';
+	g.error_code[2] = '7';
+	g.error_code[3] = 0;
+}
 
-#endif
+void	err_code1(void)
+{
+	g.error_code[0] = '1';
+	g.error_code[1] = 0;
+}

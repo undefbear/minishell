@@ -87,7 +87,7 @@ char	*read_file(char *name)
 		close(fd);
 		return (name);
 	}
-	write(2, "minishell: No such file or directory\n", 37);
+	write(2, "minishell:  No such file or directory\n", 37);
 	return (NULL);
 }
 
@@ -100,12 +100,12 @@ void make_redirection(char **aos)
 	int f;
 
 
-	int x = 0; //todo print
-	while (aos[x])
-	{
-		printf("aos[%d] |%s|\n", x, aos[x]);
-		x++;
-	}
+//	int x = 0; //todo print
+//	while (aos[x])
+//	{
+//		printf("aos[%d] |%s|\n", x, aos[x]);
+//		x++;
+//	}
 	nameleft = NULL;
 	nameright = NULL;
 	res = NULL;
@@ -120,7 +120,7 @@ void make_redirection(char **aos)
 				nameright = create_file(aos[z], f);
 			else
 			{
-				write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
+				write(2, "minishell:  syntax error near unexpected token `newline'\n", 56);
 				return ;
 			}
 		}
@@ -131,7 +131,7 @@ void make_redirection(char **aos)
 				nameright = create_file(aos[z], f);
 			else
 			{
-				write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
+				write(2, "minishell:  syntax error near unexpected token `newline'\n", 56);
 				return ;
 			}
 		}
@@ -144,7 +144,7 @@ void make_redirection(char **aos)
 			}
 			else
 			{
-				write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
+				write(2, "minishell:  syntax error near unexpected token `newline'\n", 56);
 				return ;
 			}
 		}

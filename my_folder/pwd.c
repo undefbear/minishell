@@ -6,29 +6,22 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 14:23:54 by ealexa            #+#    #+#             */
-/*   Updated: 2021/03/31 13:53:40 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:03:45 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-void	cmd_pwd()
+void	cmd_pwd(void)
 {
-	char buff[PATH_MAX];
+	char	buff[PATH_MAX];
 
-	// if (arr_size(cmd) != 1)
-	// {
-	// 	g.error_code[0] = '1';
-	// 	g.error_code[1] = 0;
-	// 	put_srtln("minishell: pwd: too many arguments");
-	// 	return ;
-	// }
 	getcwd(buff, PATH_MAX);
 	if (!buff[0])
 	{
 		g.error_code[0] = '1';
 		g.error_code[1] = 0;
-		printf("Some error!!!\n");
+		print_error("Some error!!!\n", 0);
 		return ;
 	}
 	g.error_code[0] = '0';

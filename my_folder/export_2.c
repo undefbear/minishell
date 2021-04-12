@@ -1,40 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/26 16:21:10 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 14:40:36 by ealexa           ###   ########.fr       */
+/*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
+/*   Updated: 2021/04/12 16:43:56 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-void	cmd_env(char **cmd)
+void	cmd_export_2(char *cmd)
+{
+	if (!find_list(g.root, cmd))
+	{
+		if (!find_list(g.export, cmd))
+			add_elem(&g.export, ft_strdup(cmd), ft_strdup(""));
+	}
+}
+
+void	print_export(void)
 {
 	t_list	*next;
 
 	next = g.root;
-	if (arr_size(cmd) != 1)
-	{
-		g.error_code[0] = '1';
-		g.error_code[1] = '2';
-		g.error_code[2] = '7';
-		g.error_code[3] = 0;
-		print_error("minishell:  env: ", 0);
-		print_error(cmd[1], 0);
-		print_error(": No such file or directory\n", 0);
-		return ;
-	}
 	while (next)
 	{
+		put_srt("declare -x ");
 		put_srt(next->key);
-		put_srt("=");
-		put_srtln(next->value);
+		put_srt("=\"");
+		put_srt(next->value);
+		put_srtln("\"");
 		next = next->next;
-		g.error_code[0] = '0';
-		g.error_code[1] = 0;
+	}
+	next = g.export;
+	while (next)
+	{
+		printf("declare -x %s\n", next->key);
+		next = next->next;
 	}
 }

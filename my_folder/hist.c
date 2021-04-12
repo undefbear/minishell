@@ -6,39 +6,34 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:44:58 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/04 12:44:36 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 16:59:48 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-void handle_sigquit(int sig)
+void	handle_sigquit(int sig)
 {
-    if (g.pid)
-    {
-        sig = 8;
-        write(0, "Quit: 3\n", sig);
-        g.error_code[0] = '1';
-        g.error_code[1] = '3';
-        g.error_code[2] = '1';
-        g.error_code[3] = 0;
-    }
-//    write(0, "\nminishell:  ", 13);
-//    if (!g.pid)
-//        cmd_exit(NULL);
-//    kill(SIGQUIT, g.pid);
-//    printf("12312312\n");
+	if (g.pid && !equals(g.cmd, "read"))
+	{
+		sig = 8;
+		write(0, "Quit: 3\n", sig);
+		g.error_code[0] = '1';
+		g.error_code[1] = '3';
+		g.error_code[2] = '1';
+		g.error_code[3] = 0;
+	}
 }
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
-	write(0, "\nminishell:  ", 13);
+	write(0, "\nminishell:   ", 13);
 	sig = 0;
 	free(*g.res);
 	*g.res = NULL;
 }
 
-void	signals()
+void	signals(void)
 {
 	g.error_code[0] = '0';
 	g.error_code[1] = 0;
@@ -53,8 +48,8 @@ void	signals()
 
 void	delete_hist(t_hist **head, t_hist **tail)
 {
-	t_hist *next;
-	t_hist *tmp;
+	t_hist	*next;
+	t_hist	*tmp;
 
 	next = *head;
 	while (next)
@@ -70,7 +65,7 @@ void	delete_hist(t_hist **head, t_hist **tail)
 
 void	hist_add(t_hist **head, t_hist **tail, char *value)
 {
-	t_hist *elem;
+	t_hist	*elem;
 
 	elem = malloc(sizeof(t_hist));
 	elem->value = value;

@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:55:24 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/02 20:31:01 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 16:57:56 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	commands(char **cmd)
 {
 	if (arr_size(cmd))
 	{
+		g.cmd = cmd[0];
 		g.error_code[0] = '0';
 		g.error_code[1] = 0;
 		if (equals(PWD, cmd[0]))
@@ -32,11 +33,9 @@ void	commands(char **cmd)
 			cmd_echo(cmd);
 		else if (equals(EXIT, cmd[0]))
 			cmd_exit(cmd);
-        else if (equals(AUTH, cmd[0]))
-            cmd_auth();
+		else if (equals(AUTH, cmd[0]))
+			cmd_auth();
 		else
-			other_cmd(cmd);		
+			other_cmd(cmd);
 	}
-	// else
-		// printf("\n");
 }

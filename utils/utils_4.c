@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/06 20:21:27 by kstout            #+#    #+#             */
-/*   Updated: 2021/04/12 18:01:06 by ealexa           ###   ########.fr       */
+/*   Created: 2021/03/24 16:39:35 by ealexa            #+#    #+#             */
+/*   Updated: 2021/04/12 17:40:24 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFFER_SIZE 20
+#include "../include/shell.h"
 
-# include <stdlib.h>
-# include <unistd.h>
+void	*ft_split_free(char **start)
+{
+	int	i;
 
-int		get_next_line(int fd, char **line);
-char	*ft_strdup(const char *s1);
-// char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *s, int c);
+	i = 0;
+	while (start && start[i] != NULL)
+		free(start[i++]);
+	free(start);
+	return (NULL);
+}
 
-#endif
+void	put_srt(char *str)
+{
+	write(1, str, ft_strlen(str));
+}
+
+void	put_srtln(char *str)
+{
+	write(1, str, ft_strlen(str));
+	write(1, "\n", 1);
+}

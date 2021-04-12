@@ -21,23 +21,22 @@
 # define _ECHO "echo"
 # define EXIT "exit"
 # define AUTH "authors"
+# define BUFF_SIZE 2000
 
-
-//----------------------------------------------------------------------------
-typedef struct		s_shell
+typedef struct s_shell
 {
-	int				flag1;
-	int				flag2;
-	int 			flagar;
-	int				lenght;
-	int				dollen;
-	int				numargs;
-	char			*evkey;
-	char			*evvalue;
-	int				valuelen;
-	int 			numpipes;
-	char			**args_of_shell;
-}					t_shell;
+	int					flag1;
+	int					flag2;
+	int					flagar;
+	int					lenght;
+	int					dollen;
+	int					numargs;
+	char				*evkey;
+	char				*evvalue;
+	int					valuelen;
+	int					numpipes;
+	char				**args_of_shell;
+}						t_shell;
 
 int		parse_shell(t_shell *sh, char *line, int i);
 int		init_first_pointer(t_shell *sh);
@@ -59,84 +58,105 @@ int		its_last_pipe(char **sh);
 void	make_redirection(char **aos);
 //----------------------------------------------------------------------------
 
-typedef struct 		s_list
+typedef struct s_list
 {
 	struct s_list	*next;
 	char			*key;
 	char			*value;
 }					t_list;
 
-typedef struct 		s_hist
+typedef struct s_hist
 {
 	struct s_hist	*next;
 	struct s_hist	*prev;
 	char			*value;
 }					t_hist;
 
-// глобальная переменная, добавляй все, что необходимо)
-typedef struct 		s_global
+typedef struct s_global
 {
-	t_list			*root;
-	t_list			*export;
-	char			error_code[4];
-	char**			argv;
-	t_hist			*head;
-	t_hist			*tail;
-	char            **res;
-	int             flag;
-	t_shell			sh;
-	char			*line;
-    int             col;
-	int             echon;
-//	int             fd_redirt_to;
-    int             fd_out; //1
-    int             fd_in; //0
-    int 			fdp[2];
-    int             line_count;
-    pid_t           pid;
-    int 			numpipes;
+	t_list				*root;
+	t_list				*export;
+	char				error_code[4];
+	char				**argv;
+	t_hist				*head;
+	t_hist				*tail;
+	char				**res;
+	int					flag;
+	t_shell				sh;
+	char				*line;
+	int					col;
+	int					echon;
+	int				 	fd_out; //1
+	int				 	fd_in; //0
+	int					fdp[2];
+	int					line_count;
+	pid_t				pid;
+	int					numpipes;
+	struct termios		term;
+	char				*cmd;
 }					t_global;
 
 t_global	g;
 
-void		add_elem(t_list **root, char *key, char *value);
-void		init_env(t_list **root, char **env);
-void		delete_list(t_list **root);
-char		*find_list(t_list *root, char *key);
-char		*ft_strdup(const char *s1);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strlen(char *str);
-char		*ft_strrchr(const char *s, int c);
-int			list_count(t_list *root);
-char		**env_to_args();
-void		*ft_split_free(char **start);
-char		*ft_strjoin(char const *s1, char const *s2);
-void		put_srt(char *str);
-void		put_srtln(char *str);
-int			arr_size(char **strs);
-void		cmd_pwd();
-int			ft_isalpha(int c);
-void		change_value(t_list *root, char *key, char *value);
-char		*ft_first_strrchr(const char *s, int c);
-int			equals(char *str1, char *str2);
-void		cmd_export(char **cmd);
-void		remove_elem(t_list **root, char *key);
-void		cmd_env(char **cmd);
-int			ft_isdigit(int c);
-void		cmd_unset(char **cmd);
-void		cmd_echo(char **cmd);
-void		commands(char **cmd);
-void		cmd_cd(char **cmd);
-void		other_cmd(char **cmd);
-void		ft_bzero(void *s, size_t n);
-long long int	ft_atoi(const char *str);
-void		commands(char **cmd);
-int			*gnl_v2(char **res);
-void		hist_add(t_hist **head, t_hist **tail,char *value);
-void		signals();
-void		cmd_exit(char **cmd);
-void		delete_hist(t_hist **head, t_hist **tail);
-int         ft_isprint(unsigned char c);
-int         ft_putchar(int c);
-void        cmd_auth();
+void				add_elem(t_list **root, char *key, char *value);
+void				init_env(t_list **root, char **env);
+void				delete_list(t_list **root);
+char				*find_list(t_list *root, char *key);
+char				*ft_strdup(const char *s1);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strlen(char *str);
+char				*ft_strrchr(const char *s, int c);
+int					list_count(t_list *root);
+char				**env_to_args();
+void				*ft_split_free(char **start);
+char				*ft_strjoin(char *s1, char *s2);
+void				put_srt(char *str);
+void				put_srtln(char *str);
+int					arr_size(char **strs);
+void				cmd_pwd();
+int					ft_isalpha(int c);
+void				change_value(t_list *root, char *key, char *value);
+char				*ft_first_strrchr(const char *s, int c);
+int					equals(char *str1, char *str2);
+void				cmd_export(char **cmd);
+void				remove_elem(t_list **root, char *key);
+void				cmd_env(char **cmd);
+int					ft_isdigit(int c);
+void				cmd_unset(char **cmd);
+void				cmd_echo(char **cmd);
+void				commands(char **cmd);
+void				cmd_cd(char **cmd);
+void				other_cmd(char **cmd);
+void				ft_bzero(void *s, size_t n);
+long long int		ft_atoi(const char *str);
+void				commands(char **cmd);
+int					*gnl_v2(char **res);
+void				hist_add(t_hist **head, t_hist **tail,char *value);
+void				signals();
+void				cmd_exit(char **cmd);
+void				delete_hist(t_hist **head, t_hist **tail);
+int		 			ft_isprint(unsigned char c);
+int		 			ft_putchar(int c);
+void				cmd_auth();
+void				print_error(char *cmd, int f);
+void				err_code127();
+void				err_code1();
+void				cmd_export_2(char *cmd);
+void				print_export(void);
+void				press_key_up(t_hist **hist, char **res, int *col);
+void				press_key_down(t_hist **hist, char **res, int *col);
+void				ft_change_value(char **res, char *value, int flag, int col);
+void				press_key_left(char **res, int *col, int l, char str[2000]);
+void				press_key_right(char **res, int *col, int l, char str[2000]);
+void				press_key_delete(char **res, int *col);
+void				delete_sym(char **res, int col);
+void				press_enter(int *col, char **res, char str[2000], int l);
+void				press_other(char str[2000], char **res, int *col);
+void				press_sigquit(char **res);
+void				press_sigint(char **res);
+void				ft_change_value(char **res, char *value, int flag, int col);
+int					check_slesh(char *str);
+void				other_cmd_without_slesh(char **cmd);
+char				*cheack_path(char *cmd);
+char				*finde_new_path(char **path);
 #endif

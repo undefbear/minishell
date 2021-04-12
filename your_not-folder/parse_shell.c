@@ -124,11 +124,11 @@ int parse_shell(t_shell *sh, char *line, int i)
 			make_redirection(sh->args_of_shell);
 		else
 			commands(sh->args_of_shell);
-	int z = 0; //todo print
-	while (z <= sh->numargs + 1)
-	{
-		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-		z++;
-	}
+//	int z = 0; //todo print
+//	while (z <= sh->numargs + 1)
+//	{
+//		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+//		z++;
+//	}
 	return (0);
 }

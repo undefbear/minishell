@@ -6,80 +6,15 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/02 15:04:06 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:29:59 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-// cравнение строчек на полное соответствие (и кол-во символов и самих символов)
-int			equals(char *str1, char *str2)
+void	delete_list(t_list **root)
 {
-	if (ft_strlen(str1) == ft_strlen(str2) &&
-		!ft_strncmp(str1, str2, ft_strlen(str2)))
-		return (1);
-	return (0);
-}
-
-//изменить значение в списке с переменными окружения по ключу
-void		change_value(t_list *root, char *key, char *value)
-{
-	t_list *next;
-
-	next = root;
-	while (next)
-	{
-		if (equals(next->key, key))
-		{
-			free(next->value);
-			next->value = value;
-			break ;
-		}
-		next = next->next;
-	}
-}
-
-// добавить элемент в список переменных окружения
-void		add_elem(t_list **root, char *key, char *value)
-{
-	t_list *tmp;
-	t_list *next;
-
-	tmp = malloc(sizeof(t_list));
-	ft_bzero(tmp, sizeof(t_list));
-	tmp->key = key;
-	tmp->next = NULL;
-	tmp->value = value;	
-	if (*root == NULL)
-		*root = tmp;
-	else
-	{
-		next = *root;
-		while (next->next)
-			next = next->next;
-		next->next = tmp;		
-	}
-}
-
-//найти элемент в списке переменных окружения по ключу
-char		*find_list(t_list *root, char *key)
-{
-	t_list *next;
-
-	next = root;
-	while (next)
-	{
-		if (equals(next->key, key))
-			return next->value;
-		next = next->next;
-	}
-	return (NULL);
-}
-
-// просто удаление списка)
-void		delete_list(t_list **root)
-{
-	t_list *next;
+	t_list	*next;
 
 	next = *root;
 	while (next)
@@ -93,12 +28,11 @@ void		delete_list(t_list **root)
 	*root = NULL;
 }
 
-// функция заполнения и инициализации списка переменными окружения
-void		init_env(t_list **root, char **env)
+void	init_env(t_list **root, char **env)
 {
-	char **env_tmp;
-	char *parse;
-	
+	char	**env_tmp;
+	char	*parse;
+
 	env_tmp = env;
 	while (*env_tmp)
 	{
@@ -108,11 +42,11 @@ void		init_env(t_list **root, char **env)
 		env_tmp++;
 	}
 }
-// количество элементов в списке
-int			list_count(t_list *root)
+
+int	list_count(t_list *root)
 {
-	int i;
-	t_list *next;
+	int		i;
+	t_list	*next;
 
 	i = 0;
 	next = root;
@@ -124,12 +58,29 @@ int			list_count(t_list *root)
 	return (i);
 }
 
-// удаление элемента в списке по ключу
+static void	remove_elem_2(char *key, t_list	*next, t_list **root)
+{
+	t_list	*prev;
+
+	if (equals(key, next->key))
+	{
+		if (next == *root)
+			*root = next->next;
+		else
+			prev->next = next->next;
+		free(next->key);
+		free(next->value);
+		free(next);
+		return ;
+	}
+	prev = next;
+	next = next->next;
+}
+
 void	remove_elem(t_list **root, char *key)
 {
-	t_list *next;
-	t_list *prev;
-	
+	t_list	*next;
+
 	next = *root;
 	if (next)
 	{
@@ -142,20 +93,6 @@ void	remove_elem(t_list **root, char *key)
 			return ;
 		}
 		while (next)
-		{
-			if (equals(key, next->key))
-			{
-				if (next == *root)
-					*root = next->next;
-				else
-					prev->next = next->next;
-				free(next->key);
-				free(next->value);
-				free(next);
-				return ;
-			}
-			prev = next;
-			next = next->next;
-		}		
+			remove_elem_2(key, next, root);
 	}
 }
