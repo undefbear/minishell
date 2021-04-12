@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 14:18:33 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:31:01 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:41:02 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*ft_strdup(const char *s1)
 	while (s1[i])
 		i++;
 	res = malloc(sizeof(char) * (i + 1));
+	if (!res)
+		cmd_exit(NULL);
 	if (res != NULL)
 	{
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:39:35 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:59:27 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:40:52 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	env_to_args_2(t_list *next, char **strs, int *i)
 	j = -1;
 	strs[*i] = malloc(sizeof(char) * (ft_strlen(next->key)
 				 + ft_strlen(next->value) + 3));
+	if (!strs[*i])
+		cmd_exit(NULL);
 	while (++j < ft_strlen(next->key) + ft_strlen(next->value) + 2)
 	{
 		if (j < ft_strlen(next->key))
@@ -39,6 +41,8 @@ char	**env_to_args(void)
 
 	i = 0;
 	strs = malloc(sizeof(char *) * (list_count(g.root) + 1));
+	if (!strs)
+		cmd_exit(NULL);
 	next = g.root;
 	while (next)
 	{
@@ -78,14 +82,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
 	res = malloc(sizeof(char) * (size1 + size2 + 1));
+	if (!res)
+		cmd_exit(NULL);
 	if (res != NULL)
 	{
-		i = ft_strjoin2(size1, s1, res);
-		while (i < size1 + size2)
-		{
+		i = ft_strjoin2(size1, s1, res) - 1;
+		while (++i < size1 + size2)
 			res[i] = s2[i - size1];
-			i++;
-		}
 		res[i] = '\0';
 	}
 	return (res);

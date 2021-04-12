@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:30:47 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:38:37 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	add_elem(t_list **root, char *key, char *value)
 	t_list	*next;
 
 	tmp = malloc(sizeof(t_list));
+	if (!tmp)
+		cmd_exit(NULL);
 	ft_bzero(tmp, sizeof(t_list));
 	tmp->key = key;
 	tmp->next = NULL;
