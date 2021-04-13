@@ -38,9 +38,10 @@ void	init_env(t_list **root, char **env)
 	{
 		parse = ft_strrchr(*env_tmp, '=');
 		*parse = 0;
-		add_elem(root, ft_strdup(*env_tmp), ft_strdup(++parse));
-		env_tmp++;
-	}
+		if (!equals(*env_tmp, "OLDPWD"))
+            add_elem(root, ft_strdup(*env_tmp), ft_strdup(++parse));
+        env_tmp++;
+    }
 }
 
 int	list_count(t_list *root)
@@ -58,10 +59,8 @@ int	list_count(t_list *root)
 	return (i);
 }
 
-static void	remove_elem_2(char *key, t_list	*next, t_list **root)
+static int remove_elem_2(char *key, t_list	*next, t_list *prev,t_list  **root)
 {
-	t_list	*prev;
-
 	if (equals(key, next->key))
 	{
 		if (next == *root)
@@ -71,15 +70,15 @@ static void	remove_elem_2(char *key, t_list	*next, t_list **root)
 		free(next->key);
 		free(next->value);
 		free(next);
-		return ;
+		return (1);
 	}
-	prev = next;
-	next = next->next;
+    return (0);
 }
 
 void	remove_elem(t_list **root, char *key)
 {
 	t_list	*next;
+    t_list	*prev;
 
 	next = *root;
 	if (next)
@@ -93,6 +92,11 @@ void	remove_elem(t_list **root, char *key)
 			return ;
 		}
 		while (next)
-			remove_elem_2(key, next, root);
+        {
+            if (remove_elem_2(key, next, prev, root))
+                return ;
+            prev = next;
+            next = next->next;
+        }
 	}
 }

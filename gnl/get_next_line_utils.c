@@ -67,19 +67,3 @@
 //	new[i] = '\0';
 //	return (new);
 //}
-
-char		*ft_strchr(const char *s, int c)
-{
-	char sb;
-
-	sb = (char)c;
-	while (*s)
-	{
-		if (*s == sb)
-			return ((char *)s);
-		s++;
-	}
-	if (c == '\0')
-		return ((char *)s);
-	return (0);
-}

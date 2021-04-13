@@ -12,7 +12,7 @@
 
 #include "../include/shell.h"
 
-static void	cmd_export_err(char *cpy, char *key, char *value)
+void	cmd_export_err(char *cpy, char *key, char *value)
 {
 	if (cpy[0] == '=' && !ft_strlen(cpy))
 		print_error("minishell:  bad assignment\n", 0);
@@ -50,7 +50,7 @@ static void	error_mess(char *str)
 	print_error("': not a valid identifier\n", 0);
 }
 
-static int	is_str_valid(char *str)
+int	is_str_valid(char *str)
 {
 	int	i;
 

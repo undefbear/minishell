@@ -49,6 +49,12 @@ static int	check_filea(char **cmd)
 	}
 }
 
+static void check_error(int rv)
+{
+    if (g.error_code[0] == '0')
+            arg_itoa(rv);
+}
+
 static void	other_cmd_with_slesh(char **cmd)
 {
 	int		rv;
@@ -64,16 +70,14 @@ static void	other_cmd_with_slesh(char **cmd)
 	else
 		waitpid(g.pid, &rv, 0);
 	if (rv)
-		err_code1();
+	    check_error(rv);
 	env = ft_split_free(env);
 	g.pid = 0;
 }
 
 void	other_cmd(char **cmd)
 {
-	if (!ft_strncmp(cmd[0], "export=", 7))
-		return ;
-	else if (check_slesh(cmd[0]))
+	if (check_slesh(cmd[0]))
 		other_cmd_with_slesh(cmd);
 	else
 		other_cmd_without_slesh(cmd);

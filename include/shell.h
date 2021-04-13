@@ -159,4 +159,8 @@ int					check_slesh(char *str);
 void				other_cmd_without_slesh(char **cmd);
 char				*cheack_path(char *cmd);
 char				*finde_new_path(char **path);
+void                arg_itoa(int num);
+char	            *ft_strnstr(char *haystack, char *needle, int len);
+int                 is_str_valid_my(char *str);
+char	            **ft_split(char *s, char c);
 #endif

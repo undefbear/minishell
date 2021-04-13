@@ -12,7 +12,7 @@
 
 #include "../include/shell.h"
 
-static int	is_str_valid(char *str)
+int	is_str_valid_my(char *str)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ void	cmd_unset(char **cmd)
 	{
 		if (ft_strlen(cmd[i]) == 1 && cmd[i][0] == '_')
 			continue ;
-		if (is_str_valid(cmd[i]))
+		if (is_str_valid_my(cmd[i]))
 		{
 			remove_elem(&g.root, cmd[i]);
 			remove_elem(&g.export, cmd[i]);

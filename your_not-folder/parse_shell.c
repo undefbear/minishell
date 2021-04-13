@@ -65,7 +65,7 @@ char **create_tmp(t_shell *sh)
 
 	i = 0;
 	w = sh->numargs;
-	if (!(tmp = malloc(sizeof(char *) * w + 1)))
+	if (!(tmp = malloc(sizeof(char *) * (w + 1))))
 		cmd_exit(NULL);
 	while (w-- != 0)
 	{
@@ -88,7 +88,7 @@ int init_new_pointer(t_shell *sh)
 	tmp = create_tmp(sh);
 	free(sh->args_of_shell);
 	sh->args_of_shell = NULL;
-	if (!(sh->args_of_shell = malloc(sizeof(char *) * new_num_lines + 1)))
+	if (!(sh->args_of_shell = malloc(sizeof(char *) * (new_num_lines + 1))))
 		cmd_exit(NULL);
 	new_num_lines--;
 	while(new_num_lines-- != 0)

@@ -30,7 +30,7 @@ static void	ft_change(char **res, char *value, int j, char *tmp)
 	*res = tmp;
 }
 
-static void	ft_change_value_3(char **res, char *value, int flag, int col)
+static void	ft_change_value_3(char **res, char *value)
 {
 	char	*tmp;
 	int		i;
@@ -52,7 +52,7 @@ static void	ft_change_value_3(char **res, char *value, int flag, int col)
 	ft_change(res, value, j, tmp);
 }
 
-static void	ft_change_value_2(char **res, char *value, int flag, int col)
+static void	ft_change_value_2(char **res, char *value, int col)
 {
 	char	*tmp;
 	int		i;
@@ -76,14 +76,10 @@ static void	ft_change_value_2(char **res, char *value, int flag, int col)
 
 void	ft_change_value(char **res, char *value, int flag, int col)
 {
-	int		i;
-	int		j;
-	char	*tmp;
-
 	if (flag && !col)
-		ft_change_value_3(res, value, flag, col);
+		ft_change_value_3(res, value);
 	else if (flag)
-		ft_change_value_2(res, value, flag, col);
+		ft_change_value_2(res, value, col);
 	else
 	{
 		free(*res);

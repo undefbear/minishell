@@ -15,6 +15,7 @@ MY_FOLDER			=	./my_folder
 NEMY_FOLDER			=	./your_not-folder
 SRCS				=	$(UTILS)/list.c\
 					$(UTILS)/list_2.c\
+					$(UTILS)/ft_split.c\
 					$(UTILS)/utils_1.c\
 					$(UTILS)/utils_2.c\
 					$(UTILS)/utils_3.c\
@@ -44,8 +45,7 @@ SRCS				=	$(UTILS)/list.c\
 					$(NEMY_FOLDER)/create_tokens.c\
 					$(NEMY_FOLDER)/create_tokens_utils.c\
 					$(NEMY_FOLDER)/hi_pipe.c\
-					gnl/get_next_line.c\
-                       		gnl/get_next_line_utils.c\
+
 
 OBJ					= $(SRCS:.c=.o)
 DIR_INC				= ./include/

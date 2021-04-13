@@ -12,6 +12,28 @@
 
 #include "../include/shell.h"
 
+void    arg_itoa(int rv)
+{
+    char res[10];
+    int i;
+    int j;
+    int num;
+
+    num = WEXITSTATUS(rv);
+    i = 0;
+    j = 0;
+    while (num)
+    {
+        res[i++] = num % 10 + '0';
+        num = num / 10;
+    }
+    while (j < i)
+    {
+        g.error_code[j] = res[i - j - 1];
+        j++;
+    }
+}
+
 static char	*cheack_path_2(char *cmd, char *path)
 {
 	char	*name;
@@ -63,6 +85,15 @@ int	check_slesh(char *str)
 	return (0);
 }
 
+static void write_error()
+{
+    if (g.error_code[0] == '0')
+    {
+        g.error_code[0] = '1';
+        g.error_code[1] = 0;
+    }
+}
+
 static void	other_cmd_without_slesh_2(char **cmd, char **env, char *cmd_name)
 {
 	char	*n_cmd;
@@ -77,10 +108,7 @@ static void	other_cmd_without_slesh_2(char **cmd, char **env, char *cmd_name)
 		else
 			waitpid(g.pid, &rv, 0);
 		if (rv)
-		{
-			g.error_code[0] = '1';
-			g.error_code[1] = 0;
-		}
+            write_error();
 		free(n_cmd);
 	}
 	else

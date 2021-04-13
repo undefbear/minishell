@@ -31,6 +31,13 @@ void	handle_sigint(int sig)
 	sig = 0;
 	free(*g.res);
 	*g.res = NULL;
+	if (ft_strnstr(g.cmd, "cat", ft_strlen(g.cmd)))
+    {
+        g.error_code[0] = '1';
+        g.error_code[1] = '3';
+        g.error_code[2] = '0';
+        g.error_code[3] =  0;
+    }
 }
 
 void	signals(void)

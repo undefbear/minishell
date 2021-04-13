@@ -98,14 +98,13 @@ void	term_back_normal(void)
 {
 	tcgetattr(0, &g.term);
 	g.term.c_lflag |= (ECHO);
-	g.term.c_oflag |= (ICANON);
+	g.term.c_lflag |= (ICANON);
 	tcsetattr(0, TCSADRAIN, &g.term);
 }
 
 int	*gnl_v2(char **res)
 {
 	char			str[BUFF_SIZE];
-	int				l;
 	int				col;
 	t_hist			*hist;
 
