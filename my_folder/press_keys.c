@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 16:29:23 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:22:08 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	press_key_up(t_hist **hist, char **res, int *col)
 	tputs(restore_cursor, 1, ft_putchar);
 	tputs(tigetstr("ed"), 1, ft_putchar);
 	if (!*hist)
-		*hist = g.head;
+		*hist = g_gl.head;
 	put_srt((*hist)->value);
 	ft_change_value(res, (*hist)->value, 0, *col);
 	*hist = (*hist)->next;
@@ -28,7 +28,7 @@ void	press_key_down(t_hist **hist, char **res, int *col)
 	tputs(restore_cursor, 1, ft_putchar);
 	tputs(tigetstr("ed"), 1, ft_putchar);
 	if (!*hist)
-		*hist = g.tail;
+		*hist = g_gl.tail;
 	put_srt((*hist)->value);
 	ft_change_value(res, (*hist)->value, 0, *col);
 	*hist = (*hist)->prev;
@@ -36,7 +36,7 @@ void	press_key_down(t_hist **hist, char **res, int *col)
 
 void	press_key_right(char **res, int *col, int l, char str[2000])
 {
-	if (!((ft_strlen(*res) + 12 + g.echon) % g.col - *col))
+	if (!((ft_strlen(*res) + 12 + g_gl.echon) % g_gl.col - *col))
 	{
 		(*col) -= 1;
 		tputs(cursor_down, 1, ft_putchar);
@@ -65,9 +65,9 @@ void	press_enter(int *col, char **res, char str[2000], int l)
 
 	if (*col)
 	{
-		i = (ft_strlen(*res) + g.echon + 12 - *col) % g.col;
-		k = ((ft_strlen(*res) + g.echon + 12) / g.col)
-			- ((ft_strlen(*res) + g.echon + 12 - *col) / g.col);
+		i = (ft_strlen(*res) + g_gl.echon + 12 - *col) % g_gl.col;
+		k = ((ft_strlen(*res) + g_gl.echon + 12) / g_gl.col)
+			- ((ft_strlen(*res) + g_gl.echon + 12 - *col) / g_gl.col);
 		while (i-- > 0)
 			tputs(cursor_right, 1, ft_putchar);
 		while (k-- > 0)

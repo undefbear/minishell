@@ -44,8 +44,16 @@ int check_elem(t_shell *sh, char *line, int *i, int *z)
 {
 	if (line[*i] == 34) //"
 		return(check_double(sh, line, i, z));
-	if (line[*i] == 62 || line[*i] == 60)
-		sh->flagar = 1;
+	if (((line[*i] == 62 || line[*i] == 60) || (line[(*i) + 1] == 62 || line[(*i) + 1] == 60))
+	                && (sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0))
+	{
+        sh->flagar = 1;
+//        if (!(*z))
+//        {
+        sh->dollen = 0;
+        return (-1); //выход для смены аргумента
+//        }
+    }
 	else if (line[*i] == 39) //'
 		return(check_single(sh, line, i, z));
 	else if ((line[*i] == 32 && sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0)
@@ -62,13 +70,10 @@ int check_elem(t_shell *sh, char *line, int *i, int *z)
 }
 
 //запись токенов в массив
-int create_tokens(t_shell *sh, char *line, int *i)
+int create_tokens(t_shell *sh, char *line, int *i, int z)
 {
-	int z;
 	int res;
 
-	z = 0;
-	res = 0;
 	while (sh->lenght-- > 0 && line[(*i)] != '\0')
 	{
 		res = check_elem(sh, line, i, &z);
@@ -76,7 +81,13 @@ int create_tokens(t_shell *sh, char *line, int *i)
 			break;
 		else if (res == -1)
 		{
-			sh->args_of_shell[sh->numargs][z] = '\0';
+		    if (line[(*i)] == 60 || line[(*i)] == 62)
+		    {
+		        if (line[(*i)] == 62 && line[(*i) + 1] == 62)
+                    sh->args_of_shell[sh->numargs][z++] = line[(*i)++];
+                sh->args_of_shell[sh->numargs][z++] = line[(*i)];
+            }
+            sh->args_of_shell[sh->numargs][z] = '\0';
 			return (0);
 		}
 		else

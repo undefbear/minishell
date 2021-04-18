@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 18:25:21 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/18 11:12:05 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	read_sym(char str[BUFF_SIZE], char **res, t_hist	**hist, int *col)
 {
 	int		l;
 
-	g.res = res;
+	g_gl.res = res;
 	l = read(0, str, BUFF_SIZE);
 	str[l] = 0;
-	g.col = tgetnum("co");
+	g_gl.col = tgetnum("co");
 	if (equals(str, "\e[A"))
 		press_key_up(hist, res, col);
 	else if (equals(str, "\e[B"))
@@ -62,8 +62,6 @@ void	read_sym(char str[BUFF_SIZE], char **res, t_hist	**hist, int *col)
 		press_enter(col, res, str, l);
 	else if (equals(str, "\x04"))
 		press_sigint(res);
-	else if (equals(str, "\x0c"))
-		press_sigquit(res);
 	else
 		press_other(str, res, col);
 }
@@ -73,19 +71,20 @@ void	term_init(void)
 	char			*name;
 	int				l;
 
-	name = find_list(g.root, "TERM");
-	ft_bzero(&g.term, sizeof(struct termios));
-	tcgetattr(0, &g.term);
+//	name = find_list(g_gl.root, "TERM");
+	name = "xterm-256color";
+	ft_bzero(&g_gl.term, sizeof(struct termios));
+	tcgetattr(0, &g_gl.term);
 	if (!name)
 	{
 		print_error("cant to find TERM in env, pls add this param\n", 0);
 		cmd_exit(NULL);
 	}
-	g.term.c_lflag &= ~(ECHO);
-	g.term.c_lflag &= ~(ICANON);
-	g.term.c_cc[VTIME] = 0;
-	g.term.c_cc[VMIN] = 1;
-	tcsetattr(0, TCSANOW, &g.term);
+	g_gl.term.c_lflag &= ~(ECHO);
+	g_gl.term.c_lflag &= ~(ICANON);
+	g_gl.term.c_cc[VTIME] = 0;
+	g_gl.term.c_cc[VMIN] = 1;
+	tcsetattr(0, TCSANOW, &g_gl.term);
 	l = tgetent(0, name);
 	if (l <= 0)
 	{
@@ -96,10 +95,10 @@ void	term_init(void)
 
 void	term_back_normal(void)
 {
-	tcgetattr(0, &g.term);
-	g.term.c_lflag |= (ECHO);
-	g.term.c_lflag |= (ICANON);
-	tcsetattr(0, TCSADRAIN, &g.term);
+	tcgetattr(0, &g_gl.term);
+	g_gl.term.c_lflag |= (ECHO);
+	g_gl.term.c_lflag |= (ICANON);
+	tcsetattr(0, TCSADRAIN, &g_gl.term);
 }
 
 int	*gnl_v2(char **res)
@@ -108,21 +107,23 @@ int	*gnl_v2(char **res)
 	int				col;
 	t_hist			*hist;
 
+	g_gl.cmd = NULL;
+	g_gl.new_cmd = NULL;
 	term_init();
-	g.line_count = 1;
+	g_gl.col = tgetnum("co");
 	col = 0;
-	hist = g.head;
+	hist = g_gl.head;
 	ft_bzero(str, sizeof(char) * BUFF_SIZE);
-	*res = NULL;
+	*res = ft_strdup("");
 	write(1, "minishell:   ", 12);
 	tputs(save_cursor, 1, ft_putchar);
 	read_sym(str, res, &hist, &col);
-	while (!equals(str, "\n") && !g.flag)
+	while (!equals(str, "\n") && !g_gl.flag)
 		read_sym(str, res, &hist, &col);
 	if (!*res)
 		*res = ft_strdup("");
 	if (ft_strlen(*res))
-		hist_add(&g.head, &g.tail, ft_strdup(*res));
+		hist_add(&g_gl.head, &g_gl.tail, ft_strdup(*res));
 	term_back_normal();
 	return (NULL);
 }

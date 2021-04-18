@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/30 13:44:58 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 16:59:48 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:52 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	handle_sigquit(int sig)
 {
-	if (g.pid && !equals(g.cmd, "read"))
+	if (g_gl.pid && !equals(g_gl.cmd, "read"))
 	{
 		sig = 8;
 		write(0, "Quit: 3\n", sig);
-		g.error_code[0] = '1';
-		g.error_code[1] = '3';
-		g.error_code[2] = '1';
-		g.error_code[3] = 0;
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = '3';
+		g_gl.error_code[2] = '1';
+		g_gl.error_code[3] = 0;
 	}
 }
 
@@ -29,26 +29,27 @@ void	handle_sigint(int sig)
 {
 	write(0, "\nminishell:   ", 13);
 	sig = 0;
-	free(*g.res);
-	*g.res = NULL;
-	if (ft_strnstr(g.cmd, "cat", ft_strlen(g.cmd)))
-    {
-        g.error_code[0] = '1';
-        g.error_code[1] = '3';
-        g.error_code[2] = '0';
-        g.error_code[3] =  0;
-    }
+	free(*g_gl.res);
+	*g_gl.res = NULL;
+	err_code1();
+	if (g_gl.cmd && ft_strnstr(g_gl.cmd, "cat", ft_strlen(g_gl.cmd)))
+	{
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = '3';
+		g_gl.error_code[2] = '0';
+		g_gl.error_code[3] = 0;
+	}
 }
 
 void	signals(void)
 {
-	g.error_code[0] = '0';
-	g.error_code[1] = 0;
-	g.head = NULL;
-	g.tail = NULL;
-	g.fd_in = 0;
-	g.fd_out = 1;
-	hist_add(&g.head, &g.tail, ft_strdup(""));
+	g_gl.error_code[0] = '0';
+	g_gl.error_code[1] = 0;
+	g_gl.head = NULL;
+	g_gl.tail = NULL;
+	g_gl.fd_in = 0;
+	g_gl.fd_out = 1;
+	hist_add(&g_gl.head, &g_gl.tail, ft_strdup(""));
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, handle_sigquit);
 }

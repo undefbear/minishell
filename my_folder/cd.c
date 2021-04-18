@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 18:54:58 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 14:39:17 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:11 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static void	cmd_cd_2(char **cmd, char **path)
 	getcwd(buff, PATH_MAX);
 	if (!buff[0])
 	{
-		g.error_code[0] = '1';
-		g.error_code[1] = 0;
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = 0;
 		print_error("Some error!!!\n", 0);
 	}
 	path[1] = ft_strjoin("OLDPWD=", buff);
 	if (chdir(cmd[1]) == -1)
 	{
-		g.error_code[0] = '1';
-		g.error_code[1] = 0;
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = 0;
 		print_error("minishell:  cd: no such file or directory: ", 0);
 		print_error(cmd[1], 1);
 		ft_split_free(path);
@@ -49,16 +49,16 @@ static	void	error_mess(char *str)
 
 static void	cmd_home(char **path, char buff[PATH_MAX])
 {
-	if (find_list(g.root, "HOME"))
+	if (find_list(g_gl.root, "HOME"))
 	{
 		getcwd(buff, PATH_MAX);
 		if (!buff[0])
 			error_mess("Some error!!!\n");
 		path[1] = ft_strjoin("OLDPWD=", buff);
-		if (chdir(find_list(g.root, "HOME")) == -1)
+		if (chdir(find_list(g_gl.root, "HOME")) == -1)
 		{
-			error_mess("Some error!!!\n");
-			err_code1("minishell:  cd: no such file or directory\n");
+			error_mess("minishell:  cd: no such file or directory\n");
+			err_code1();
 			path = ft_split_free(path);
 			return ;
 		}
@@ -87,8 +87,8 @@ void	cmd_cd(char **cmd)
 		cmd_cd_2(cmd, path);
 	else
 	{
-		g.error_code[0] = '1';
-		g.error_code[1] = 0;
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = 0;
 		print_error("minishell:  cd: string not in pwd: ", 0);
 		print_error(cmd[1], 1);
 	}

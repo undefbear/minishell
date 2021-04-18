@@ -30,9 +30,9 @@ int find_value(t_shell *sh)
 	if (sh->dollen)
 	{
 		if (sh->evkey[0] == '?')
-			sh->evvalue = g.error_code;
+			sh->evvalue = g_gl.error_code;
 		else
-			sh->evvalue = find_list(g.root, sh->evkey);
+			sh->evvalue = find_list(g_gl.root, sh->evkey);
 		if (sh->evvalue)
 			len = ft_strlen(sh->evvalue);
 		else

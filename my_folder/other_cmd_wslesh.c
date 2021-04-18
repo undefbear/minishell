@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 14:24:45 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:25:40 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:58 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static int	check_filea(char **cmd)
 	}
 }
 
-static void check_error(int rv)
+static void	check_error (int rv)
 {
-    if (g.error_code[0] == '0')
-            arg_itoa(rv);
+	if (g_gl.error_code[0] == '0')
+		arg_itoa(rv);
 }
 
 static void	other_cmd_with_slesh(char **cmd)
@@ -64,15 +64,15 @@ static void	other_cmd_with_slesh(char **cmd)
 	if (rv)
 		return ;
 	env = env_to_args();
-	g.pid = fork();
-	if (g.pid == 0)
+	g_gl.pid = fork();
+	if (g_gl.pid == 0)
 		exit(execve(cmd[0], cmd, env));
 	else
-		waitpid(g.pid, &rv, 0);
+		waitpid(g_gl.pid, &rv, 0);
 	if (rv)
-	    check_error(rv);
+		check_error(rv);
 	env = ft_split_free(env);
-	g.pid = 0;
+	g_gl.pid = 0;
 }
 
 void	other_cmd(char **cmd)

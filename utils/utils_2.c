@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:39:35 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 18:40:52 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:22:23 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ char	**env_to_args(void)
 	int		i;
 
 	i = 0;
-	strs = malloc(sizeof(char *) * (list_count(g.root) + 1));
+	strs = malloc(sizeof(char *) * (list_count(g_gl.root) + 1));
 	if (!strs)
 		cmd_exit(NULL);
-	next = g.root;
+	next = g_gl.root;
 	while (next)
 	{
 		env_to_args_2(next, strs, &i);

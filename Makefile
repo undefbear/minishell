@@ -6,7 +6,7 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/04/12 17:33:57 by ealexa           ###   ########.fr        #
+#    Updated: 2021/04/18 11:40:50 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS				=	$(UTILS)/list.c\
 					$(MY_FOLDER)/change_value.c\
 					$(MY_FOLDER)/env.c\
 					$(MY_FOLDER)/other_cmds.c\
+					$(MY_FOLDER)/other_cmds_2.c\
 					$(MY_FOLDER)/unset.c\
 					$(MY_FOLDER)/delete_sym.c\
 					$(MY_FOLDER)/errors_code.c\
@@ -46,26 +47,34 @@ SRCS				=	$(UTILS)/list.c\
 					$(NEMY_FOLDER)/create_tokens_utils.c\
 					$(NEMY_FOLDER)/hi_pipe.c\
 
-
 OBJ					= $(SRCS:.c=.o)
 DIR_INC				= ./include/
 CC					= gcc
-DEPS				= $(OBJ:%.o=%.d)
+DEPS				= @$(OBJ:%.o=%.d)
 RM					= rm -f
-CFLAGS				= -I $(DIR_INC) -MMD #-fsanitize=address -Wall -Wextra -Werror
+CFLAGS				= -I $(DIR_INC) -MMD  -Wall -Wextra -Werror -fsanitize=address
 NAME				= minishell
 
+.c.o:
+					@${CC} ${CFLAGS} -c $< -o $@
+
 all:			$(NAME)
+
 -include 		$(DEPS)
 
 $(NAME):		$(OBJ)
-				${CC} ${CFLAGS} -o ${NAME} ${OBJ} -ltermcap
+				@${CC} ${CFLAGS} -o ${NAME} ${OBJ} -ltermcap
+				@echo "\033[1;36m   Minishell is done!\033[2m"
 
 clean:
-				$(RM) $(OBJ) $(DEPS)
+				@echo "\033[1;32m\033[2m-> Cleaning..\033[2m"
+				@ rm -rf ./utils/list.d
+				@$(RM) $(OBJ) $(DEPS)
 
 fclean:			clean
-				$(RM) $(NAME) ${OBJ}
+				@echo "\033[1;32m\033[2m-> Removing executable.."
+				@$(RM) $(NAME) ${OBJ}
+				@echo "\n   Done!\033[0m"
 
 re:				fclean all
 

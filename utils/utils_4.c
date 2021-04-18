@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:39:35 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 18:40:26 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:19:35 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,40 +36,40 @@ void	put_srtln(char *str)
 
 char	*ft_strnstr(char *haystack, char *needle, int len)
 {
-    int	tmp_h;
-    int	i;
+	int	tmp_h;
+	int	i;
 
-    if (ft_strlen(needle) == 0)
-        return ((char*)haystack);
-    tmp_h = 0;
-    while (haystack[tmp_h] && tmp_h < len)
-    {
-        if (haystack[tmp_h] == needle[0])
-        {
-            i = 1;
-            while (needle[i] && haystack[tmp_h + i] == needle[i]
-                   && (tmp_h + i) < len)
-                i++;
-            if (needle[i] == '\0')
-                return ((char*)haystack + tmp_h);
-        }
-        tmp_h++;
-    }
-    return (NULL);
+	if (ft_strlen(needle) == 0)
+		return ((char *)haystack);
+	tmp_h = 0;
+	while (haystack[tmp_h] && tmp_h < len)
+	{
+		if (haystack[tmp_h] == needle[0])
+		{
+			i = 1;
+			while (needle[i] && haystack[tmp_h + i] == needle[i]
+				   && (tmp_h + i) < len)
+				i++;
+			if (needle[i] == '\0')
+				return ((char *)haystack + tmp_h);
+		}
+		tmp_h++;
+	}
+	return (NULL);
 }
 
-char		*ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-    char sb;
+	char	sb;
 
-    sb = (char)c;
-    while (*s)
-    {
-        if (*s == sb)
-            return ((char *)s);
-        s++;
-    }
-    if (c == '\0')
-        return ((char *)s);
-    return (0);
+	sb = (char)c;
+	while (*s)
+	{
+		if (*s == sb)
+			return ((char *)s);
+		s++;
+	}
+	if (c == '\0')
+		return ((char *)s);
+	return (0);
 }

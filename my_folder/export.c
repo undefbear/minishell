@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 15:39:16 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:44 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void	cmd_export_err(char *cpy, char *key, char *value)
 		print_error("minishell:  export: not an identifier: ", 0);
 		print_error(cpy, 1);
 	}
-	g.error_code[0] = '1';
-	g.error_code[1] = 0;
+	g_gl.error_code[0] = '1';
+	g_gl.error_code[1] = 0;
 	free(key);
 	free(value);
 }
 
 static void	error_mess(char *str)
 {
-	g.error_code[0] = '1';
-	g.error_code[1] = 0;
+	g_gl.error_code[0] = '1';
+	g_gl.error_code[1] = 0;
 	print_error("minishell:  export: `", 0);
 	print_error(str, 0);
 	print_error("': not a valid identifier\n", 0);
@@ -87,15 +87,15 @@ static void	export_2(char *cpy)
 		*f = 0;
 		key = ft_strdup(cpy);
 		value = ft_strdup(++f);
-		if (find_list(g.export, key))
-			remove_elem(&g.export, key);
-		if (find_list(g.root, key))
+		if (find_list(g_gl.export, key))
+			remove_elem(&g_gl.export, key);
+		if (find_list(g_gl.root, key))
 		{
-			change_value(g.root, key, value);
+			change_value(g_gl.root, key, value);
 			free(key);
 		}
 		else
-			add_elem(&g.root, key, value);
+			add_elem(&g_gl.root, key, value);
 	}
 	else
 		cmd_export_2(cpy);

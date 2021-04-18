@@ -64,6 +64,8 @@ int	arr_size(char **strs)
 {
 	int	i;
 
+	if (!strs)
+        return (0);
 	i = 0;
 	while (strs[i])
 		i++;

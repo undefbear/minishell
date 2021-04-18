@@ -8,8 +8,8 @@ void shell_expansion(t_shell *sh)
 	{
 //		 get_next_line(0, &line);
 		gnl_v2(&line);
-		g.line = line;
-		g.numpipes = 0;
+		g_gl.line = line;
+		g_gl.numpipes = 0;
 		parse_shell(sh, line, 0);
         sh->args_of_shell = ft_split_free(sh->args_of_shell);
 		init_shell_struct(sh);
@@ -38,10 +38,10 @@ int main(int argc, char *argv[], char **envp)
 		printf("%s", "hmm .. I think there're a lot of args.\n");
 		return (127);
 	}
-	ft_bzero(&g.root, sizeof(t_global));
-	init_env(&g.root, envp);
+	ft_bzero(&g_gl.root, sizeof(t_global));
+	init_env(&g_gl.root, envp);
 	signals();
-	g.argv = argv;
+	g_gl.argv = argv;
 	printf("ok, write smth below:\n");
 	t_shell sh;
 	init_shell_struct(&sh);

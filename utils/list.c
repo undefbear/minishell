@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:29:59 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:18:20 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	init_env(t_list **root, char **env)
 		parse = ft_strrchr(*env_tmp, '=');
 		*parse = 0;
 		if (!equals(*env_tmp, "OLDPWD"))
-            add_elem(root, ft_strdup(*env_tmp), ft_strdup(++parse));
-        env_tmp++;
-    }
+			add_elem(root, ft_strdup(*env_tmp), ft_strdup(++parse));
+		env_tmp++;
+	}
 }
 
 int	list_count(t_list *root)
@@ -59,7 +59,7 @@ int	list_count(t_list *root)
 	return (i);
 }
 
-static int remove_elem_2(char *key, t_list	*next, t_list *prev,t_list  **root)
+static int	remove_elem_2 (char *key, t_list *next, t_list *prev, t_list **root)
 {
 	if (equals(key, next->key))
 	{
@@ -72,13 +72,13 @@ static int remove_elem_2(char *key, t_list	*next, t_list *prev,t_list  **root)
 		free(next);
 		return (1);
 	}
-    return (0);
+	return (0);
 }
 
 void	remove_elem(t_list **root, char *key)
 {
 	t_list	*next;
-    t_list	*prev;
+	t_list	*prev;
 
 	next = *root;
 	if (next)
@@ -92,11 +92,11 @@ void	remove_elem(t_list **root, char *key)
 			return ;
 		}
 		while (next)
-        {
-            if (remove_elem_2(key, next, prev, root))
-                return ;
-            prev = next;
-            next = next->next;
-        }
+		{
+			if (remove_elem_2(key, next, prev, root))
+				return ;
+			prev = next;
+			next = next->next;
+		}
 	}
 }

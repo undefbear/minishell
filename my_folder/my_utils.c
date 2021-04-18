@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 16:38:01 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:55 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,8 @@ void	press_sigint(char **res)
 	{
 		free(*res);
 		*res = ft_strdup("exit");
-		g.flag = 1;
+		g_gl.flag = 1;
 	}
-}
-
-void	press_sigquit(char **res)
-{
-	tputs(restore_cursor, 1, ft_putchar);
-	tputs(tigetstr("ed"), 1, ft_putchar);
-	free(*res);
-	res = NULL;
 }
 
 void	press_other(char str[2000], char **res, int *col)

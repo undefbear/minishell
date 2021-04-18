@@ -12,7 +12,7 @@ int prepare_array(t_shell *sh, char *line, int *i, char till)
 //	if (sh->numargs != 0 && sh->args_of_shell[sh->numargs - 1][0] == 0)
 //		sh->numargs--;
 	tmp = init_array(sh);
-	create_tokens(sh, line, i);
+	create_tokens(sh, line, i, 0);
 	if (tmp)
 	{
         tmp2 = sh->args_of_shell[sh->numargs];
@@ -111,24 +111,26 @@ int parse_shell(t_shell *sh, char *line, int i)
 			   || (line[i] == '\r' || line[i] == '\v' || line[i] == '\f'))
 			i++;
 		if (line[i] == 34 || line[i] == 39 || line[i] == 36)
-			if_find_elem(line, &i, sh);
+            if_find_elem(line, &i, sh);
 		else
-			prepare_array(sh, line, &i, ' ');
-		if ((line[i] == 32) || (line[i] == 59) || (line[i] == 124))
-			change_pos(sh, line[i], &i);
-	}
-	if (g.numpipes && !sh->flagar)
+            prepare_array(sh, line, &i, ' ');
+        if (line[i] == 32 || line[i] == 59 || line[i] == 124 || line[i] == 60 || line[i] == 62)
+            change_pos(sh, line[i], &i);
+		else if (ft_strlen(line) > i && (line[i + 1] == 60 || line[i + 1] == 62))
+            change_pos(sh, ' ', &i);
+    }
+    if (g_gl.numpipes && !sh->flagar)
 			its_last_pipe(sh->args_of_shell);
 	else
 		if (sh->flagar)
 			make_redirection(sh->args_of_shell);
 		else
 			commands(sh->args_of_shell);
-//	int z = 0; //todo print
-//	while (z <= sh->numargs + 1)
-//	{
-//		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-//		z++;
-//	}
+	int z = 0; //todo print
+	while (z <= sh->numargs + 1)
+	{
+		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+		z++;
+	}
 	return (0);
 }

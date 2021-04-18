@@ -61,10 +61,11 @@ void create_word(t_shell *sh, char *line, int *i, int *z)
 //смена аргумента
 void change_pos(t_shell *sh, char c, int *i)
 {
-	if (c == 32)
+	if (c == 32 || c == 60 || c == 62)
 	{
 		sh->numargs++;
 		init_new_pointer(sh);
+		(*i)++;
 	}
 	else if ((c == 59) || (c == 124)) // ; |
 	{
@@ -75,8 +76,8 @@ void change_pos(t_shell *sh, char c, int *i)
 		else if (c == 124)
 		{
 //			printf("this pipe!!!!!!!!!\n");
-			its_pipe(sh, g.numpipes);
-			g.numpipes = 1;
+			its_pipe(sh, g_gl.numpipes);
+			g_gl.numpipes = 1;
 //			int z = 0; //todo print
 //			while (z <= sh->numargs + 1)
 //			{
@@ -87,6 +88,8 @@ void change_pos(t_shell *sh, char c, int *i)
 		}
 		(*i)++;
 		sh->args_of_shell = ft_split_free(sh->args_of_shell);
+        if (c == 59)
+            g_gl.numpipes = 0;
 		init_shell_struct(sh);
 		init_first_pointer(sh);
 	}

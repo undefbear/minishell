@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:04:23 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:04:47 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:22:14 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ void	cmd_unset(char **cmd)
 			continue ;
 		if (is_str_valid_my(cmd[i]))
 		{
-			remove_elem(&g.root, cmd[i]);
-			remove_elem(&g.export, cmd[i]);
+			remove_elem(&g_gl.root, cmd[i]);
+			remove_elem(&g_gl.export, cmd[i]);
 		}
 		else
 		{
-			g.error_code[0] = '1';
-			g.error_code[1] = 0;
+			g_gl.error_code[0] = '1';
+			g_gl.error_code[1] = 0;
 			print_error("minishell:  unset: `", 0);
 			print_error(cmd[i], 0);
 			print_error("': not a valid identifier", 1);

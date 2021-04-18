@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 17:41:31 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 14:40:28 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:25 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	cmd_echo_n(char **cmd)
 {
 	int	i;
 
-	g.echon = arr_size(cmd) - 3;
+	g_gl.echon = arr_size(cmd) - 3;
 	i = 1;
 	while (cmd[++i])
 	{
-		g.echon += ft_strlen(cmd[i]);
+		g_gl.echon += ft_strlen(cmd[i]);
 		if (cmd[i + 1])
 		{
 			write(0, cmd[i], ft_strlen(cmd[i]));

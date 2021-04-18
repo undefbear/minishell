@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/26 16:21:10 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 14:40:36 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:29 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	cmd_env(char **cmd)
 {
 	t_list	*next;
 
-	next = g.root;
+	next = g_gl.root;
 	if (arr_size(cmd) != 1)
 	{
-		g.error_code[0] = '1';
-		g.error_code[1] = '2';
-		g.error_code[2] = '7';
-		g.error_code[3] = 0;
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = '2';
+		g_gl.error_code[2] = '7';
+		g_gl.error_code[3] = 0;
 		print_error("minishell:  env: ", 0);
 		print_error(cmd[1], 0);
 		print_error(": No such file or directory\n", 0);
@@ -34,7 +34,7 @@ void	cmd_env(char **cmd)
 		put_srt("=");
 		put_srtln(next->value);
 		next = next->next;
-		g.error_code[0] = '0';
-		g.error_code[1] = 0;
+		g_gl.error_code[0] = '0';
+		g_gl.error_code[1] = 0;
 	}
 }

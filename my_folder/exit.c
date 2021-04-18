@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 13:09:01 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 15:23:36 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:21:37 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static	void	free_all(void)
 {
-	ft_split_free(g.sh.args_of_shell);
-	free(g.line);
-	free(g.sh.evkey);
-	delete_list(&g.root);
-	delete_list(&g.export);
-	delete_hist(&g.head, &g.tail);
+	ft_split_free(g_gl.sh.args_of_shell);
+	free(g_gl.line);
+	free(g_gl.sh.evkey);
+	delete_list(&g_gl.root);
+	delete_list(&g_gl.export);
+	delete_hist(&g_gl.head, &g_gl.tail);
 }
 
 static int	check_param(char *str)
@@ -39,8 +39,8 @@ static void	cmd_exit_2(char **cmd)
 {
 	if (!check_param(cmd[1]))
 	{
-		g.error_code[0] = '1';
-		g.error_code[1] = 0;
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = 0;
 		printf("exit\n");
 		print_error("minishell:  exit: too many arguments\n", 0);
 	}
@@ -85,7 +85,7 @@ void	cmd_exit(char **cmd)
 	}
 	if (arr_size(cmd) == 1)
 	{
-		if (g.flag)
+		if (g_gl.flag)
 		{
 			write(0, "exit\n", 5);
 			free_all();

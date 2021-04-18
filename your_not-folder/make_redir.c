@@ -54,28 +54,31 @@ void	redir_func(char **cmd, char *nameright, char *nameleft, int f)
 	}
 	if (nameleft)
 		fd_l = open(nameleft, O_RDONLY);
-	pid_t pid = fork();
-	if (!pid)
-	{
-		if (fd_r > 0)
-			dup2(fd_r, 1);
-		if (fd_l > 0)
-			dup2(fd_l, 0);
-		if (g.numpipes)
-			its_last_pipe(cmd);
-		else
-			commands(cmd);
-		exit(0);
-	}
-	else
-	{
-		waitpid(pid, &n, 0);
-		if (fd_r != -2)
-			close(fd_r);
-		if (fd_l != -2)
-			close(fd_l);
-		free(cmd);
-	}
+	if (arr_size(cmd) >= 1)
+    {
+        pid_t pid = fork();
+        if (!pid)
+        {
+            if (fd_r > 0)
+                dup2(fd_r, 1);
+            if (fd_l > 0)
+                dup2(fd_l, 0);
+            if (g_gl.numpipes)
+                its_last_pipe(cmd);
+            else
+                commands(cmd);
+            exit(0);
+        }
+        else
+        {
+            waitpid(pid, &n, 0);
+            if (fd_r != -2)
+                close(fd_r);
+            if (fd_l != -2)
+                close(fd_l);
+            free(cmd);
+        }
+    }
 }
 
 char	*read_file(char *name)
@@ -99,19 +102,12 @@ void make_redirection(char **aos)
 	char **res;
 	int f;
 
-
-//	int x = 0; //todo print
-//	while (aos[x])
-//	{
-//		printf("aos[%d] |%s|\n", x, aos[x]);
-//		x++;
-//	}
 	nameleft = NULL;
 	nameright = NULL;
 	res = NULL;
 	while (aos[++z])
 	{
-		if (!z)
+		if (!z && !equals(aos[z], ">") && !equals(aos[z], "<") && !equals(aos[z], ">>"))
 			res = ft_realloc(res, aos[z]);
 		else if (aos[z][0] == '>' && aos[z][1] == '>')
 		{
@@ -120,7 +116,7 @@ void make_redirection(char **aos)
 				nameright = create_file(aos[z], f);
 			else
 			{
-				write(2, "minishell:  syntax error near unexpected token `newline'\n", 56);
+				write(2, "minishell:  syntax error near unexpected token `newline'\n", 57);
 				return ;
 			}
 		}
@@ -131,7 +127,7 @@ void make_redirection(char **aos)
 				nameright = create_file(aos[z], f);
 			else
 			{
-				write(2, "minishell:  syntax error near unexpected token `newline'\n", 56);
+				write(2, "minishell:  syntax error near unexpected token `newline'\n", 57);
 				return ;
 			}
 		}
@@ -144,7 +140,7 @@ void make_redirection(char **aos)
 			}
 			else
 			{
-				write(2, "minishell:  syntax error near unexpected token `newline'\n", 56);
+				write(2, "minishell:  syntax error near unexpected token `newline'\n", 57);
 				return ;
 			}
 		}
@@ -152,19 +148,5 @@ void make_redirection(char **aos)
 			res = ft_realloc(res, aos[z]);
 	}
 	redir_func(res, nameright, nameleft, f);
-	g.sh.flagar = 0;
-//	printf("%s\n", name);
-//	z = 0;
-//	while (aos[z])
-//	{
-//		printf("aos[%d] |%s|\n", z, aos[z]);
-//		z++;
-//	}
-//	printf("----------------------------------------------------------------\n");
-//	z = 0;
-//	while (res[z])
-//	{
-//		printf("res[%d] |%s|\n", z, res[z]);
-//		z++;
-//	}
+	g_gl.sh.flagar = 0;
 }

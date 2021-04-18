@@ -6,35 +6,13 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:23:59 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/17 16:22:05 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/shell.h"
 
-void    arg_itoa(int rv)
-{
-    char res[10];
-    int i;
-    int j;
-    int num;
-
-    num = WEXITSTATUS(rv);
-    i = 0;
-    j = 0;
-    while (num)
-    {
-        res[i++] = num % 10 + '0';
-        num = num / 10;
-    }
-    while (j < i)
-    {
-        g.error_code[j] = res[i - j - 1];
-        j++;
-    }
-}
-
-static char	*cheack_path_2(char *cmd, char *path)
+char	*cheack_path_2(char *cmd, char *path)
 {
 	char	*name;
 	char	*file;
@@ -61,37 +39,13 @@ static char	*cheack_path_2(char *cmd, char *path)
 	return (NULL);
 }
 
-char	*cheack_path(char *cmd)
+static void	write_error(void)
 {
-	char	*path;
-
-	path = ft_strdup(find_list(g.root, "PATH"));
-	if (path)
-		return (cheack_path_2(cmd, path));
-	return (NULL);
-}
-
-int	check_slesh(char *str)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	if (len > 1 && str[0] == '/')
-		return (1);
-	if (len > 2 && (str[0] == '.' && str[1] == '/'))
-		return (1);
-	if (len > 3 && (str[0] == '.' && str[1] == '.' && str[2] == '/'))
-		return (1);
-	return (0);
-}
-
-static void write_error()
-{
-    if (g.error_code[0] == '0')
-    {
-        g.error_code[0] = '1';
-        g.error_code[1] = 0;
-    }
+	if (g_gl.error_code[0] == '0')
+	{
+		g_gl.error_code[0] = '1';
+		g_gl.error_code[1] = 0;
+	}
 }
 
 static void	other_cmd_without_slesh_2(char **cmd, char **env, char *cmd_name)
@@ -102,13 +56,13 @@ static void	other_cmd_without_slesh_2(char **cmd, char **env, char *cmd_name)
 	n_cmd = cheack_path(cmd[0]);
 	if (n_cmd)
 	{
-		g.pid = fork();
-		if (g.pid == 0)
+		g_gl.pid = fork();
+		if (g_gl.pid == 0)
 			exit(execve(n_cmd, cmd, env));
 		else
-			waitpid(g.pid, &rv, 0);
+			waitpid(g_gl.pid, &rv, 0);
 		if (rv)
-            write_error();
+			write_error();
 		free(n_cmd);
 	}
 	else
@@ -135,5 +89,5 @@ void	other_cmd_without_slesh(char **cmd)
 	env = env_to_args();
 	other_cmd_without_slesh_2(cmd, env, cmd_name);
 	ft_split_free(env);
-	g.pid = 0;
+	g_gl.pid = 0;
 }
