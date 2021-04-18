@@ -107,7 +107,6 @@ int	*gnl_v2(char **res)
 	t_hist			*hist;
 
 	g_gl.cmd = NULL;
-	g_gl.new_cmd = NULL;
 	term_init();
 	g_gl.col = tgetnum("co");
 	col = 0;

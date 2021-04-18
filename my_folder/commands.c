@@ -66,7 +66,7 @@ void	commands(char **cmd)
 	if (arr_size(cmd))
 	{
 		new_cmd = check_bred(cmd);
-		g_gl.new_cmd = new_cmd;
+//		g_gl.new_cmd = new_cmd;
 		g_gl.cmd = new_cmd[0];
 		g_gl.error_code[0] = '0';
 		g_gl.error_code[1] = 0;

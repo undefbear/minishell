@@ -83,6 +83,9 @@ int	its_last_pipe(char **sh)
 	int		a;
 	pid_t	pid;
 
+	int i = -1;
+	while(sh[++i])
+		printf("%s\n", sh[i]);
 	pid = fork();
 	if (!pid)
 	{
@@ -99,6 +102,3 @@ int	its_last_pipe(char **sh)
 	g_gl.fd_in = 0;
 	return (0);
 }
-
-// env | grep TERM | grep LC
-// env > a >> c | grep TERM < c | wc -l >> c; echo TERM12345 >> c | grep TERM > y

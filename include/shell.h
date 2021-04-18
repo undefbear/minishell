@@ -11,7 +11,6 @@
 # include <termcap.h>
 # include <termios.h>
 # include <term.h>
-# include "./get_next_line.h" //todo
 
 # define PWD "pwd"
 # define CD "cd"
@@ -34,7 +33,6 @@ typedef struct s_shell
 	char				*evkey;
 	char				*evvalue;
 	int					valuelen;
-	int					numpipes;
 	char				**args_of_shell;
 }						t_shell;
 
@@ -57,7 +55,6 @@ typedef struct s_global
 	t_list				*root;
 	t_list				*export;
 	char				error_code[4];
-	char				**argv;
 	t_hist				*head;
 	t_hist				*tail;
 	char				**res;
@@ -69,14 +66,12 @@ typedef struct s_global
 	int				 	fd_out;
 	int				 	fd_in;
 	int					fdp[2];
-	int					line_count;
 	pid_t				pid;
 	int					numpipes;
 	struct termios		term;
 	char				*cmd;
 	char				*nameright;
 	char				*nameleft;
-	char				**new_cmd;
 }					t_global;
 
 t_global	g_gl;
@@ -89,6 +84,7 @@ char			*ft_strdup(const char *s1);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 int				ft_strlen(char *str);
 char			*ft_strrchr(const char *s, int c);
+char			*ft_strchr(const char *s, int c);
 int				list_count(t_list *root);
 char			**env_to_args(void);
 void			*ft_split_free(char **start);
@@ -134,7 +130,6 @@ void			press_key_delete(char **res, int *col);
 void			delete_sym(char **res, int col);
 void			press_enter(int *col, char **res, char str[2000], int l);
 void			press_other(char str[2000], char **res, int *col);
-void			press_sigquit(char **res);
 void			press_sigint(char **res);
 void			ft_change_value(char **res, char *value, int flag, int col);
 int				check_slesh(char *str);
@@ -144,7 +139,6 @@ char			*finde_new_path(char **path);
 void			arg_itoa(int num);
 char			*ft_strnstr(char *haystack, char *needle, int len);
 int				is_str_valid_my(char *str);
-char			**ft_split(char *s, char c);
 int				check_slesh(char *str);
 char			*cheack_path(char *cmd);
 void			arg_itoa(int rv);
@@ -152,10 +146,7 @@ char			*cheack_path_2(char *cmd, char *path);
 long long int	ft_atoi(const char *str);
 char			**ft_realloc(char **strs, char *value);
 char			*create_file(char *name, int f);
-void			redir_func_2(int fd_r, int fd_l, char **cmd);
 void			redir_func(char **cmd, char *nameright, char *nameleft, int f);
-char			*read_file(char *name);
-//---------------------------------------------------------------
 int				parse_shell(t_shell *sh, char *line, int i);
 int				init_first_pointer(t_shell *sh);
 int				init_new_pointer(t_shell *sh);
@@ -174,6 +165,5 @@ void			create_word(t_shell *sh, char *line, int *i, int *z);
 int				its_pipe(t_shell *sh, int f);
 int				its_last_pipe(char **sh);
 void			make_redirection(char **aos);
-//---------------------------------------------------------------
 
 #endif

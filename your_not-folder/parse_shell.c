@@ -1,25 +1,21 @@
 #include "../include/shell.h"
-
-
 //подготовка массива к записи токенов
-int prepare_array(t_shell *sh, char *line, int *i, char till)
+int	prepare_array(t_shell *sh, char *line, int *i, char till)
 {
-    char *tmp;
-    char *tmp2;
+	char	*tmp;
+	char	*tmp2;
 
 	tmp = NULL;
 	sh->lenght = find_lenght(line, till, (*i));
-//	if (sh->numargs != 0 && sh->args_of_shell[sh->numargs - 1][0] == 0)
-//		sh->numargs--;
 	tmp = init_array(sh);
 	create_tokens(sh, line, i, 0);
 	if (tmp)
 	{
-        tmp2 = sh->args_of_shell[sh->numargs];
+		tmp2 = sh->args_of_shell[sh->numargs];
 		sh->args_of_shell[sh->numargs]
-		= ft_strjoin(tmp, sh->args_of_shell[sh->numargs]);
-        free(tmp);
-        free(tmp2);
+			= ft_strjoin(tmp, sh->args_of_shell[sh->numargs]);
+		free(tmp);
+		free(tmp2);
 	}
 	if (sh->args_of_shell[sh->numargs][0] == 0)
 	{
@@ -31,23 +27,23 @@ int prepare_array(t_shell *sh, char *line, int *i, char till)
 }
 
 //если найдены $ ' "
-void if_find_elem(char *line, int *i, t_shell *sh)
+void	if_find_elem(char *line, int *i, t_shell *sh)
 {
-	if (line[*i] == 34) //"
+	if (line[*i] == 34)
 	{
 		(*i)++;
 		if (sh->flag1 % 2 == 0)
 			sh->flag2++;
 		prepare_array(sh, line, i, 34);
 	}
-	else if (line[*i] == 39) //'
+	else if (line[*i] == 39)
 	{
 		if (sh->flag2 % 2 == 0)
 			sh->flag1++;
 		(*i)++;
 		prepare_array(sh, line, i, 39);
 	}
-	else if (line[*i] == 36) //$
+	else if (line[*i] == 36)
 	{
 		if ((sh->flag1 % 2 != 0) && (sh->flag2 % 2 == 0))
 			sh->dollen = -1;
@@ -57,15 +53,16 @@ void if_find_elem(char *line, int *i, t_shell *sh)
 	}
 }
 
-char **create_tmp(t_shell *sh)
+char	**create_tmp(t_shell *sh)
 {
-	char **tmp;
-	int i;
-	int w;
+	char	**tmp;
+	int		i;
+	int		w;
 
 	i = 0;
 	w = sh->numargs;
-	if (!(tmp = malloc(sizeof(char *) * (w + 1))))
+	tmp = malloc(sizeof(char *) * (w + 1));
+	if (!tmp)
 		cmd_exit(NULL);
 	while (w-- != 0)
 	{
@@ -73,7 +70,7 @@ char **create_tmp(t_shell *sh)
 		i++;
 	}
 	tmp[i] = NULL;
-	return(tmp);
+	return (tmp);
 }
 
 //выделение памяти под указатель на аргумент
@@ -88,7 +85,8 @@ int	init_new_pointer(t_shell *sh)
 	tmp = create_tmp(sh);
 	free(sh->args_of_shell);
 	sh->args_of_shell = NULL;
-	if (!(sh->args_of_shell = malloc(sizeof(char *) * (new_num_lines + 1))))
+	sh->args_of_shell = malloc(sizeof(char *) * (new_num_lines + 1));
+	if (!sh->args_of_shell)
 		cmd_exit(NULL);
 	new_num_lines--;
 	while (new_num_lines-- != 0)
@@ -111,20 +109,31 @@ int	parse_shell(t_shell *sh, char *line, int i)
 			   || (line[i] == '\r' || line[i] == '\v' || line[i] == '\f'))
 			i++;
 		if (line[i] == 34 || line[i] == 39 || line[i] == 36)
-            if_find_elem(line, &i, sh);
+			if_find_elem(line, &i, sh);
 		else
-            prepare_array(sh, line, &i, ' ');
-        if (line[i] == 32 || line[i] == 59 || line[i] == 124 || line[i] == 60 || line[i] == 62)
-            change_pos(sh, line[i], &i);
-		else if (ft_strlen(line) > i && (line[i + 1] == 60 || line[i + 1] == 62))
-            change_pos(sh, ' ', &i);
-    }
-    if (g_gl.numpipes && !sh->flagar)
-			its_last_pipe(sh->args_of_shell);
+			prepare_array(sh, line, &i, ' ');
+		if (line[i] == 32 || line[i] == 59 || line[i] == 124
+			|| line[i] == 60 || line[i] == 62)
+			change_pos(sh, line[i], &i);
+		else if (ft_strlen(line) > i && (line[i + 1] == 60
+				|| line[i + 1] == 62))
+			change_pos(sh, ' ', &i);
+	}
+	if (g_gl.numpipes && !sh->flagar)
+	{
+			int z = 0; //todo print
+			while (z <= sh->numargs + 1)
+			{
+				printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+				z++;
+			}
+			printf("---------------------------------------------\n");
+		printf("я зашел в последний пайп\n");
+		its_last_pipe(sh->args_of_shell);
+	}
+	else if (sh->flagar)
+		make_redirection(sh->args_of_shell);
 	else
-		if (sh->flagar)
-			make_redirection(sh->args_of_shell);
-		else
-			commands(sh->args_of_shell);
+		commands(sh->args_of_shell);
 	return (0);
 }

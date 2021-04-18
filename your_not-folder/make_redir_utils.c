@@ -20,6 +20,8 @@ char 	**ft_realloc(char **strs, char *value)
 	if (!strs)
 	{
 		res = malloc(sizeof(char *) * (2));
+		if (!res)
+			cmd_exit(NULL);
 		res[0] = value;
 		res[1] = NULL;
 		return (res);
@@ -28,6 +30,8 @@ char 	**ft_realloc(char **strs, char *value)
 	while (strs[i])
 		i++;
 	res = malloc(sizeof(char *) *(i + 2));
+	if (!res)
+		cmd_exit(NULL);
 	i = -1;
 	while (strs[++i])
 		res[i] = strs[i];

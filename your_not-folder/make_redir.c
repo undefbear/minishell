@@ -34,7 +34,7 @@ static void	make_redirection_while(char **aos, int *f, char ***res, int *z)
 {
 	while (aos[++(*z)])
 	{
-		if (!z && !equals(aos[*z], ">")
+		if (!(*z) && !equals(aos[*z], ">")
 			&& !equals(aos[*z], "<") && !equals(aos[*z], ">>"))
 			*res = ft_realloc(*res, aos[*z]);
 		else if (aos[*z][0] == '>' && aos[*z][1] == '>')
