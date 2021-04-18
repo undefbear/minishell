@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:54:16 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/18 11:12:05 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/18 17:34:55 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ void	term_init(void)
 	char			*name;
 	int				l;
 
-//	name = find_list(g_gl.root, "TERM");
-	name = "xterm-256color";
+	name = find_list(g_gl.root, "TERM");
 	ft_bzero(&g_gl.term, sizeof(struct termios));
 	tcgetattr(0, &g_gl.term);
 	if (!name)

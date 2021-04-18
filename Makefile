@@ -6,7 +6,7 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/04/18 11:40:50 by ealexa           ###   ########.fr        #
+#    Updated: 2021/04/18 18:09:10 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS				=	$(UTILS)/list.c\
 					$(MY_FOLDER)/gnl_v2.c\
 					$(NEMY_FOLDER)/main.c\
 					$(NEMY_FOLDER)/make_redir.c\
+					$(NEMY_FOLDER)/make_redir_utils.c\
 					$(NEMY_FOLDER)/parse_shell.c\
 					$(NEMY_FOLDER)/parse_shell_utils.c\
 					$(NEMY_FOLDER)/create_tokens.c\
@@ -52,7 +53,7 @@ DIR_INC				= ./include/
 CC					= gcc
 DEPS				= @$(OBJ:%.o=%.d)
 RM					= rm -f
-CFLAGS				= -I $(DIR_INC) -MMD  -Wall -Wextra -Werror -fsanitize=address
+CFLAGS				= -I $(DIR_INC) -MMD  -Wall -Wextra -Werror #-fsanitize=address
 NAME				= minishell
 
 .c.o:

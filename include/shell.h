@@ -66,14 +66,16 @@ typedef struct s_global
 	char				*line;
 	int					col;
 	int					echon;
-	int				 	fd_out; //1
-	int				 	fd_in; //0
+	int				 	fd_out;
+	int				 	fd_in;
 	int					fdp[2];
 	int					line_count;
 	pid_t				pid;
 	int					numpipes;
 	struct termios		term;
 	char				*cmd;
+	char				*nameright;
+	char				*nameleft;
 	char				**new_cmd;
 }					t_global;
 
@@ -148,6 +150,11 @@ char			*cheack_path(char *cmd);
 void			arg_itoa(int rv);
 char			*cheack_path_2(char *cmd, char *path);
 long long int	ft_atoi(const char *str);
+char			**ft_realloc(char **strs, char *value);
+char			*create_file(char *name, int f);
+void			redir_func_2(int fd_r, int fd_l, char **cmd);
+void			redir_func(char **cmd, char *nameright, char *nameleft, int f);
+char			*read_file(char *name);
 //---------------------------------------------------------------
 int				parse_shell(t_shell *sh, char *line, int i);
 int				init_first_pointer(t_shell *sh);

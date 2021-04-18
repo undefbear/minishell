@@ -1,6 +1,6 @@
 #include "../include/shell.h"
 
-int check_double(t_shell *sh, char *line, int *i, int *z)
+int	check_double(t_shell *sh, char *line, int *i, int *z)
 {
 	if (sh->flag1 % 2 == 0) //не в других кавычках
 	{

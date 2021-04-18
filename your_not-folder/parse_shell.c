@@ -77,11 +77,11 @@ char **create_tmp(t_shell *sh)
 }
 
 //выделение памяти под указатель на аргумент
-int init_new_pointer(t_shell *sh)
+int	init_new_pointer(t_shell *sh)
 {
-	int new_num_lines;
-	char **tmp;
-	int i;
+	int		new_num_lines;
+	char	**tmp;
+	int		i;
 
 	i = 0;
 	new_num_lines = sh->numargs + 1;
@@ -91,7 +91,7 @@ int init_new_pointer(t_shell *sh)
 	if (!(sh->args_of_shell = malloc(sizeof(char *) * (new_num_lines + 1))))
 		cmd_exit(NULL);
 	new_num_lines--;
-	while(new_num_lines-- != 0)
+	while (new_num_lines-- != 0)
 	{
 		sh->args_of_shell[i] = tmp[i];
 		i++;
@@ -102,7 +102,7 @@ int init_new_pointer(t_shell *sh)
 	return (0);
 }
 
-int parse_shell(t_shell *sh, char *line, int i)
+int	parse_shell(t_shell *sh, char *line, int i)
 {
 	init_first_pointer(sh);
 	while (line[i] != '\0')
@@ -126,11 +126,5 @@ int parse_shell(t_shell *sh, char *line, int i)
 			make_redirection(sh->args_of_shell);
 		else
 			commands(sh->args_of_shell);
-	int z = 0; //todo print
-	while (z <= sh->numargs + 1)
-	{
-		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-		z++;
-	}
 	return (0);
 }

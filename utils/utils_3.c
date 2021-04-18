@@ -6,7 +6,7 @@
 /*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:39:35 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/12 17:33:05 by ealexa           ###   ########.fr       */
+/*   Updated: 2021/04/18 17:35:33 by ealexa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	arr_size(char **strs)
 	int	i;
 
 	if (!strs)
-        return (0);
+		return (0);
 	i = 0;
 	while (strs[i])
 		i++;
