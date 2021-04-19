@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   press_keys.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/17 16:22:08 by ealexa           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/shell.h"
 
 void	press_key_up(t_hist **hist, char **res, int *col)
@@ -36,6 +24,8 @@ void	press_key_down(t_hist **hist, char **res, int *col)
 
 void	press_key_right(char **res, int *col, int l, char str[2000])
 {
+	term_init();
+	g_gl.col = tgetnum("co");
 	if (!((ft_strlen(*res) + 12 + g_gl.echon) % g_gl.col - *col))
 	{
 		(*col) -= 1;

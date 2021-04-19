@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   commands.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/23 13:55:24 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/17 16:21:19 by ealexa           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/shell.h"
 
 static char	**check_bred(char **cmd)
@@ -66,7 +54,6 @@ void	commands(char **cmd)
 	if (arr_size(cmd))
 	{
 		new_cmd = check_bred(cmd);
-//		g_gl.new_cmd = new_cmd;
 		g_gl.cmd = new_cmd[0];
 		g_gl.error_code[0] = '0';
 		g_gl.error_code[1] = 0;

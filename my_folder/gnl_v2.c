@@ -108,7 +108,6 @@ int	*gnl_v2(char **res)
 
 	g_gl.cmd = NULL;
 	term_init();
-	g_gl.col = tgetnum("co");
 	col = 0;
 	hist = g_gl.head;
 	ft_bzero(str, sizeof(char) * BUFF_SIZE);

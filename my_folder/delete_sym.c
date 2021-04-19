@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   delete_sym.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/23 13:54:04 by ealexa            #+#    #+#             */
-/*   Updated: 2021/04/17 16:21:22 by ealexa           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/shell.h"
 
 static void	press_key_delete_2(char **res, int *col)
@@ -60,6 +48,7 @@ static void	press_key_delete_3(char **res, int *col)
 
 void	press_key_delete(char **res, int *col)
 {
+	term_init();
 	g_gl.col = tgetnum("co");
 	if (ft_strlen(*res) - *col)
 		press_key_delete_3(res, col);

@@ -165,5 +165,7 @@ void			create_word(t_shell *sh, char *line, int *i, int *z);
 int				its_pipe(t_shell *sh, int f);
 int				its_last_pipe(char **sh);
 void			make_redirection(char **aos);
+void			term_back_normal(void);
+void			term_init(void);
 
 #endif

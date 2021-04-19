@@ -15,7 +15,6 @@ MY_FOLDER			=	./my_folder
 NEMY_FOLDER			=	./your_not-folder
 SRCS				=	$(UTILS)/list.c\
 					$(UTILS)/list_2.c\
-					$(UTILS)/ft_split.c\
 					$(UTILS)/utils_1.c\
 					$(UTILS)/utils_2.c\
 					$(UTILS)/utils_3.c\
