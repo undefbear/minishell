@@ -11,6 +11,7 @@
 # include <termcap.h>
 # include <termios.h>
 # include <term.h>
+# include <dirent.h>
 
 # define PWD "pwd"
 # define CD "cd"
@@ -72,6 +73,9 @@ typedef struct s_global
 	char				*cmd;
 	char				*nameright;
 	char				*nameleft;
+	int 				flagf;
+	int 				flag_semi;
+	int					flag_pipe;
 }					t_global;
 
 t_global	g_gl;
@@ -107,7 +111,6 @@ void			commands(char **cmd);
 void			cmd_cd(char **cmd);
 void			other_cmd(char **cmd);
 void			ft_bzero(void *s, size_t n);
-void			commands(char **cmd);
 int				*gnl_v2(char **res);
 void			hist_add(t_hist **head, t_hist **tail, char *value);
 void			signals(void);
@@ -140,7 +143,6 @@ void			arg_itoa(int num);
 char			*ft_strnstr(char *haystack, char *needle, int len);
 int				is_str_valid_my(char *str);
 int				check_slesh(char *str);
-char			*cheack_path(char *cmd);
 void			arg_itoa(int rv);
 char			*cheack_path_2(char *cmd, char *path);
 long long int	ft_atoi(const char *str);
@@ -167,5 +169,7 @@ int				its_last_pipe(char **sh);
 void			make_redirection(char **aos);
 void			term_back_normal(void);
 void			term_init(void);
+int				is_sym_valid(int c);
+void			err_code258(void);
 
 #endif

@@ -59,6 +59,8 @@ void	redir_func_2(int fd_r, int fd_l, char **cmd)
 			commands(cmd);
 		exit(ft_atoi(g_gl.error_code));
 	}
+	if (fd_l > 0)
+		g_gl.fd_out = fd_l;
 	waitpid(pid, &n, 0);
 	arg_itoa(n);
 	if (fd_r != -2)
@@ -84,6 +86,28 @@ void	redir_func(char **cmd, char *nameright, char *nameleft, int f)
 	}
 	if (nameleft)
 		fd_l = open(nameleft, O_RDONLY);
+	if ((nameright && fd_r < 0) || (nameleft && fd_l < 0))
+	{
+		char *tmp;
+		err_code1();
+		if (nameright)
+			tmp = nameright;
+		else
+			tmp = nameleft;
+		if (opendir(tmp))
+		{
+			print_error("minishell:  ", 0);
+			print_error(tmp, 0);
+			print_error(": Is a directory\n:  ", 0);
+		}
+		else
+		{
+			print_error("minishell:  ", 0);
+			print_error(tmp, 0);
+			print_error(": Permission denied\n:  ", 0);
+		}
+		return ;
+	}
 	if (arr_size(cmd) >= 1)
 		redir_func_2(fd_r, fd_l, cmd);
 }

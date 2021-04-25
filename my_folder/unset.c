@@ -9,7 +9,7 @@ int	is_str_valid_my(char *str)
 	{
 		if (i == 0)
 		{
-			if (!(!ft_isalpha(str[i]) || str[i] != '_'))
+			if (!ft_isalpha(str[i]) && str[i] != '_')
 				return (0);
 		}
 		else

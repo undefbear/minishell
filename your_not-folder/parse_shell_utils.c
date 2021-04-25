@@ -27,7 +27,7 @@ int	find_value(t_shell *sh)
 	int	len;
 
 	len = 0;
-	if (sh->dollen)
+	if (sh->dollen > 0)
 	{
 		if (sh->evkey[0] == '?')
 			sh->evvalue = g_gl.error_code;
@@ -50,7 +50,7 @@ char	*init_array(t_shell *sh)
 	if (!sh->args_of_shell[sh->numargs])
 	{
 		sh->args_of_shell[sh->numargs] = malloc(sizeof(char *)
-				* (sh->lenght - sh->dollen + sh->valuelen) + 1);
+				* (sh->lenght - sh->dollen + sh->valuelen + 1));
 		if (!(sh->args_of_shell[sh->numargs]))
 			cmd_exit(NULL);
 	}
@@ -60,12 +60,16 @@ char	*init_array(t_shell *sh)
 		free(sh->args_of_shell[sh->numargs]);
 		sh->args_of_shell[sh->numargs] = NULL;
 		sh->args_of_shell[sh->numargs] = malloc(sizeof(char *)
-				* (sh->lenght - sh->dollen + sh->valuelen) + 1);
+				* (sh->lenght - sh->dollen + sh->valuelen + 1));
 		if (!(sh->args_of_shell[sh->numargs]))
 			cmd_exit(NULL);
 	}
 	return (tmp);
 }
+
+
+//		if (env_variable[1] >= 48 && env_variable[1] <= 57)
+//			sh->evkey[k++] = env_variable[1];
 
 //длина ключа перменной окружения
 int	find_ev_len(char *e_v)
@@ -77,12 +81,17 @@ int	find_ev_len(char *e_v)
 	len = 0;
 	if (e_v[z] == '?')
 		len = 1;
+	if (e_v[1] == 34 || e_v[1] == '\0'
+		|| e_v[1] == ' ' || e_v[1] == 92 || e_v[1] == 59)
+		len = -10;
+	else if (e_v[z] >= 48 && e_v[z] <= 57)
+		len = 1;
 	else
 	{
 		while (((e_v[z] != '\0' && e_v[z] != ' ')
 				&& ((e_v[z] >= 48 && e_v[z] <= 57)
 					|| (e_v[z] >= 65 && e_v[z] <= 90)
-					|| (e_v[z] >= 97 && e_v[z] <= 122))))
+					|| (e_v[z] >= 97 && e_v[z] <= 122) || e_v[z] == 95)))
 		{
 			z++;
 			len++;
@@ -105,14 +114,23 @@ int	init_env_var(char *env_variable, t_shell *sh, int *i)
 		(*i)++;
 		return (0);
 	}
-	sh->evkey = malloc(sizeof(char *) * len + 1);
-	if (!sh->evkey)
-		cmd_exit(NULL);
-	sh->dollen = len + 1;
 	z = 1;
-	while (len-- != 0)
-		sh->evkey[k++] = env_variable[z++];
-	sh->evkey[k] = '\0';
-	sh->valuelen = find_value(sh);
+	if (len != -10)
+	{
+		sh->dollen = len + 1;
+		sh->evkey = malloc(sizeof(char *) * len + 1);
+		if (!sh->evkey)
+			cmd_exit(NULL);
+		while (len-- != 0)
+			sh->evkey[k++] = env_variable[z++];
+		sh->evkey[k] = '\0';
+		sh->valuelen = find_value(sh);
+	}
+	else
+	{
+		sh->evvalue = "$";
+		sh->dollen = -2;
+		sh->valuelen = 1;
+	}
 	return (0);
 }

@@ -27,6 +27,8 @@ void	handle_sigint(int sig)
 		g_gl.error_code[2] = '0';
 		g_gl.error_code[3] = 0;
 	}
+	if (!g_gl.pid)
+		tputs(save_cursor, 1, ft_putchar);
 }
 
 void	signals(void)

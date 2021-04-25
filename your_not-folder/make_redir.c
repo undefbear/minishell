@@ -2,8 +2,7 @@
 
 static int	sintax_error(int *f, char **aos, int *z, char **name)
 {
-	*f = 0;
-	if (aos[++(*z)])
+	if (aos[++(*z)] && !equals(aos[(*z)], ">") && !equals(aos[(*z)], "<") && !equals(aos[(*z)], ">>"))
 		*name = create_file(aos[*z], *f);
 	else
 	{
@@ -18,7 +17,7 @@ static int	sintax_error(int *f, char **aos, int *z, char **name)
 	return (0);
 }
 
-static void	make_redirection_while(char **aos, int *f, char ***res, int *z)
+static int	make_redirection_while(char **aos, int *f, char ***res, int *z)
 {
 	while (aos[++(*z)])
 	{
@@ -27,24 +26,26 @@ static void	make_redirection_while(char **aos, int *f, char ***res, int *z)
 			*res = ft_realloc(*res, aos[*z]);
 		else if (aos[*z][0] == '>' && aos[*z][1] == '>')
 		{
+			*f = 0;
 			if (sintax_error(f, aos, z, &g_gl.nameright))
-				return ;
+				return (1);
 		}
 		else if (aos[*z][0] == '>')
 		{
-			if (sintax_error(f, aos, z, &g_gl.nameright))
-				return ;
 			*f = 1;
+			if (sintax_error(f, aos, z, &g_gl.nameright))
+				return (1);
 		}
 		else if (aos[*z][0] == '<')
 		{
+			*f = 0;
 			if (sintax_error(f, aos, z, &g_gl.nameleft))
-				return ;
-			*f = 1;
+				return (1);
 		}
 		else
 			*res = ft_realloc(*res, aos[*z]);
 	}
+	return (0);
 }
 
 void	make_redirection(char **aos)
@@ -57,7 +58,8 @@ void	make_redirection(char **aos)
 	g_gl.nameleft = NULL;
 	g_gl.nameright = NULL;
 	res = NULL;
-	make_redirection_while(aos, &f, &res, &z);
+	if (make_redirection_while(aos, &f, &res, &z))
+		return ;
 	redir_func(res, g_gl.nameright, g_gl.nameleft, f);
 	g_gl.sh.flagar = 0;
 }

@@ -7,8 +7,17 @@ char	*finde_new_path(char **path)
 	char	*tmp;
 
 	f = ft_strrchr(*path, ':');
-	if (!f)
+	if (!f && !(*path)[0])
 		return (NULL);
+	else if (!f && (*path)[0])
+	{
+		res = ft_strdup(*path);
+		(*path)[0] = 0;
+		tmp = res;
+		res = ft_strjoin(res, "/");
+		free(tmp);
+		return (res);
+	}
 	*f = '\0';
 	res = ft_strdup(++f);
 	tmp = res;

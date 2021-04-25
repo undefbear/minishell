@@ -47,14 +47,15 @@ int	is_str_valid(char *str)
 	{
 		if (i == 0)
 		{
-			if (!ft_isalpha(str[i]) && str[i] != '_')
+			if (!ft_isalpha(str[i]) && str[i] != '_' && str[i] != '/')
 			{
 				error_mess(str);
 				return (0);
 			}
 		}
-		else if (!(ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_'
-				|| str[i] == '=' || str[i] == '/'))
+		else if (str[i] == '=')
+			return (1);
+		else if (is_sym_valid(str[i]))
 		{
 			error_mess(str);
 			return (0);

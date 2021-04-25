@@ -3,19 +3,25 @@
 void	cmd_echo_n(char **cmd)
 {
 	int	i;
+	int	f;
 
+	f = 0;
 	g_gl.echon = arr_size(cmd) - 3;
-	i = 1;
+	i = 0;
 	while (cmd[++i])
 	{
-		g_gl.echon += ft_strlen(cmd[i]);
-		if (cmd[i + 1])
+		if (!equals(cmd[i], "-n") || f)
 		{
-			write(0, cmd[i], ft_strlen(cmd[i]));
-			write(0, " ", 1);
+			f = 1;
+			g_gl.echon += ft_strlen(cmd[i]);
+			if (cmd[i + 1])
+			{
+				write(1, cmd[i], ft_strlen(cmd[i]));
+				write(1, " ", 1);
+			}
+			else
+				write(1, cmd[i], ft_strlen(cmd[i]));
 		}
-		else
-			write(0, cmd[i], ft_strlen(cmd[i]));
 	}
 }
 

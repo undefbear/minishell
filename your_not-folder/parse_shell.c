@@ -1,4 +1,5 @@
 #include "../include/shell.h"
+
 //подготовка массива к записи токенов
 int	prepare_array(t_shell *sh, char *line, int *i, char till)
 {
@@ -21,7 +22,8 @@ int	prepare_array(t_shell *sh, char *line, int *i, char till)
 	{
 		free(sh->args_of_shell[sh->numargs]);
 		sh->args_of_shell[sh->numargs] = NULL;
-		sh->numargs--;
+		if (line[*i] == 32)
+			sh->numargs--;
 	}
 	return (0);
 }
@@ -105,9 +107,12 @@ int	parse_shell(t_shell *sh, char *line, int i)
 	init_first_pointer(sh);
 	while (line[i] != '\0')
 	{
-		while ((line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
-			   || (line[i] == '\r' || line[i] == '\v' || line[i] == '\f'))
-			i++;
+		if (sh->flag1 % 2 == 0 && sh->flag2 % 2 == 0)
+		{
+			while ((line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
+				   || (line[i] == '\r' || line[i] == '\v' || line[i] == '\f'))
+				i++;
+		}
 		if (line[i] == 34 || line[i] == 39 || line[i] == 36)
 			if_find_elem(line, &i, sh);
 		else
@@ -121,19 +126,25 @@ int	parse_shell(t_shell *sh, char *line, int i)
 	}
 	if (g_gl.numpipes && !sh->flagar)
 	{
-			int z = 0; //todo print
-			while (z <= sh->numargs + 1)
-			{
-				printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-				z++;
-			}
-			printf("---------------------------------------------\n");
-		printf("я зашел в последний пайп\n");
-		its_last_pipe(sh->args_of_shell);
+		if (!sh->args_of_shell[0])
+		{
+			err_code258();
+			print_error("minishell:  syntax error near unexpected token `|'", 1);
+		}
+		else
+			its_last_pipe(sh->args_of_shell);
 	}
 	else if (sh->flagar)
 		make_redirection(sh->args_of_shell);
 	else
 		commands(sh->args_of_shell);
+//	int z = 0; //todo print
+//	while (z <= sh->numargs + 1)
+//	{
+//		printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+//		z++;
+//	}
+//	printf("---------------------------------------------\n");
+
 	return (0);
 }

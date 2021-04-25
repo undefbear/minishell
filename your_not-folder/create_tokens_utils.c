@@ -6,6 +6,8 @@ void	create_env(t_shell *sh, int *z, int *i)
 	int	k;
 
 	k = 0;
+	if (sh->dollen == -2)
+		sh->dollen = 1;
 	*i += sh->dollen;
 	sh->lenght = sh->lenght - sh->dollen;
 	while (sh->valuelen-- != 0)
@@ -20,24 +22,42 @@ void	create_env(t_shell *sh, int *z, int *i)
 int	escape_character(t_shell *sh, char *line, int *i, int *z)
 {
 	if (sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0)
+	{
+		if (line[(*i) + 1] == 36)
+			sh->args_of_shell[sh->numargs][(*z)++] = line[++(*i)];
 		(*i)++;
+			if (line[(*i)] == 92)
+				return (1);
+		return (0);
+	}
 	else
 	{
-		if (line[(*i) + 1] == 34 || line[(*i) + 1] == 39)
+		if (line[(*i) + 1] == 36)
 		{
-			if (line[(*i) + 1] == 34 && sh->flag2 % 2 != 0)
+			if (sh->flag2 % 2 != 0)
 			{
 				sh->args_of_shell[sh->numargs][(*z)++] = line[++(*i)];
 				(*i)++;
+				return (1);
 			}
-			else if (line[(*i) + 1] == 39 && sh->flag1 % 2 != 0)
-				sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
-			else
+		}
+		else
+		{
+			if (line[(*i) + 1] == 34 || line[(*i) + 1] == 39)
 			{
-				sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
-				sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+				if (line[(*i) + 1] == 34 && sh->flag2 % 2 != 0)
+				{
+					sh->args_of_shell[sh->numargs][(*z)++] = line[++(*i)];
+					(*i)++;
+				} else if (line[(*i) + 1] == 39 && sh->flag1 % 2 != 0)
+					sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+				else
+				{
+					sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+					sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
+				}
+				return (1);
 			}
-			return (1);
 		}
 	}
 	return (0);
@@ -54,7 +74,8 @@ void	create_word(t_shell *sh, char *line, int *i, int *z)
 		&& (sh->flag2 % 2 == 0 && sh->flag1 % 2 == 0))
 		line[*i] = ' ';
 	else
-		if (line[*i] != '\0')
+		if ((line[*i] != '\0' && line[*i] != '$')
+			|| (line[*i] == '$' && sh->flag2 % 2 == 0 && sh->flag1 % 2 != 0))
 			sh->args_of_shell[sh->numargs][(*z)++] = line[(*i)++];
 }
 
@@ -63,26 +84,35 @@ void	change_pos(t_shell *sh, char c, int *i)
 {
 	if (c == 32 || c == 60 || c == 62)
 	{
+		if (c == 32 && sh->flag2 % 2 != 0)
+			return;
+		if (sh->args_of_shell[sh->numargs][0] == c)
+			(*i)++;
 		sh->numargs++;
 		init_new_pointer(sh);
-		(*i)++;
 	}
 	else if ((c == 59) || (c == 124))
 	{
-		if (sh->flagar)
+		if (sh->flagar == 2)
+			its_pipe(sh, g_gl.numpipes);
+		else if (sh->flagar == 1)
+		{
 			make_redirection(sh->args_of_shell);
+		}
 		if (c == 59 && !sh->flagar)
+		{
+			g_gl.flag_semi = 1;
 			commands(sh->args_of_shell);
+		}
 		else if (c == 124)
 		{
-			int z = 0; //todo print
-			while (z <= sh->numargs + 1)
-			{
-				printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
-				z++;
-			}
-			printf("---------------------------------------------\n");
-			printf("я нашел пайп\n");
+//			int z = 0; //todo print
+//			while (z <= sh->numargs + 1)
+//			{
+//				printf("aos[%d] |%s|\n", z, sh->args_of_shell[z]);
+//				z++;
+//			}
+//			printf("---------------------------------------------\n");
 			its_pipe(sh, g_gl.numpipes);
 			g_gl.numpipes = 1;
 		}

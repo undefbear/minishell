@@ -17,7 +17,12 @@ static int	check_param(char *str)
 	i = -1;
 	while (str[++i])
 	{
-		if (!ft_isdigit(str[i]) || ft_strlen(str) >= 20)
+		if (i == 0)
+		{
+			if (!ft_isdigit(str[i]) && str[i] != '-' && str[i] != '+')
+				return (255);
+		}
+		else if (!ft_isdigit(str[i]) || ft_strlen(str) >= 20)
 			return (255);
 	}
 	return (0);
@@ -77,7 +82,7 @@ void	cmd_exit(char **cmd)
 		{
 			write(0, "exit\n", 5);
 			free_all();
-			exit(127);
+			exit(0);
 		}
 		free_all();
 		printf("exit\n");

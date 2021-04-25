@@ -6,7 +6,6 @@ set(CMAKE_C_STANDARD 99)
 add_executable(minishell
         utils/list.c
         utils/list_2.c
-        utils/ft_split.c
         utils/utils_1.c
         utils/utils_2.c
         utils/utils_3.c
@@ -30,13 +29,13 @@ add_executable(minishell
         my_folder/cd.c
         my_folder/hist.c
         my_folder/gnl_v2.c
-        gnl/get_next_line.c
         your_not-folder/main.c
         your_not-folder/make_redir.c
         your_not-folder/parse_shell.c
         your_not-folder/parse_shell_utils.c
         your_not-folder/create_tokens.c
         your_not-folder/create_tokens_utils.c
-        your_not-folder/hi_pipe.c)
+        your_not-folder/hi_pipe.c
+        your_not-folder/make_redir_utils.c)
 
 target_link_libraries(minishell -ltermcap)

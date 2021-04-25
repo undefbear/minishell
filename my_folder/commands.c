@@ -53,11 +53,17 @@ void	commands(char **cmd)
 
 	if (arr_size(cmd))
 	{
-		new_cmd = check_bred(cmd);
-		g_gl.cmd = new_cmd[0];
 		g_gl.error_code[0] = '0';
 		g_gl.error_code[1] = 0;
+		new_cmd = check_bred(cmd);
+		g_gl.cmd = new_cmd[0];
 		commands2(new_cmd);
 		ft_split_free(new_cmd);
+	}
+	else if (g_gl.flag_semi)
+	{
+		err_code258();
+		g_gl.flag_semi = 0;
+		print_error("minishell:  syntax error near unexpected token `;'", 1);
 	}
 }

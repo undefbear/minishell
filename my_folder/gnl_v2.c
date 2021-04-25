@@ -72,6 +72,7 @@ void	term_init(void)
 	int				l;
 
 	name = find_list(g_gl.root, "TERM");
+//	name = ft_strdup("xterm-256color");
 	ft_bzero(&g_gl.term, sizeof(struct termios));
 	tcgetattr(0, &g_gl.term);
 	if (!name)
@@ -102,15 +103,16 @@ void	term_back_normal(void)
 
 int	*gnl_v2(char **res)
 {
-	char			str[BUFF_SIZE];
+	char			str[BUFF_SIZE + 1];
 	int				col;
 	t_hist			*hist;
 
 	g_gl.cmd = NULL;
+	g_gl.pid = 0;
 	term_init();
 	col = 0;
 	hist = g_gl.head;
-	ft_bzero(str, sizeof(char) * BUFF_SIZE);
+	ft_bzero(str, sizeof(char) * (BUFF_SIZE + 1));
 	*res = ft_strdup("");
 	write(1, "minishell:   ", 12);
 	tputs(save_cursor, 1, ft_putchar);

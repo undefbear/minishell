@@ -52,10 +52,11 @@ DIR_INC				= ./include/
 CC					= gcc
 DEPS				= @$(OBJ:%.o=%.d)
 RM					= rm -f
-CFLAGS				= -I $(DIR_INC) -MMD  -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS				= -I $(DIR_INC) -MMD  -Wall -Wextra -Werror# -fsanitize=address
 NAME				= minishell
 
 .c.o:
+					@printf "\033[1;37m\033[2m - i'm preparing minishell... %-33.33s\r" $@
 					@${CC} ${CFLAGS} -c $< -o $@
 
 all:			$(NAME)
@@ -64,17 +65,17 @@ all:			$(NAME)
 
 $(NAME):		$(OBJ)
 				@${CC} ${CFLAGS} -o ${NAME} ${OBJ} -ltermcap
-				@echo "\033[1;36m   Minishell is done!\033[2m"
+				@echo "\033[1;34m\033[2m \n - ok, minishell is ready, run it and try to write smth"
 
 clean:
-				@echo "\033[1;32m\033[2m-> Cleaning..\033[2m"
+				@echo "\033[1;34m\033[2m - well, i cleaned all objects files \033[0m"
 				@ rm -rf ./utils/list.d
 				@$(RM) $(OBJ) $(DEPS)
 
 fclean:			clean
-				@echo "\033[1;32m\033[2m-> Removing executable.."
+				@echo "\033[1;34m\033[2m - also i removed executable \033[0m"
 				@$(RM) $(NAME) ${OBJ}
-				@echo "\n   Done!\033[0m"
+
 
 re:				fclean all
 

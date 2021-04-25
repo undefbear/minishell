@@ -11,6 +11,7 @@ void	shell_expansion(t_shell *sh)
 		g_gl.numpipes = 0;
 		parse_shell(sh, line, 0);
 		sh->args_of_shell = ft_split_free(sh->args_of_shell);
+		g_gl.flagf = 0;
 		init_shell_struct(sh);
 		free(line);
 	}
@@ -101,3 +102,42 @@ int	main(int argc, char *argv[], char **envp)
 
 //echo "'$HOME'
 //'/Users/kstout'
+
+//echo $a$HOME $v$HOME $s$HOME
+//echo $a$E $v$HOME $s$HOME
+//pwd >a1>a2>a3
+
+//cd Desktop/minishell; make re && ./minishell
+// echo "$"TERM
+//"'$a'"
+//'"$a"'
+//"'$TERM'"
+//'"$a"'
+//$aa$TERM$bb$USER
+//"$aa$TERM$bb$USER"
+//'$aa$TERM$bb$USER'
+//"'$aa$TERM$bb$USER'"
+//'"$aa$TERM$bb$USER"'
+//'"$TERM"'
+//"'$TERM'"
+//"$TERM"
+//'$TERM'
+
+//echo sdsf\$PATH
+//sdsf$PATH
+//echo "sdsf\""
+//sdsf"
+//echo 'sdsf\"'
+//sdsf\"
+//echo 'sdsf\''
+//sdsf\
+//echo "sdsf\$"
+//sdsf$
+//echo 'sdsf\$'
+//sdsf\$
+//echo 'sdsf\$PATH'
+//sdsf\$PATH
+//echo "sdsf\$PATH"
+//sdsf$PATH
+//echo sdsf\$PATH
+//sdsf$PATH
