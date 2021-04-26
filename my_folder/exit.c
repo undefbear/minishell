@@ -73,7 +73,7 @@ void	cmd_exit(char **cmd)
 	if (!cmd)
 	{
 		free_all();
-		print_error("minishell:  jadniy malloc :,(\n", 0);
+		print_error("minishell:  malloc prifigel ot takih zaprosov\n", 0);
 		exit(127);
 	}
 	if (arr_size(cmd) == 1)
