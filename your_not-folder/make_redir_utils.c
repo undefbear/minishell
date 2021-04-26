@@ -1,46 +1,5 @@
 #include "../include/shell.h"
 
-char 	**ft_realloc(char **strs, char *value)
-{
-	int		i;
-	char	**res;
-
-	if (!strs)
-	{
-		res = malloc(sizeof(char *) * (2));
-		if (!res)
-			cmd_exit(NULL);
-		res[0] = value;
-		res[1] = NULL;
-		return (res);
-	}
-	i = 0;
-	while (strs[i])
-		i++;
-	res = malloc(sizeof(char *) *(i + 2));
-	if (!res)
-		cmd_exit(NULL);
-	i = -1;
-	while (strs[++i])
-		res[i] = strs[i];
-	res[i] = value;
-	res[i + 1] = NULL;
-	free(strs);
-	return (res);
-}
-
-char	*create_file(char *name, int f)
-{
-	int	fd;
-
-	if (f)
-		fd = open(name, O_TRUNC | O_RDWR | O_CREAT, S_IRWXU);
-	else
-		fd = open(name, O_APPEND | O_RDWR | O_CREAT, S_IRWXU);
-	close(fd);
-	return (name);
-}
-
 void	redir_func_2(int fd_r, int fd_l, char **cmd)
 {
 	pid_t	pid;
@@ -70,6 +29,42 @@ void	redir_func_2(int fd_r, int fd_l, char **cmd)
 	free(cmd);
 }
 
+static void	print_error_dir(char *tmp, int f)
+{
+	err_code1();
+	if (f)
+	{
+		print_error("minishell:  ", 0);
+		print_error(tmp, 0);
+		print_error(": Is a directory\n:  ", 0);
+	}
+	else
+	{
+		print_error("minishell:  ", 0);
+		print_error(tmp, 0);
+		print_error(": Permission denied\n:  ", 0);
+	}
+}
+
+static int	redir_func_check(char *right, char *nameleft, int fd_r, int fd_l)
+{
+	char	*tmp;
+
+	if ((right && fd_r < 0) || (nameleft && fd_l < 0))
+	{
+		if (right)
+			tmp = right;
+		else
+			tmp = nameleft;
+		if (opendir(tmp))
+			print_error_dir(tmp, 1);
+		else
+			print_error_dir(tmp, 0);
+		return (1);
+	}
+	return (0);
+}
+
 void	redir_func(char **cmd, char *nameright, char *nameleft, int f)
 {
 	int		fd_r;
@@ -86,28 +81,8 @@ void	redir_func(char **cmd, char *nameright, char *nameleft, int f)
 	}
 	if (nameleft)
 		fd_l = open(nameleft, O_RDONLY);
-	if ((nameright && fd_r < 0) || (nameleft && fd_l < 0))
-	{
-		char *tmp;
-		err_code1();
-		if (nameright)
-			tmp = nameright;
-		else
-			tmp = nameleft;
-		if (opendir(tmp))
-		{
-			print_error("minishell:  ", 0);
-			print_error(tmp, 0);
-			print_error(": Is a directory\n:  ", 0);
-		}
-		else
-		{
-			print_error("minishell:  ", 0);
-			print_error(tmp, 0);
-			print_error(": Permission denied\n:  ", 0);
-		}
+	if (redir_func_check(nameright, nameleft, fd_r, fd_r))
 		return ;
-	}
 	if (arr_size(cmd) >= 1)
 		redir_func_2(fd_r, fd_l, cmd);
 }

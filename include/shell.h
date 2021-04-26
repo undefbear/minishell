@@ -73,8 +73,8 @@ typedef struct s_global
 	char				*cmd;
 	char				*nameright;
 	char				*nameleft;
-	int 				flagf;
-	int 				flag_semi;
+	int					flagf;
+	int					flag_semi;
 	int					flag_pipe;
 }					t_global;
 
@@ -171,5 +171,7 @@ void			term_back_normal(void);
 void			term_init(void);
 int				is_sym_valid(int c);
 void			err_code258(void);
+char			*create_file(char *name, int f);
+char			**ft_realloc(char **strs, char *value);
 
 #endif

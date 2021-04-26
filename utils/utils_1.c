@@ -83,15 +83,3 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
-
-int	is_sym_valid(int c)
-{
-	if (c >= 48 && c <= 57)
-		return (0000000);
-	else if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90))
-		return (0);
-	else if (c == '/' || c == ':' || c == '_' || c == '.'
-			|| c == ';' || c == '=' || c == ' ')
-		return (0);
-	return (1);
-}

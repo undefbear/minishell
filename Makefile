@@ -6,7 +6,7 @@
 #    By: ealexa <ealexa@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/24 16:11:07 by ealexa            #+#    #+#              #
-#    Updated: 2021/04/18 18:09:10 by ealexa           ###   ########.fr        #
+#    Updated: 2021/04/26 15:45:30 by ealexa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS				=	$(UTILS)/list.c\
 					$(UTILS)/utils_2.c\
 					$(UTILS)/utils_3.c\
 					$(UTILS)/utils_4.c\
+					$(UTILS)/utils_5.c\
 					$(MY_FOLDER)/commands.c\
 					$(MY_FOLDER)/pwd.c\
 					$(MY_FOLDER)/other_cmd_wslesh.c\

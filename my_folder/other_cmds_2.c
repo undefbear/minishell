@@ -10,16 +10,22 @@ void	arg_itoa(int rv)
 	num = WEXITSTATUS(rv);
 	i = 0;
 	j = 0;
-	while (num)
+	if (num)
 	{
-		res[i++] = num % 10 + '0';
-		num = num / 10;
+		while (num)
+		{
+			res[i++] = num % 10 + '0';
+			num = num / 10;
+		}
+		while (j < i)
+		{
+			g_gl.error_code[j] = res[i - j - 1];
+			j++;
+		}
+		return ;
 	}
-	while (j < i)
-	{
-		g_gl.error_code[j] = res[i - j - 1];
-		j++;
-	}
+	g_gl.error_code[0] = '0';
+	g_gl.error_code[1] = '\0';
 }
 
 char	*cheack_path(char *cmd)
