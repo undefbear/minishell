@@ -2,7 +2,7 @@
 
 void	handle_sigquit(int sig)
 {
-	if (g_gl.pid && !equals(g_gl.cmd, "read"))
+	if (g_gl.pid && !equals(g_gl.cmd, "read") && !ft_strnstr(g_gl.cmd, "minishell", ft_strlen(g_gl.cmd)))
 	{
 		sig = 8;
 		write(0, "Quit: 3\n", sig);
